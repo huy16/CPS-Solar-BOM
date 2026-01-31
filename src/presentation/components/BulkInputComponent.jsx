@@ -253,7 +253,7 @@ export default function BulkInputComponent({ onDataParsed }) {
     };
 
     return (
-        <div className="space-y-3 animate-fade-in-up">
+        <div className="space-y-3 animate-fade-in-up origin-top transform scale-[0.9]">
             {/* Header Section with Solar Farm Background */}
             <div className="relative rounded-3xl shadow-xl overflow-hidden group min-h-[180px] flex flex-col justify-center items-center text-center p-6 ring-1 ring-slate-900/5">
 
