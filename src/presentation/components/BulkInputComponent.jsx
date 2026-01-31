@@ -380,6 +380,22 @@ export default function BulkInputComponent({ onDataParsed }) {
                                     2. Upload File Excel (Import Data)
                                 </button>
                             </div>
+
+                            {/* Interactive Steps Guide - Compact */}
+                            <div className="mt-2 w-full grid grid-cols-1 sm:grid-cols-3 gap-2 text-[10px] font-semibold text-slate-500 uppercase tracking-wide">
+                                <div className="bg-white/60 p-2 rounded border border-slate-100 flex items-center justify-center gap-1.5">
+                                    <span className="w-4 h-4 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center font-bold text-[9px]">1</span>
+                                    <span>Tải Mẫu</span>
+                                </div>
+                                <div className="bg-white/60 p-2 rounded border border-slate-100 flex items-center justify-center gap-1.5">
+                                    <span className="w-4 h-4 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center font-bold text-[9px]">2</span>
+                                    <span>Nhập Liệu</span>
+                                </div>
+                                <div className="bg-white/60 p-2 rounded border border-slate-100 flex items-center justify-center gap-1.5">
+                                    <span className="w-4 h-4 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center font-bold text-[9px]">3</span>
+                                    <span>Import</span>
+                                </div>
+                            </div>
                         </div>
 
                         <button
