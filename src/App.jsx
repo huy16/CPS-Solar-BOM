@@ -18,7 +18,7 @@ function App() {
             {/* CPS Logo - Clickable Reset */}
             <button
               onClick={handleReset}
-              className="cursor-pointer focus:outline-none transition-transform active:scale-95 group -mr-2"
+              className="cursor-pointer focus:outline-none transition-transform active:scale-95 group"
               title="Quay lại Dashboard"
             >
               <img
@@ -29,9 +29,15 @@ function App() {
             </button>
 
             {/* Lightning Bolt Icon Replacement for Divider */}
-            <div className="flex items-center justify-center">
-              <svg className="w-10 h-10 text-amber-400 animate-pulse drop-shadow-[0_0_12px_rgba(251,191,36,0.8)] filter brightness-125" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clipRule="evenodd" />
+            <div className="flex items-center justify-center ml-4 px-2">
+              <svg className="w-10 h-10 animate-pulse drop-shadow-[0_0_12px_rgba(239,68,68,0.5)]" viewBox="0 0 20 20">
+                <defs>
+                  <linearGradient id="boltGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" stopColor="#ef4444" /> {/* red-500 */}
+                    <stop offset="100%" stopColor="#fbbf24" /> {/* amber-400 */}
+                  </linearGradient>
+                </defs>
+                <path fill="url(#boltGradient)" fillRule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clipRule="evenodd" />
               </svg>
             </div>
 
