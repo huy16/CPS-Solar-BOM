@@ -1,0 +1,130 @@
+[
+  {
+    "id": "mat_3",
+    "name": "Rail",
+    "model": "ER-R-ECO/5200",
+    "type": "Rail",
+    "unit": "pcs",
+    "unitPrice": 0
+  },
+  {
+    "id": "mat_4",
+    "name": "Noi Rail",
+    "model": "ER-SP-ECO",
+    "type": "Rail",
+    "unit": "pcs",
+    "unitPrice": 0
+  },
+  {
+    "id": "mat_5",
+    "name": "Chan L",
+    "model": "I-05-6.3/85/CS",
+    "type": "L-Foot",
+    "unit": "pcs",
+    "unitPrice": 0
+  },
+  {
+    "id": "mat_6",
+    "name": "Kep Cuoi",
+    "model": "ER-EC-ST35",
+    "type": "Clamp",
+    "unit": "pcs",
+    "unitPrice": 0
+  },
+  {
+    "id": "mat_7",
+    "name": "Kep Giua",
+    "model": "ER-IC-ST35",
+    "type": "Clamp",
+    "unit": "pcs",
+    "unitPrice": 0
+  },
+  {
+    "id": "mat_8",
+    "name": "Kep Day",
+    "model": "EZ-CC-PV/4",
+    "type": "Clamp",
+    "unit": "pcs",
+    "unitPrice": 0
+  },
+  {
+    "id": "mat_9",
+    "name": "Tiep dia PIN",
+    "model": "EZ-GC-ST",
+    "type": "Grounding",
+    "unit": "pcs",
+    "unitPrice": 0
+  },
+  {
+    "id": "mat_10",
+    "name": "Tiep dia Rail",
+    "model": "EZ-GL-ST",
+    "type": "Rail",
+    "unit": "pcs",
+    "unitPrice": 0
+  },
+  {
+    "id": "mat_13",
+    "name": "INVERTER",
+    "model": "SUN2000",
+    "type": "Inverter",
+    "unit": "pcs",
+    "unitPrice": 0
+  },
+  {
+    "id": "mat_14",
+    "name": "SDONGLE",
+    "model": "Sdongle5A",
+    "type": "Pars",
+    "unit": "pcs",
+    "unitPrice": 0
+  },
+  {
+    "id": "mat_15",
+    "name": "METER",
+    "model": "DTSU",
+    "type": "Pars",
+    "unit": "pcs",
+    "unitPrice": 0
+  },
+  {
+    "id": "mat_16",
+    "name": "Cap AC",
+    "model": "CXV-3x16-10sqrt",
+    "type": "Cable",
+    "unit": "pcs",
+    "unitPrice": 0
+  },
+  {
+    "id": "mat_17",
+    "name": "Tiep dia C10",
+    "model": "C10sqrt",
+    "type": "Grounding",
+    "unit": "pcs",
+    "unitPrice": 0
+  },
+  {
+    "id": "mat_18",
+    "name": "Cap DC",
+    "model": "Leader",
+    "type": "Cable",
+    "unit": "pcs",
+    "unitPrice": 0
+  },
+  {
+    "id": "mat_19",
+    "name": "Cap Mang",
+    "model": "LS",
+    "type": "Cable",
+    "unit": "pcs",
+    "unitPrice": 0
+  },
+  {
+    "id": "mat_20",
+    "name": "Ruot Ga loi thep",
+    "model": "1/2-3/4",
+    "type": "Pars",
+    "unit": "pcs",
+    "unitPrice": 0
+  }
+]

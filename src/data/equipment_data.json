@@ -1,0 +1,136 @@
+{
+    "inverters": {
+        "SUN2000-8K-MAP0": {
+            "description": "Smart PV Controller, Single-phase, 8kW,\nMax. number of inputs_2, Max. input voltage_600V,\nMax. input current per MPPT_12.5A",
+            "unit": "bộ",
+            "supplier": "Huawei/ China",
+            "capacityKw": 8.0,
+            "numInputs": 2
+        },
+        "SUN2000-10KTL-M1": {
+            "description": "Smart PV Controller, Three-phase, 10kW,\nMax. number of inputs_2, Max. input voltage_1100V,\nMax. input current per MPPT_15A",
+            "unit": "bộ",
+            "supplier": "Huawei/ China",
+            "capacityKw": 10.0,
+            "numInputs": 2
+        },
+        "SUN2000-12K-MAP0": {
+            "description": "Smart PV Controller, Single-phase, 12kW,\nMax. number of inputs_2, Max. input voltage_600V,\nMax. input current per MPPT_12.5A",
+            "unit": "bộ",
+            "supplier": "Huawei/ China",
+            "capacityKw": 12.0,
+            "numInputs": 2
+        },
+        "SUN2000-15KTL-M5": {
+            "description": "Smart PV Controller, Three-phase, 15kW,\nMax. number of inputs_4, Max. input voltage_1100V,\nMax. input current per MPPT_22A",
+            "unit": "bộ",
+            "supplier": "Huawei/ China",
+            "capacityKw": 15.0,
+            "numInputs": 4
+        },
+        "SUN2000-20KTL-M5": {
+            "description": "Smart PV Controller, Three-phase, 20kW,\nMax. number of inputs_4, Max. input voltage_1100V,\nMax. input current per MPPT_30A (two-string)/20A (single string)",
+            "unit": "bộ",
+            "supplier": "Huawei/ China",
+            "capacityKw": 20.0,
+            "numInputs": 4
+        },
+        "SUN2000-30KTL-M3": {
+            "description": "Smart PV Controller, Three-phase, 30kW,\nMax. number of inputs_4, Max. input voltage_1100V,\nMax. input current per MPPT_22A",
+            "unit": "bộ",
+            "supplier": "Huawei/ China",
+            "capacityKw": 30.0,
+            "numInputs": 4
+        },
+        "SUN2000-40KTL-M3": {
+            "description": "Smart PV Controller, Three-phase, 40kW,\nMax. number of inputs_6, Max. input voltage_1100V,\nMax. input current per MPPT_22A",
+            "unit": "bộ",
+            "supplier": "Huawei/ China",
+            "capacityKw": 40.0,
+            "numInputs": 6
+        },
+        "SUN2000-50KTL-M3": {
+            "description": "Smart PV Controller, Three-phase, 50kW,\nMax. number of inputs_8, Max. input voltage_1100V,\nMax. input current per MPPT_22A",
+            "unit": "bộ",
+            "supplier": "Huawei/ China",
+            "capacityKw": 50.0,
+            "numInputs": 8
+        },
+        "SUN2000-100KTL-M1": {
+            "description": "Smart PV Controller, Three-phase, 100kW,\nMax. number of inputs_10, Max. input voltage_1100V,\nMax. input current per MPPT_26A",
+            "unit": "bộ",
+            "supplier": "Huawei/ China",
+            "capacityKw": 100.0,
+            "numInputs": 10
+        },
+        "SDongleA-05(AP+STA)": {
+            "description": "Smart Dongle-WLAN-FE, WLAN & Fast Ethernet (FE) Communication, Support 3rd Party Monitoring System, IP65 Protection.",
+            "unit": "bộ",
+            "supplier": "Huawei/ China"
+        }
+    },
+    "photovoltaics": {
+        "HSM-ND66-GK715": {
+            "description": "N-type Bifacial Double Glass Module HSM-ND66-GK715, IP68, three diodes, Dimension 2384x1303x33 mm, TOPcon, Maximum Efficiency 23.0%",
+            "unit": "panel",
+            "supplier": "TCL/China",
+            "powerKwp": 0.715
+        },
+        "HSM-GFD-NM590": {
+            "description": "N-type Bifacial Double Glass Module HSM-GFD-NM590, IP68, three diodes, Dimension 2278×1134×30 mm, TOPcon, Maximum Efficiency 22.8%",
+            "unit": "panel",
+            "supplier": "TCL/China",
+            "powerKwp": 0.590
+        },
+        "CS7N-670MS": {
+            "description": "CanadianSolar HiKu7 Mono-crystalline Module CS7N-670MS, 670W",
+            "unit": "panel",
+            "supplier": "CanadianSolar",
+            "powerKwp": 0.670
+        },
+        "ASTRO-5-550W": {
+            "description": "Astronergy ASTRO 5 Series, Monofacial Module, 550W",
+            "unit": "panel",
+            "supplier": "Astronergy/China",
+            "powerKwp": 0.550
+        },
+        "ASTRO-5-555W": {
+            "description": "Astronergy ASTRO 5 Series, Monofacial Module, 555W",
+            "unit": "panel",
+            "supplier": "Astronergy/China",
+            "powerKwp": 0.555
+        },
+        "HSM-G12R-625": {
+            "description": "TCL N-type Topcon G12R 66P, 625W",
+            "unit": "panel",
+            "supplier": "TCL/China",
+            "powerKwp": 0.625
+        },
+        "HSM-G12R-650": {
+            "description": "TCL N-type Topcon G12R 66P, 650W",
+            "unit": "panel",
+            "supplier": "TCL/China",
+            "powerKwp": 0.650
+        },
+        "HSM-G12-700": {
+            "description": "TCL N-type Topcon G12 66P, 700W",
+            "unit": "panel",
+            "supplier": "TCL/China",
+            "powerKwp": 0.700
+        },
+        "HSM-G12-720": {
+            "description": "TCL N-type Topcon G12 66P, 720W",
+            "unit": "panel",
+            "supplier": "TCL/China",
+            "powerKwp": 0.720
+        }
+    },
+    "accessories": {
+        "PV-KBT4-EVO": {
+            "description": "MC4 connector, 4mm2, 1500VDC",
+            "unit": "set",
+            "supplier": "Staubli/Pháp",
+            "group": "II"
+        }
+    }
+}
