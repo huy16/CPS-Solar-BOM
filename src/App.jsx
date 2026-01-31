@@ -14,11 +14,11 @@ function App() {
       {/* Header with CPS Branding */}
       <header className="bg-white/80 backdrop-blur-md shadow-sm border-b border-slate-200 sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-6 py-4">
-          <div className="flex flex-row items-center justify-center gap-2">
+          <div className="flex flex-row items-center justify-center gap-0">
             {/* CPS Logo - Clickable Reset */}
             <button
               onClick={handleReset}
-              className="cursor-pointer focus:outline-none transition-transform active:scale-95 group"
+              className="cursor-pointer focus:outline-none transition-transform active:scale-95 group -mr-2"
               title="Quay lại Dashboard"
             >
               <img
@@ -29,8 +29,8 @@ function App() {
             </button>
 
             {/* Lightning Bolt Icon Replacement for Divider */}
-            <div className="flex items-center justify-center px-2">
-              <svg className="w-10 h-10 text-energy-500 animate-pulse drop-shadow-[0_0_8px_rgba(20,184,166,0.5)]" fill="currentColor" viewBox="0 0 20 20">
+            <div className="flex items-center justify-center">
+              <svg className="w-10 h-10 text-amber-400 animate-pulse drop-shadow-[0_0_12px_rgba(251,191,36,0.8)] filter brightness-125" fill="currentColor" viewBox="0 0 20 20">
                 <path fillRule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clipRule="evenodd" />
               </svg>
             </div>
@@ -40,7 +40,7 @@ function App() {
               {/* Animated Background */}
               <div className="absolute inset-0 bg-gradient-to-br from-energy-50/50 via-white to-cyan-50/50 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
 
-              <div className="relative pl-2">
+              <div className="relative pl-0">
                 <h1 className="text-4xl font-extrabold tracking-tight uppercase bg-gradient-to-r from-blue-700 via-emerald-400 to-blue-700 bg-clip-text text-transparent animate-gradient-x font-display pb-1">
                   Solar BOQ & BOM Engine
                 </h1>
