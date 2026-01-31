@@ -14,7 +14,7 @@ function App() {
       {/* Header with CPS Branding */}
       <header className="bg-white/80 backdrop-blur-md shadow-sm border-b border-slate-200 sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-6 py-4">
-          <div className="flex flex-row items-center justify-center gap-2">
+          <div className="flex flex-row items-center justify-center gap-0">
             {/* CPS Logo - Clickable Reset */}
             <button
               onClick={handleReset}
@@ -29,7 +29,7 @@ function App() {
             </button>
 
             {/* Vertical Divider */}
-            <div className="h-16 w-px bg-slate-200 mx-4"></div>
+            <div className="h-16 w-px bg-slate-200 mx-1"></div>
 
             {/* Title Block with Glassmorphism & Energy Gradient */}
             <div className="relative group p-4 rounded-2xl overflow-hidden transition-all duration-500 border border-transparent hover:border-energy-100 hover:shadow-lg hover:shadow-energy-100/50">
