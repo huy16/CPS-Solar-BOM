@@ -10,7 +10,7 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-slate-50 font-sans text-slate-900 selection:bg-energy-200 selection:text-energy-900">
+    <div className="h-screen flex flex-col bg-slate-50 font-sans text-slate-900 selection:bg-energy-200 selection:text-energy-900 overflow-hidden">
       {/* Header with CPS Branding */}
       <header className="bg-white/80 backdrop-blur-md shadow-sm border-b border-slate-200 sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-6 py-4">
@@ -24,7 +24,7 @@ function App() {
               <img
                 src={cpsLogo}
                 alt="CPS Logo"
-                className="h-40 w-auto object-contain transition-all duration-300 drop-shadow-sm group-hover:drop-shadow-md group-hover:scale-105"
+                className="h-24 w-auto object-contain transition-all duration-300 drop-shadow-sm group-hover:drop-shadow-md group-hover:scale-105"
               />
             </button>
 
@@ -51,7 +51,7 @@ function App() {
       </header>
 
       {/* Main Content */}
-      <main className="flex-1 w-full max-w-7xl mx-auto px-6 py-8">
+      <main className="flex-1 w-full max-w-7xl mx-auto px-6 py-2 overflow-hidden">
         <CalculatorPage key={resetKey} />
       </main>
 
