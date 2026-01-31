@@ -14,7 +14,7 @@ function App() {
       {/* Header with CPS Branding */}
       <header className="bg-white/80 backdrop-blur-md shadow-sm border-b border-slate-200 sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-6 py-4">
-          <div className="flex flex-row items-center justify-center gap-0">
+          <div className="flex flex-row items-center justify-center gap-2">
             {/* CPS Logo - Clickable Reset */}
             <button
               onClick={handleReset}
@@ -28,28 +28,30 @@ function App() {
               />
             </button>
 
-            {/* Lightning Bolt Icon Replacement for Divider */}
-            <div className="flex items-center justify-center ml-4 px-2">
-              <svg className="w-10 h-10 animate-pulse drop-shadow-[0_0_12px_rgba(239,68,68,0.5)]" viewBox="0 0 20 20">
-                <defs>
-                  <linearGradient id="boltGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                    <stop offset="0%" stopColor="#ef4444" /> {/* red-500 */}
-                    <stop offset="100%" stopColor="#fbbf24" /> {/* amber-400 */}
-                  </linearGradient>
-                </defs>
-                <path fill="url(#boltGradient)" fillRule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clipRule="evenodd" />
-              </svg>
-            </div>
+            {/* Vertical Divider */}
+            <div className="h-16 w-px bg-slate-200 mx-4"></div>
 
             {/* Title Block with Glassmorphism & Energy Gradient */}
             <div className="relative group p-4 rounded-2xl overflow-hidden transition-all duration-500 border border-transparent hover:border-energy-100 hover:shadow-lg hover:shadow-energy-100/50">
               {/* Animated Background */}
               <div className="absolute inset-0 bg-gradient-to-br from-energy-50/50 via-white to-cyan-50/50 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
 
-              <div className="relative pl-0">
-                <h1 className="text-4xl font-extrabold tracking-tight uppercase bg-gradient-to-r from-blue-700 via-emerald-400 to-blue-700 bg-clip-text text-transparent animate-gradient-x font-display pb-1">
-                  Solar BOQ & BOM Engine
-                </h1>
+              <div className="relative pl-0 flex flex-col">
+                <div className="flex items-center gap-3">
+                  <h1 className="text-4xl font-extrabold tracking-tight uppercase bg-gradient-to-r from-blue-700 via-emerald-400 to-blue-700 bg-clip-text text-transparent animate-gradient-x font-display pb-1">
+                    Solar BOQ & BOM Engine
+                  </h1>
+                  {/* Lightning Bolt Icon - Moved after 'Engine' */}
+                  <svg className="w-8 h-8 animate-pulse drop-shadow-[0_0_12px_rgba(239,68,68,0.4)] shrink-0" viewBox="0 0 20 20">
+                    <defs>
+                      <linearGradient id="boltGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                        <stop offset="0%" stopColor="#ef4444" />
+                        <stop offset="100%" stopColor="#fbbf24" />
+                      </linearGradient>
+                    </defs>
+                    <path fill="url(#boltGradient)" fillRule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clipRule="evenodd" />
+                  </svg>
+                </div>
                 <p className="text-slate-500 text-lg mt-2 font-medium tracking-wide flex items-center gap-2 font-mono text-sm">
                   Bill of Quantities & Materials Calculator
                   <span className="relative flex h-2.5 w-2.5">
