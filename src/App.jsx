@@ -14,7 +14,7 @@ function App() {
       {/* Header with CPS Branding */}
       <header className="bg-white/80 backdrop-blur-md shadow-sm border-b border-slate-200 sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-6 py-4">
-          <div className="flex flex-row items-center justify-center gap-5">
+          <div className="flex flex-row items-center justify-center gap-2">
             {/* CPS Logo - Clickable Reset */}
             <button
               onClick={handleReset}
@@ -24,16 +24,23 @@ function App() {
               <img
                 src={cpsLogo}
                 alt="CPS Logo"
-                className="h-24 w-auto object-contain transition-all duration-300 drop-shadow-sm group-hover:drop-shadow-md group-hover:scale-105"
+                className="h-32 w-auto object-contain transition-all duration-300 drop-shadow-sm group-hover:drop-shadow-md group-hover:scale-105"
               />
             </button>
+
+            {/* Lightning Bolt Icon Replacement for Divider */}
+            <div className="flex items-center justify-center px-2">
+              <svg className="w-10 h-10 text-energy-500 animate-pulse drop-shadow-[0_0_8px_rgba(20,184,166,0.5)]" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clipRule="evenodd" />
+              </svg>
+            </div>
 
             {/* Title Block with Glassmorphism & Energy Gradient */}
             <div className="relative group p-4 rounded-2xl overflow-hidden transition-all duration-500 border border-transparent hover:border-energy-100 hover:shadow-lg hover:shadow-energy-100/50">
               {/* Animated Background */}
               <div className="absolute inset-0 bg-gradient-to-br from-energy-50/50 via-white to-cyan-50/50 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
 
-              <div className="relative border-l-4 border-energy-500 pl-6">
+              <div className="relative pl-2">
                 <h1 className="text-4xl font-extrabold tracking-tight uppercase bg-gradient-to-r from-blue-700 via-emerald-400 to-blue-700 bg-clip-text text-transparent animate-gradient-x font-display pb-1">
                   Solar BOQ & BOM Engine
                 </h1>
