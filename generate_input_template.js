@@ -8,7 +8,7 @@ async function generateTemplate() {
 
     // Define Columns
     ws.columns = [
-        { header: 'Mã Trạm (Station Code)', key: 'code', width: 25 },
+        { header: 'Mã Site (Site Code)', key: 'code', width: 25 },
         { header: 'Công Suất (Capacity kWp)', key: 'power', width: 25 },
         { header: 'Tên Dự Án (Project Name)', key: 'name', width: 30 },
         { header: 'Ghi Chú (Note)', key: 'note', width: 20 }

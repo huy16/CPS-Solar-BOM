@@ -215,23 +215,23 @@ export default function BulkInputComponent({ onDataParsed }) {
             id: "XI", title: "Thi công hoàn thiện", color: "violet",
             items: [
                 { n: "Dây xoắn RG đen SWB-06", f: "Round(Site_Count * 8)" },
-                { n: "Mái tôn lạnh bảo vệ", f: "Fixed 1 cái / trạm" },
-                { n: "Chống sét PV50 1000V", f: "Fixed 2 bộ / trạm" },
+                { n: "Mái tôn lạnh bảo vệ", f: "Fixed 1 cái / site" },
+                { n: "Chống sét PV50 1000V", f: "Fixed 2 bộ / site" },
                 { n: "Domino 150A/200A", f: "1 cái theo Inverter" }
             ]
         },
         {
             id: "XII", title: "Vật tư cân tải", color: "red",
             items: [
-                { n: "Combo At + Hộp nổi 63A", f: "1 bộ / trạm" },
-                { n: "Dây Cadivi 6.0", f: "10 m / trạm" }
+                { n: "Combo At + Hộp nổi 63A", f: "1 bộ / site" },
+                { n: "Dây Cadivi 6.0", f: "10 m / site" }
             ]
         },
         {
             id: "XIII", title: "Hệ khung lắp đặt", color: "zinc",
             items: [
-                { n: "Tấm Alu che mặt sau", f: "1 tấm / trạm" },
-                { n: "Khung sắt hộp vị trí lắp", f: "1 bộ / trạm" }
+                { n: "Tấm Alu che mặt sau", f: "1 tấm / site" },
+                { n: "Khung sắt hộp vị trí lắp", f: "1 bộ / site" }
             ]
         }
     ];
@@ -276,7 +276,7 @@ export default function BulkInputComponent({ onDataParsed }) {
                             Dữ Liệu Dự Án
                         </h2>
                         <p className="text-slate-200 text-lg font-medium mx-auto max-w-2xl bg-slate-900/40 backdrop-blur-md py-1.5 px-6 rounded-full border border-white/10 shadow-lg inline-block">
-                            Nhập thông tin các trạm Solar để tính toán <span className="text-energy-400 font-bold">BOQ & BOM</span> tự động
+                            Nhập thông tin các site Solar để tính toán <span className="text-energy-400 font-bold">BOQ & BOM</span> tự động
                         </p>
                     </div>
                 </div>
@@ -436,7 +436,7 @@ export default function BulkInputComponent({ onDataParsed }) {
                             <table className="w-full text-sm">
                                 <thead className="bg-white sticky top-0 z-10 shadow-sm border-b border-slate-100">
                                     <tr className="text-slate-500 text-xs font-bold uppercase tracking-wider">
-                                        <th className="py-3 px-6 text-left bg-slate-50/80 backdrop-blur">Mã Trạm</th>
+                                        <th className="py-3 px-6 text-left bg-slate-50/80 backdrop-blur">Mã Site</th>
                                         <th className="py-3 px-6 text-left bg-slate-50/80 backdrop-blur">Tên Dự Án</th>
                                         <th className="py-3 px-6 text-right bg-slate-50/80 backdrop-blur">Công Suất (kWp)</th>
                                         <th className="py-3 px-6 text-center bg-slate-50/80 backdrop-blur">Trạng Thái</th>
