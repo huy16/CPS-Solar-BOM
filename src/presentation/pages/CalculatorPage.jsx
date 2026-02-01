@@ -33,7 +33,7 @@ export default function CalculatorPage() {
 
     // UI State for Results
     const [selectedShops, setSelectedShops] = useState(new Set());
-    const [expandedShops, setExpandedShops] = useState(new Set());
+    const [viewDetailReport, setViewDetailReport] = useState(null);
 
     // Single Form State
     const [singleFormData, setSingleFormData] = useState({
@@ -237,74 +237,101 @@ export default function CalculatorPage() {
                     </div>
                 </div>
 
-                {/* Shop Cards */}
-                <div className="space-y-4">
+                {/* Grid View */}
+                <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-3">
                     {reports.map((report, idx) => (
-                        <div key={idx} className={`bg-white rounded-xl overflow-hidden transition-all duration-300 ${selectedShops.has(idx) ? 'ring-2 ring-energy-500 shadow-md shadow-energy-100' : 'border border-gray-100 hover:border-energy-200 hover:shadow-md'}`}>
-                            <div
-                                className="px-6 py-4 flex items-center gap-4 cursor-pointer hover:bg-slate-50/50 transition-colors group"
-                                onClick={() => toggleShopExpand(idx)}
-                            >
-                                <input
-                                    type="checkbox"
-                                    checked={selectedShops.has(idx)}
-                                    onChange={(e) => { e.stopPropagation(); toggleShopSelection(idx); }}
-                                    className="w-5 h-5 rounded border-gray-300 text-energy-600 focus:ring-energy-500 cursor-pointer"
-                                />
-                                <span className={`flex items-center justify-center w-8 h-8 rounded-full transition-colors ${expandedShops.has(idx) ? 'bg-energy-100 text-energy-700' : 'bg-slate-100 text-slate-400 group-hover:bg-white group-hover:shadow-sm'}`}>
-                                    <svg className={`w-5 h-5 transform transition-transform ${expandedShops.has(idx) ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
-                                    </svg>
-                                </span>
-
-                                <div className="flex-1">
-                                    <h4 className="font-bold text-slate-800 text-lg flex items-center gap-2">
-                                        {report.projectName || report.projectId}
-                                        {report.config.pvModel && <span className="text-[10px] font-mono font-normal bg-slate-100 px-2 py-0.5 rounded text-slate-500 border border-slate-200">{report.config.pvModel}</span>}
-                                    </h4>
-                                    <div className="text-sm text-slate-500 flex items-center gap-4 mt-1">
-                                        <div className="flex items-center gap-1.5">
-                                            <span className="w-2 h-2 rounded-full bg-energy-500"></span>
-                                            <span className="text-energy-700 font-mono font-bold">{report.config.dcPower} kWp</span>
-                                        </div>
-                                        <span className="text-slate-300">|</span>
-                                        <div className="flex items-center gap-1.5">
-                                            <svg className="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" /></svg>
-                                            <span className="font-mono">{report.items.length} Items</span>
-                                        </div>
-                                    </div>
+                        <div
+                            key={idx}
+                            className={`bg-white rounded-xl p-3 border transition-all duration-300 group cursor-pointer relative hover:-translate-y-1 hover:shadow-lg ${selectedShops.has(idx) ? 'border-energy-500 ring-2 ring-energy-500/20 shadow-md' : 'border-slate-200 hover:border-energy-300'}`}
+                            onClick={() => setViewDetailReport(report)}
+                        >
+                            <div className="flex justify-between items-start mb-2">
+                                <div className="bg-slate-100 rounded px-1.5 py-0.5 text-[10px] font-mono font-bold text-slate-500 border border-slate-200 truncate max-w-[70%]">
+                                    {report.projectId}
                                 </div>
-
+                                <div
+                                    onClick={(e) => { e.stopPropagation(); toggleShopSelection(idx); }}
+                                    className={`w-5 h-5 rounded-full border flex items-center justify-center transition-colors ${selectedShops.has(idx) ? 'bg-energy-500 border-energy-500 text-white' : 'bg-white border-slate-300 text-transparent hover:border-energy-400'}`}
+                                >
+                                    <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M5 13l4 4L19 7" /></svg>
+                                </div>
                             </div>
 
-                            {/* Collapsible Table */}
-                            {expandedShops.has(idx) && (
-                                <div className="max-h-96 overflow-y-auto border-t border-slate-100 custom-scrollbar bg-slate-50/30">
-                                    <table className="w-full text-sm">
-                                        <thead className="bg-slate-50 sticky top-0 z-10 shadow-sm">
-                                            <tr className="text-slate-500 text-xs font-bold uppercase tracking-wider text-left">
-                                                <th className="py-2.5 px-6 w-24">Group</th>
-                                                <th className="py-2.5 px-6">Hạng Mục / Thiết Bị</th>
-                                                <th className="py-2.5 px-6 text-right w-32">Số Lượng</th>
-                                                <th className="py-2.5 px-6 text-center w-20">ĐVT</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody className="divide-y divide-slate-100">
-                                            {report.items.map((item, i) => (
-                                                <tr key={i} className="hover:bg-energy-50/40 transition-colors">
-                                                    <td className="py-2.5 px-6 text-[10px] font-bold text-slate-400 uppercase tracking-widest">{item.group}</td>
-                                                    <td className="py-2.5 px-6 font-medium text-slate-700 text-sm">{item.name}</td>
-                                                    <td className="py-2.5 px-6 text-right font-mono font-bold text-energy-700">{new Intl.NumberFormat('vi-VN').format(item.quantity)}</td>
-                                                    <td className="py-2.5 px-6 text-center text-xs text-slate-500 font-medium">{item.unit}</td>
-                                                </tr>
-                                            ))}
-                                        </tbody>
-                                    </table>
-                                </div>
-                            )}
+                            <h4 className="font-bold text-slate-800 text-sm mb-1 truncate" title={report.projectName}>
+                                {report.projectName}
+                            </h4>
+
+                            <div className="flex items-center gap-2 mb-3">
+                                <span className="text-[10px] font-bold text-white bg-gradient-to-r from-blue-500 to-cyan-500 px-2 py-0.5 rounded-full shadow-sm shadow-blue-200">
+                                    {report.config.dcPower} kWp
+                                </span>
+                                {report.config.pvModel && (
+                                    <span className="text-[9px] text-slate-400 font-medium truncate flex-1 text-right" title={report.config.pvModel}>
+                                        {report.config.pvModel.split('-').pop()}
+                                    </span>
+                                )}
+                            </div>
+
+                            <div className="pt-2 border-t border-slate-100 flex justify-between items-center">
+                                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">{report.items.length} Items</span>
+                                <span className="w-6 h-6 rounded-full bg-slate-50 text-slate-400 group-hover:bg-energy-50 group-hover:text-energy-600 flex items-center justify-center transition-colors">
+                                    <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
+                                </span>
+                            </div>
                         </div>
                     ))}
                 </div>
+
+                {/* Detail Modal */}
+                {viewDetailReport && (
+                    <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-fade-in">
+                        <div className="bg-white rounded-3xl shadow-2xl w-full max-w-5xl max-h-[90vh] flex flex-col overflow-hidden animate-zoom-in">
+                            <div className="px-8 py-5 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
+                                <div>
+                                    <div className="flex items-center gap-3 mb-1">
+                                        <h3 className="text-xl font-bold text-slate-800 font-display">{viewDetailReport.projectName}</h3>
+                                        <span className="bg-energy-100 text-energy-700 text-xs font-bold px-2 py-0.5 rounded border border-energy-200">{viewDetailReport.projectId}</span>
+                                    </div>
+                                    <div className="flex items-center gap-4 text-sm text-slate-500">
+                                        <span className="flex items-center gap-1"><strong className="text-slate-700">{viewDetailReport.config.dcPower}</strong> kWp</span>
+                                        <span className="flex items-center gap-1"><strong className="text-slate-700">{viewDetailReport.config.panelCount}</strong> Panels</span>
+                                        <span className="flex items-center gap-1 bg-slate-100 px-2 rounded text-xs">{viewDetailReport.config.pvModel}</span>
+                                    </div>
+                                </div>
+                                <button ref={el => el?.focus()} onClick={() => setViewDetailReport(null)} className="w-10 h-10 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 hover:text-red-500 flex items-center justify-center transition-all">
+                                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                                </button>
+                            </div>
+
+                            <div className="flex-1 overflow-y-auto custom-scrollbar p-6 bg-slate-50/30">
+                                <table className="w-full text-sm rounded-lg overflow-hidden ring-1 ring-slate-200">
+                                    <thead className="bg-slate-100 sticky top-0 shadow-sm">
+                                        <tr className="text-slate-600 text-xs font-bold uppercase tracking-wider text-left">
+                                            <th className="py-3 px-6 w-32">Group</th>
+                                            <th className="py-3 px-6">Hạng Mục / Thiết Bị</th>
+                                            <th className="py-3 px-6 text-right w-32">Số Lượng</th>
+                                            <th className="py-3 px-6 text-center w-24">ĐVT</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody className="divide-y divide-slate-100 bg-white">
+                                        {viewDetailReport.items.map((item, i) => (
+                                            <tr key={i} className="hover:bg-blue-50/30 transition-colors">
+                                                <td className="py-3 px-6 text-[10px] font-bold text-slate-400 uppercase tracking-widest">{item.group}</td>
+                                                <td className="py-3 px-6 font-medium text-slate-700">{item.name}</td>
+                                                <td className="py-3 px-6 text-right font-mono font-bold text-blue-600">{new Intl.NumberFormat('vi-VN').format(item.quantity)}</td>
+                                                <td className="py-3 px-6 text-center text-xs text-slate-500">{item.unit}</td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div className="px-8 py-4 border-t border-slate-100 bg-white flex justify-end gap-3">
+                                <button onClick={() => setViewDetailReport(null)} className="px-6 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl transition-all">Đóng</button>
+                            </div>
+                        </div>
+                    </div>
+                )}
             </div>
         );
     }
