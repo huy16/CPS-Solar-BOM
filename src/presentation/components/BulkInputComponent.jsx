@@ -57,6 +57,7 @@ const AccordionGroup = ({ group, colorMap }) => {
 export default function BulkInputComponent({ onDataParsed }) {
     const [showFormula, setShowFormula] = useState(false);
     const [previewData, setPreviewData] = useState([]);
+    const [activeTab, setActiveTab] = useState("import");
     const fileInputRef = useRef(null);
 
     // --- PV Model Selection ---
@@ -109,7 +110,10 @@ export default function BulkInputComponent({ onDataParsed }) {
                 };
             }).filter(item => item !== null);
 
-            setPreviewData(prev => [...prev, ...parsed]);
+            if (parsed.length > 0) {
+                setPreviewData(prev => [...prev, ...parsed]);
+                setActiveTab("list");
+            }
         };
         reader.readAsArrayBuffer(file);
         e.target.value = null;
@@ -118,6 +122,7 @@ export default function BulkInputComponent({ onDataParsed }) {
     const handleConfirm = () => {
         onDataParsed(previewData);
         setPreviewData([]);
+        setActiveTab("import");
     };
 
     const calculationGroups = [
@@ -381,129 +386,164 @@ export default function BulkInputComponent({ onDataParsed }) {
                         </div>
                     </div>
 
-                    <div className="md:col-span-2 bg-white rounded-2xl shadow-sm border border-slate-200 p-3 flex flex-col hover:shadow-md transition-shadow duration-300">
-                        <h3 className="text-lg font-bold text-slate-800 mb-4 flex items-center gap-2.5 font-display">
-                            <span className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-100 to-cyan-100 flex items-center justify-center text-blue-600 shadow-sm ring-1 ring-blue-500/20">
-                                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
-                            </span>
-                            <span className="bg-gradient-to-r from-slate-800 to-slate-600 bg-clip-text text-transparent">Nhập Dữ Liệu</span>
-                        </h3>
+                    <div className="md:col-span-2 bg-white rounded-2xl shadow-sm border border-slate-200 flex flex-col hover:shadow-md transition-shadow duration-300 overflow-hidden">
+                        {/* Tab Switcher Headers */}
+                        <div className="flex items-center bg-slate-50/80 border-b border-slate-200">
+                            <button
+                                onClick={() => setActiveTab("import")}
+                                className={`flex-1 flex items-center justify-center gap-2 py-4 text-sm font-bold uppercase tracking-tight transition-all relative ${activeTab === "import" ? "text-blue-600 bg-white" : "text-slate-400 hover:text-slate-600"}`}
+                            >
+                                <svg className={`w-5 h-5 ${activeTab === "import" ? "text-blue-500" : "text-slate-300"}`} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
+                                Nhập Dữ Liệu
+                                {activeTab === "import" && <div className="absolute bottom-0 left-0 right-0 h-1 bg-blue-500 rounded-t-full"></div>}
+                            </button>
+                            <button
+                                onClick={() => setActiveTab("list")}
+                                className={`flex-1 flex items-center justify-center gap-2 py-4 text-sm font-bold uppercase tracking-tight transition-all relative ${activeTab === "list" ? "text-energy-600 bg-white" : "text-slate-400 hover:text-slate-600"}`}
+                            >
+                                <svg className={`w-5 h-5 ${activeTab === "list" ? "text-energy-500" : "text-slate-300"}`} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" /></svg>
+                                Danh sách Site
+                                {previewData.length > 0 && (
+                                    <span className="inline-flex items-center justify-center w-5 h-5 bg-energy-500 text-white text-[10px] rounded-full scale-75 animate-bounce shadow-md">{previewData.length}</span>
+                                )}
+                                {activeTab === "list" && <div className="absolute bottom-0 left-0 right-0 h-1 bg-energy-500 rounded-t-full"></div>}
+                            </button>
+                        </div>
 
-                        <div className="flex-1 flex flex-col justify-center items-center gap-5 bg-slate-50/50 rounded-xl border border-dashed border-slate-300 p-6 hover:bg-energy-50/30 hover:border-energy-300 transition-all duration-300">
-                            <div className="flex flex-col w-full max-w-sm gap-3">
-                                <a
-                                    href="/Input_Template.xlsx"
-                                    download
-                                    className="group w-full inline-flex items-center justify-center gap-2 bg-gradient-to-r from-emerald-500 to-teal-600 text-white text-sm font-bold px-6 py-3 rounded-xl hover:from-emerald-400 hover:to-teal-500 hover:shadow-lg hover:shadow-emerald-500/40 hover:-translate-y-0.5 transition-all shadow-md ring-1 ring-white/20"
-                                >
-                                    <svg className="w-5 h-5 text-emerald-100 group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                                    </svg>
-                                    1. Tải File Mẫu (Input_Template.xlsx)
-                                </a>
+                        {/* Tab Content Area */}
+                        <div className="flex-1 p-3 min-h-[400px]">
+                            {activeTab === "import" ? (
+                                <div className="h-full flex flex-col justify-center items-center gap-5 bg-slate-50/50 rounded-xl border border-dashed border-slate-300 p-6 hover:bg-energy-50/30 hover:border-energy-300 transition-all duration-300">
+                                    <div className="flex flex-col w-full max-w-sm gap-3">
+                                        <a
+                                            href="/Input_Template.xlsx"
+                                            download
+                                            className="group w-full inline-flex items-center justify-center gap-2 bg-gradient-to-r from-emerald-500 to-teal-600 text-white text-sm font-bold px-6 py-3 rounded-xl hover:from-emerald-400 hover:to-teal-500 hover:shadow-lg hover:shadow-emerald-500/40 hover:-translate-y-0.5 transition-all shadow-md ring-1 ring-white/20"
+                                        >
+                                            <svg className="w-5 h-5 text-emerald-100 group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                                            </svg>
+                                            1. Tải File Mẫu (Input_Template.xlsx)
+                                        </a>
 
-                                <div className="relative w-full">
-                                    <input
-                                        type="file"
-                                        accept=".xlsx,.xls"
-                                        ref={fileInputRef}
-                                        onChange={handleFileUpload}
-                                        className="hidden"
-                                    />
+                                        <div className="relative w-full">
+                                            <input
+                                                type="file"
+                                                accept=".xlsx,.xls"
+                                                ref={fileInputRef}
+                                                onChange={handleFileUpload}
+                                                className="hidden"
+                                            />
+                                            <button
+                                                onClick={() => fileInputRef.current?.click()}
+                                                className="w-full inline-flex items-center justify-center gap-2 bg-gradient-to-r from-cyan-600 to-blue-600 text-white text-sm font-bold px-6 py-3 rounded-xl hover:from-cyan-500 hover:to-blue-500 hover:shadow-lg hover:shadow-cyan-500/50 hover:-translate-y-0.5 transition-all shadow-md ring-1 ring-white/20"
+                                            >
+                                                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                                                </svg>
+                                                2. Upload File Excel (Import Data)
+                                            </button>
+                                        </div>
+
+                                        {/* Interactive Steps Guide - Compact */}
+                                        <div className="mt-2 w-full grid grid-cols-1 sm:grid-cols-3 gap-2 text-[10px] font-semibold text-slate-500 uppercase tracking-wide">
+                                            <div className="bg-white/60 p-2 rounded border border-slate-100 flex items-center justify-center gap-1.5 transition-all hover:bg-white hover:shadow-sm">
+                                                <span className="w-4 h-4 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center font-bold text-[9px]">1</span>
+                                                <span>Tải Mẫu</span>
+                                            </div>
+                                            <div className="bg-white/60 p-2 rounded border border-slate-100 flex items-center justify-center gap-1.5 transition-all hover:bg-white hover:shadow-sm">
+                                                <span className="w-4 h-4 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center font-bold text-[9px]">2</span>
+                                                <span>Nhập Liệu</span>
+                                            </div>
+                                            <div className="bg-white/60 p-2 rounded border border-slate-100 flex items-center justify-center gap-1.5 transition-all hover:bg-white hover:shadow-sm">
+                                                <span className="w-4 h-4 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center font-bold text-[9px]">3</span>
+                                                <span>Import</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
                                     <button
-                                        onClick={() => fileInputRef.current?.click()}
-                                        className="w-full inline-flex items-center justify-center gap-2 bg-gradient-to-r from-cyan-600 to-blue-600 text-white text-sm font-bold px-6 py-3 rounded-xl hover:from-cyan-500 hover:to-blue-500 hover:shadow-lg hover:shadow-cyan-500/50 hover:-translate-y-0.5 transition-all shadow-md ring-1 ring-white/20"
+                                        onClick={() => setShowFormula(true)}
+                                        className="w-full max-w-sm mt-5 py-2.5 px-4 bg-slate-50 hover:bg-white text-slate-600 hover:text-energy-600 font-medium rounded-xl border border-dashed border-slate-300 hover:border-energy-300 flex items-center justify-center gap-2 transition-all duration-300 group"
+                                        title="Xem cơ sở tính toán BOM"
                                     >
-                                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
-                                        </svg>
-                                        2. Upload File Excel (Import Data)
+                                        <span className="w-8 h-8 rounded-lg bg-white border border-slate-200 text-slate-400 group-hover:text-energy-500 group-hover:border-energy-200 flex items-center justify-center transition-colors">
+                                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                                            </svg>
+                                        </span>
+                                        <span className="text-sm font-display tracking-wide uppercase font-bold opacity-70">Cơ sở tính toán</span>
                                     </button>
                                 </div>
+                            ) : (
+                                <div className="h-full flex flex-col animate-fade-in-up">
+                                    {previewData.length > 0 ? (
+                                        <div className="flex-1 flex flex-col border border-slate-100 rounded-xl overflow-hidden bg-slate-50/30 shadow-inner min-h-[380px]">
+                                            <div className="px-6 py-3 flex justify-between items-center bg-white border-b border-slate-100">
+                                                <h3 className="font-bold text-slate-700 flex items-center gap-2 font-display text-xs uppercase tracking-wide">
+                                                    <span className="w-2 h-2 rounded-full bg-energy-500 animate-pulse"></span>
+                                                    Danh sách Site đã tải lên
+                                                </h3>
+                                                <span className="text-[10px] font-black text-slate-400 italic">Scroll to view all rows</span>
+                                            </div>
 
-                                {/* Interactive Steps Guide - Compact */}
-                                <div className="mt-2 w-full grid grid-cols-1 sm:grid-cols-3 gap-2 text-[10px] font-semibold text-slate-500 uppercase tracking-wide">
-                                    <div className="bg-white/60 p-2 rounded border border-slate-100 flex items-center justify-center gap-1.5">
-                                        <span className="w-4 h-4 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center font-bold text-[9px]">1</span>
-                                        <span>Tải Mẫu</span>
-                                    </div>
-                                    <div className="bg-white/60 p-2 rounded border border-slate-100 flex items-center justify-center gap-1.5">
-                                        <span className="w-4 h-4 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center font-bold text-[9px]">2</span>
-                                        <span>Nhập Liệu</span>
-                                    </div>
-                                    <div className="bg-white/60 p-2 rounded border border-slate-100 flex items-center justify-center gap-1.5">
-                                        <span className="w-4 h-4 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center font-bold text-[9px]">3</span>
-                                        <span>Import</span>
-                                    </div>
+                                            <div className="flex-1 overflow-y-auto custom-scrollbar bg-white max-h-64">
+                                                <table className="w-full text-sm">
+                                                    <thead className="bg-slate-50 sticky top-0 z-10 shadow-sm border-b border-slate-100">
+                                                        <tr className="text-slate-500 text-[10px] font-black uppercase tracking-widest">
+                                                            <th className="py-2.5 px-6 text-left">Mã Site</th>
+                                                            <th className="py-2.5 px-6 text-left">Tên Dự Án</th>
+                                                            <th className="py-2.5 px-6 text-right">kWp</th>
+                                                            <th className="py-2.5 px-6 text-center">Ready</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody className="divide-y divide-slate-50">
+                                                        {previewData.map((row, i) => (
+                                                            <tr key={i} className="hover:bg-energy-50/20 transition-colors group">
+                                                                <td className="py-3 px-6 font-mono font-medium text-slate-600 group-hover:text-energy-700">{row.id}</td>
+                                                                <td className="py-3 px-6 text-slate-700 font-medium text-xs">{row.name}</td>
+                                                                <td className="py-3 px-6 text-right font-mono font-bold text-slate-800">{row.dcPower}</td>
+                                                                <td className="py-3 px-6 text-center">
+                                                                    <div className="w-1.5 h-1.5 rounded-full bg-energy-500 mx-auto shadow-[0_0_8px_rgba(245,158,11,0.5)]"></div>
+                                                                </td>
+                                                            </tr>
+                                                        ))}
+                                                    </tbody>
+                                                </table>
+                                            </div>
+
+                                            <div className="p-4 bg-white border-t border-slate-100 flex gap-3 mt-auto">
+                                                <button
+                                                    onClick={() => setActiveTab("import")}
+                                                    className="px-6 py-3 bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold rounded-xl transition-all flex items-center gap-2 text-sm uppercase tracking-wide"
+                                                >
+                                                    Thêm Site
+                                                </button>
+                                                <button
+                                                    onClick={handleConfirm}
+                                                    className="flex-1 bg-gradient-to-r from-blue-600 to-energy-600 hover:from-blue-500 hover:to-energy-500 text-white font-black py-3 rounded-xl transition-all shadow-lg shadow-energy-200 hover:shadow-xl hover:shadow-energy-300 hover:-translate-y-0.5 flex items-center justify-center gap-3 text-sm uppercase tracking-widest"
+                                                >
+                                                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                                                    </svg>
+                                                    Kích Hoạt Tính Toán
+                                                </button>
+                                            </div>
+                                        </div>
+                                    ) : (
+                                        <div className="h-full flex flex-col justify-center items-center gap-4 text-slate-400 opacity-60 min-h-[380px]">
+                                            <svg className="w-16 h-16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+                                            <p className="font-bold uppercase tracking-widest text-xs">Chưa có dữ liệu nào được tải lên</p>
+                                            <button onClick={() => setActiveTab("import")} className="text-blue-500 hover:underline font-bold text-sm">Quay lại Nhập Liệu</button>
+                                        </div>
+                                    )}
                                 </div>
-                            </div>
-
-                            <button
-                                onClick={() => setShowFormula(true)}
-                                className="w-full max-w-sm mt-5 py-2.5 px-4 bg-slate-50 hover:bg-white text-slate-600 hover:text-energy-600 font-medium rounded-xl border border-dashed border-slate-300 hover:border-energy-300 flex items-center justify-center gap-2 transition-all duration-300 group"
-                                title="Xem cơ sở tính toán BOM"
-                            >
-                                <span className="w-8 h-8 rounded-lg bg-white border border-slate-200 text-slate-400 group-hover:text-energy-500 group-hover:border-energy-200 flex items-center justify-center transition-colors">
-                                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
-                                    </svg>
-                                </span>
-                                <span className="text-sm font-display tracking-wide">Cơ sở tính toán</span>
-                            </button>
+                            )}
                         </div>
                     </div>
                 </div>
 
-                {previewData.length > 0 && (
-                    <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden animate-fade-in-up">
-                        <div className="px-6 py-3 border-b border-slate-100 flex justify-between items-center bg-white/90 backdrop-blur-md">
-                            <h3 className="font-bold text-slate-700 flex items-center gap-2 font-display text-sm uppercase tracking-wide">
-                                <span className="w-2 h-2 rounded-full bg-energy-500 animate-pulse"></span>
-                                Danh sách Site đã tải lên
-                            </h3>
-                            <span className="text-[10px] font-black text-slate-400 italic">Scroll to view all rows</span>
-                        </div>
-
-                        <div className="max-h-80 overflow-y-auto custom-scrollbar">
-                            <table className="w-full text-sm">
-                                <thead className="bg-white sticky top-0 z-10 shadow-sm border-b border-slate-100">
-                                    <tr className="text-slate-500 text-xs font-bold uppercase tracking-wider">
-                                        <th className="py-3 px-6 text-left bg-slate-50/80 backdrop-blur">Mã Site</th>
-                                        <th className="py-3 px-6 text-left bg-slate-50/80 backdrop-blur">Tên Dự Án</th>
-                                        <th className="py-3 px-6 text-right bg-slate-50/80 backdrop-blur">Công Suất (kWp)</th>
-                                        <th className="py-3 px-6 text-center bg-slate-50/80 backdrop-blur">Trạng Thái</th>
-                                    </tr>
-                                </thead>
-                                <tbody className="divide-y divide-slate-50">
-                                    {previewData.map((row, i) => (
-                                        <tr key={i} className="hover:bg-energy-50/30 transition-colors group">
-                                            <td className="py-3 px-6 font-mono font-medium text-slate-600 group-hover:text-energy-700 transition-colors">{row.id}</td>
-                                            <td className="py-3 px-6 text-slate-700 font-medium">{row.name}</td>
-                                            <td className="py-3 px-6 text-right font-mono font-bold text-slate-800">{row.dcPower}</td>
-                                            <td className="py-3 px-6 text-center">
-                                                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-energy-100 text-energy-700 border border-energy-200">
-                                                    Ready
-                                                </span>
-                                            </td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </table>
-                        </div>
-
-                        <div className="p-6 bg-slate-50/50 border-t border-slate-100">
-                            <button
-                                onClick={handleConfirm}
-                                className="w-full bg-gradient-to-r from-cyan-600 to-energy-600 hover:from-cyan-500 hover:to-energy-500 text-white font-bold py-4 rounded-xl transition-all shadow-lg shadow-energy-200 hover:shadow-xl hover:shadow-energy-300 hover:-translate-y-0.5 flex items-center justify-center gap-3 text-lg font-display tracking-tight"
-                            >
-                                <svg className="w-6 h-6 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
-                                </svg>
-                                Kích Hoạt Tính Toán ({previewData.length} Dự Án)
-                            </button>
-                        </div>
-                    </div>
-                )}
+                {/* Removed bottom preview section as it is now in a tab */}
             </div>
 
             {/* Modal - Outside of the scale transform to prevent clipping */}
