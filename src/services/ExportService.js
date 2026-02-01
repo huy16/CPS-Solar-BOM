@@ -495,9 +495,8 @@ export class ExportService {
                     const c1 = r.getCell(1);
                     c1.style = { ...c1.style, border: borderLeftDouble, alignment: alignCenter, font: fontStyle };
 
-                    // Col 2 (Name): Left (Break Shared Style) - Overwrite with clean name from calculation
+                    // Col 2 (Name): Left (Break Shared Style)
                     const c2 = r.getCell(2);
-                    c2.value = item.name;
                     c2.style = { ...c2.style, border: borderThin, alignment: { vertical: 'middle', horizontal: 'left', wrapText: true }, font: fontStyle };
 
                     // Col 3-5 (Code, Supplier, Unit): Center (Break Shared Style) - FORCE ALIGNMENT
