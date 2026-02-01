@@ -129,21 +129,21 @@ export default function BulkInputComponent({ onDataParsed }) {
         {
             id: "I", title: "Hệ khung (Mounting Structures)", color: "cyan",
             items: [
-                { n: "Thanh nhôm 2645 (L4200)", f: "RailCount = (Floor(Npv / 7) * 6) + (Npv%7 > 0 ? 6 : 0) + 2" },
-                { n: "Bộ nối Rail 120", f: "Math.floor(Npv / 7) * 6.6" },
-                { n: "Chân gà L (Vít tôn)", f: "Round(RailCount * 4.8)" },
-                { n: "Kẹp biên 35mm", f: "6 * NumArrays" },
+                { n: "Thanh nhôm 2645 (L4200)", f: "RailCount = (Ceil(Npv / 8) * 8) + 2" },
+                { n: "Bộ nối Rail 120", f: "Floor(Npv / 8) * 5" },
+                { n: "Chân gà L (Vít tôn)", f: "(RailCount * 4) - 12" },
+                { n: "Kẹp biên 35mm", f: "6 * NumArrays (Arrays = Ceil(Npv/8))" },
                 { n: "Kẹp giữa", f: "(Npv * 6 - EndClamps) / 2" },
-                { n: "Kep day cap pin", f: "Round(N_pv * 1.2)" },
-                { n: "La tiep dia cho pin", f: "Bang so luong Kep Giua" },
-                { n: "Kep tiep dia Rail / Bulong M8", f: "Round(EndClamps / 2) / Site_Count" }
+                { n: "Kep day cap pin", f: "Math.ceil(N_pv * 1.2)" },
+                { n: "La tiep dia cho pin", f: "MiddleClamps + EndClamps / 2" },
+                { n: "Kep tiep dia Rail / Bulong M8", f: "Math.ceil(EndClamps / 2)" }
             ]
         },
         {
             id: "II", title: "Tấm Pin & Đầu nối MC4", color: "energy",
             items: [
                 { n: "Tấm pin PV", f: "N_pv = Round(kWp / P_module)" },
-                { n: "Bộ đầu nối MC4 1500VDC", f: "Theo Model Inverter (4-20 bộ)" }
+                { n: "Bộ đầu nối MC4 1500VDC", f: "Inv 8-20K: 4 bộ | 30-40K: 6 bộ" }
             ]
         },
         {
@@ -156,10 +156,10 @@ export default function BulkInputComponent({ onDataParsed }) {
         {
             id: "IV", title: "Hệ thống Cáp điện", color: "indigo",
             items: [
-                { n: "Cáp AC (Cu/XLPE/PVC)", f: "L_ac (m)" },
-                { n: "Cáp RS485 ALTEK KABEL", f: "10m - 20m" },
+                { n: "Cáp AC (Cu/XLPE/PVC)", f: "L_ac (Default 10m)" },
+                { n: "Cáp RS485 ALTEK KABEL", f: "10m (Gần) - 20m (Xa)" },
                 { n: "Cáp DC 4mm2 (Đỏ/Đen)", f: "L_dc / 2 (m)" },
-                { n: "Cáp mạng LAN CAT5E", f: "Ceil(L_lan / 305) cuộn" }
+                { n: "Cáp mạng LAN CAT5E", f: "L_lan (Default 40m)" }
             ]
         },
         {
@@ -201,19 +201,16 @@ export default function BulkInputComponent({ onDataParsed }) {
         {
             id: "IX", title: "Phụ kiện thi công", color: "rose",
             items: [
-                { n: "Keo Sikaflex 140 / A500", f: "Ceil(Site*1.8) / Site*4" },
-                { n: "Tắc kê M8x50 / Vít M8", f: "Ceil(Site*32.5) / Ceil(Site*27.5)" },
-                { n: "Vít đuôi cá 6cm / 10cm", f: "Site * 25 / Site * 40" },
-                { n: "Dây rút thép 7.9x400", f: "Site * 20" }
+                { n: "Keo Sikaflex 140 / A500", f: "kWp * 0.1 / kWp * 0.3" },
+                { n: "Tắc kê M8x50 / Vít M8", f: "kWp * 2.5 / kWp * 1.9" },
+                { n: "Vít đuôi cá 6cm / 10cm", f: "kWp * 2 / kWp * 3" },
+                { n: "Dây rút thép 7.9x400", f: "kWp * 1.5" }
             ]
         },
         {
             id: "X", title: "Tủ điện & Thiết bị phụ", color: "purple",
             items: [
-                { n: "Tủ sơn tĩnh điện 400x300", f: "Ceil(Site_Count / 4)" },
-                { n: "Vỏ tủ Suntree SH12PN", f: "Ceil(Site_Count)" },
-                { n: "Terminal FJ-5N / PG21", f: "Site * 10 / Site * 2" },
-                { n: "Urtk/ss + Terminal base", f: "Site * 6 / Site * 4" }
+                { n: "Vỏ tủ & Thiết bị Group X", f: "0 (Manual Input)" }
             ]
         },
         {
