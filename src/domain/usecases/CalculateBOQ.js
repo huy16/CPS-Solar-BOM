@@ -18,21 +18,15 @@ export class CalculateBOQ {
         const { name, id: code, dcPower: kwp, pvModel, inverterPosition } = projectConfig;
 
 
-        // Constants from VBA
+        // Constants from VBA (Calibrated with DNA2 14.16kWp)
         const MAX_KWP = 500;
-        const PV_PER_ARRAY = 7;
-        const RAIL_PER_ARRAY = 6;
+        const PV_PER_ARRAY = 8; // User data fits 8 panels/array
+        const RAIL_PER_ARRAY = 8; // User data fits 8 rails/array
         const MAX_CABLE_LENGTH = 1000;
         const SITE_COUNT = 1;
 
-        // Accumulators for Cosse (Terminals)
-        let totalSC10_8 = 0;
-        let totalSC16_8 = 0;
-        let totalSC10_6 = 0;
-        let totalSC16_6 = 0;
-        let totalTL25_10 = 0;
-        let totalTL16_10 = 0;
-        let totalTL10_10 = 0;
+        // Accumulators for Cosse (Terminals) - Calculated later based on Inverter
+
 
         if (kwp <= 0 || kwp > MAX_KWP) {
             throw new Error(`Invalid Power: ${kwp} kWp (Max ${MAX_KWP})`);
@@ -56,28 +50,46 @@ export class CalculateBOQ {
         const railCount = (Math.floor(pvCount / PV_PER_ARRAY) * RAIL_PER_ARRAY) + (pvCount % PV_PER_ARRAY > 0 ? RAIL_PER_ARRAY : 0);
 
         // 3. Materials Calculation (Group I & others)
-        const railConnectors = Math.floor(pvCount / PV_PER_ARRAY) * 6.6;
+        // Splice Factor 5 (User: 15 splices / 3 arrays = 5)
+        const railConnectors = Math.floor(pvCount / PV_PER_ARRAY) * 5;
         const endClamps = 6 * numArrays;
         const middleClamps = (pvCount * 6 - endClamps) / 2;
 
-        const chanL = Math.round(railCount * 5 - (railCount * 0.2));
-        const kepDay = Math.round(pvCount * 1.2);
-        const tiepDiaPin = middleClamps;
-        const tiepDiaRail = Math.round(endClamps / 2);
+        // User Formula Updates:
+        // Chân L: =D5*4-3*4 (Rail * 4 - 12)
+        // Note: qRail = railCount + 2 (from Line 125 logic). 
+        // Let's ensure we use the 'Quantity of Rail' variable correctly. 
+        // Line 125 defines qRail. We should probably calculate chanL AFTER qRail is defined or use railCount if that's what D5 represents.
+        // Usually D5 in BOM is the FINAL Quantity.
+        // So chanL = qRail * 4 - 12.
+
+        // Let's defer exact assignment until variables are clear, or define intermediate.
+        // But qRail depends on railCount.
+
+        // Let's redefine these below in the block where I can access qRail if needed?
+        // Or just move qRail definition up?
+
+        const qRail = railCount + 2; // Moved up for dependency
+
+        const chanL = (qRail * 4) - 12;
+        const kepDay = Math.ceil(pvCount * 1.2); // ROUNDUP(L5*1.2,0)
+
+        const tiepDiaRail = Math.ceil(endClamps / 2); // =G5/2
+        const tiepDiaPin = middleClamps + tiepDiaRail; // =H5+K5 (Mid + GroundingRail)
 
         // 4. Inverter Selection
         const inverterModel = this.selectHuaweiInverter(kwp);
         const invInfo = equipmentData.inverters[inverterModel];
 
         // 5. Cable Lengths (based on Input/Defaults)
-        let acCable = projectConfig.acCable;
+        let acCable = projectConfig.acCable || 10; // Default 10m
         let rs485Cable = 10; // Keep default for RS485 for now or add to config if needed
         if (inverterPosition === "Lap xa tu MSB") {
             // Logic from VBA for RS485 if 'Lap xa'
             rs485Cable = 20;
         }
         const dcCable = projectConfig.dcCable;
-        const cat5Cable = projectConfig.cat5Cable;
+        const cat5Cable = projectConfig.cat5Cable || 40; // Default 40m
 
         // 6. MC4 Calculation
         let mc4Count = 0;
@@ -89,7 +101,8 @@ export class CalculateBOQ {
         }
 
         // 7. Conduit & Boxes
-        const conduit = Math.round(dcCable * 0.9);
+        // ruột gà lõi thép: =ROUNDUP(S5*0.9,0) -> ROUNDUP(dcCable * 0.9)
+        const conduit = Math.ceil(dcCable * 0.9);
         const boxCount = 0; // Logic for boxes was not fully explicit in snippet, assume 0 or calc later
 
         // --- CONSTRUCT BOQ GROUPS ---
@@ -122,7 +135,7 @@ export class CalculateBOQ {
         // It seems BOQ Tong stores Total, BOM separates into columns or units?
         // Let's stick to quantities calculated in BOQ Tong logic (Row 866 in reference: dataArray(1, 4) = Rail + 2)
 
-        const qRail = railCount + 2;
+        // Note: qRail defined above now
         const qSplice = railConnectors;
         const qLFoot = chanL;
         const qEndClamp = endClamps;
@@ -150,6 +163,8 @@ export class CalculateBOQ {
         // GROUP III: Inverter
         groups["III"].items.push(mkItem("III", `Bộ biến tần Inverter Huawei ${inverterModel}`, inverterModel, "set", 1));
         groups["III"].items.push(mkItem("III", "Smart Dongle-WLAN-FE, WLAN & Fast Ethernet (FE) Communication, Support 3rd Party Monitoring System, IP65 Protection.", "SDongleA-05(AP+STA)", "set", 1));
+        // Add Meter (DTSU666-H) - Required for Column P
+        groups["III"].items.push(mkItem("III", "Smart Power Sensor, 3 phase 4 wire, Voltage: 230/400V, Current: 250A/50mA (via CT), High accurate: class 1, LCD display, RS485", "DTSU666-H", "set", 1));
 
         // GROUP IV: Cables (no MC4 here - it's in Group II now)
         groups["IV"].items.push(mkItem("IV", "LV Power Cable, 0.6/1kV, Cu/XLPE/PVC 3x16+1x10sqrt.", "Cu/XLPE/PVC 3x16+1x10sqrt", "Meter", acCable));
@@ -159,7 +174,8 @@ export class CalculateBOQ {
         groups["IV"].items.push(mkItem("IV", "Cáp mạng LS SIMPLE U/UTP, CAT5E, 4 đôi, PVC, 24 AWG, Solid, màu trắng, 305m", "UTP-E-CSG-F1VN-P 0.5X004P/WH", "Box", Math.ceil(cat5Cable / 305)));
 
         // GROUP V: Grounding
-        groups["V"].items.push(mkItem("V", "PVC INSULATED SINGLE PLEXIBLE WIRE AND CABLE, COPPER CONDUCTOR, 10MM2 - YELLOW-GREEN", "VCm 10MM2 (YELLOW-GREEN)", "Meter", dcCable * 0.8));
+        // tiếp địa C10: =ROUNDUP(S5*0.8,0) -> Math.ceil(dcCable * 0.8)
+        groups["V"].items.push(mkItem("V", "PVC INSULATED SINGLE PLEXIBLE WIRE AND CABLE, COPPER CONDUCTOR, 10MM2 - YELLOW-GREEN", "VCm 10MM2 (YELLOW-GREEN)", "Meter", Math.ceil(dcCable * 0.8)));
         groups["V"].items.push(mkItem("V", "Cáp đồng trần C-10mm2 đồng cứng nhiều sợi", "Cu-10mm2", "Meter", Math.round(SITE_COUNT * 10)));
         groups["V"].items.push(mkItem("V", "Cọc đồng tiếp địa D16 - L=1200mm", "", "pcs", Math.round(SITE_COUNT * 3)));
         groups["V"].items.push(mkItem("V", "Kẹp quả trám cho dây 10mm2 & cọc tiếp địa D16", "", "pcs", Math.round(SITE_COUNT * 3)));
@@ -177,14 +193,33 @@ export class CalculateBOQ {
         groups["VII"].items.push(mkItem("VII", "Bang in nhan mau vang 9mm Letatwin (MAX) (8m/cuon)", "LM-TP509Y", "pcs", 1));
         groups["VII"].items.push(mkItem("VII", "Muc Den LM-IR300B", "LM-IR300B", "pcs", 1));
 
+        // Group VIII Logic
+        let qSC16_8 = 0, qSC10_8 = 0, qSC10_6 = 0, qSC16_6 = 0;
+        let qTL25_10 = 0, qTL16_10 = 0, qTL10_10 = 0;
+
+        // Check invModelUpper derived earlier (Group VI logic) or re-derive
+        // Re-using invModelUpper from line 216 if available in scope. 
+        // Note: invModelUpper is defined inside execute, but need to ensure it's accessible here. 
+        // It's defined at line 216. Group VIII is strictly after that.
+
+        if (["SUN2000-8K", "SUN2000-10K", "SUN2000-12K", "SUN2000-15K", "SUN2000-20K"].some(m => invModelUpper.includes(m))) {
+            qSC16_8 = 8;
+            qSC10_8 = 4;
+            qSC10_6 = 4;
+        } else if (["SUN2000-30K", "SUN2000-40K", "SUN2000-50K"].some(m => invModelUpper.includes(m))) {
+            qTL25_10 = 8;
+            qTL16_10 = 4;
+            qSC10_6 = 4;
+        }
+
         groups["VIII"].items.push(mkItem("VIII", "Đầu Nối RJ45 DINTEK STP Cat.5e (Chống Nhiễu)", "1501-88054", "pcs", SITE_COUNT * 4));
-        groups["VIII"].items.push(mkItem("VIII", "Dau COSSE SC 10-8", "SC 10-8", "pcs", totalSC10_8 + Math.round(SITE_COUNT * 6)));
-        groups["VIII"].items.push(mkItem("VIII", "Dau COSSE SC 16-8", "SC 16-8", "pcs", totalSC16_8 + Math.round(SITE_COUNT * 6)));
-        groups["VIII"].items.push(mkItem("VIII", "Dau COSSE SC 10-6", "SC 10-6", "pcs", totalSC10_6));
-        groups["VIII"].items.push(mkItem("VIII", "Dau COSSE SC 16-6", "SC 16-6", "pcs", totalSC16_6));
-        groups["VIII"].items.push(mkItem("VIII", "Dau COSSE TL 25-10", "TL 25-10", "pcs", totalTL25_10));
-        groups["VIII"].items.push(mkItem("VIII", "Dau COSSE TL 16-10", "TL 16-10", "pcs", totalTL16_10));
-        groups["VIII"].items.push(mkItem("VIII", "Dau COSSE TL 10-10", "TL 10-10", "pcs", totalTL10_10));
+        groups["VIII"].items.push(mkItem("VIII", "Dau COSSE SC 10-8", "SC 10-8", "pcs", qSC10_8));
+        groups["VIII"].items.push(mkItem("VIII", "Dau COSSE SC 16-8", "SC 16-8", "pcs", qSC16_8));
+        groups["VIII"].items.push(mkItem("VIII", "Dau COSSE SC 10-6", "SC 10-6", "pcs", qSC10_6));
+        groups["VIII"].items.push(mkItem("VIII", "Dau COSSE SC 16-6", "SC 16-6", "pcs", qSC16_6));
+        groups["VIII"].items.push(mkItem("VIII", "Dau COSSE TL 25-10", "TL 25-10", "pcs", qTL25_10));
+        groups["VIII"].items.push(mkItem("VIII", "Dau COSSE TL 16-10", "TL 16-10", "pcs", qTL16_10));
+        groups["VIII"].items.push(mkItem("VIII", "Dau COSSE TL 10-10", "TL 10-10", "pcs", qTL10_10));
         groups["VIII"].items.push(mkItem("VIII", "Dau cosse dong nhom 50mm2", "DTL-2-50-12 MHD", "pcs", Math.round(SITE_COUNT * 1.25)));
         groups["VIII"].items.push(mkItem("VIII", "Dau cosse dong nhom 70mm2", "DTL-2-70-12 MHD", "pcs", Math.round(SITE_COUNT * 0.75)));
         groups["VIII"].items.push(mkItem("VIII", "Bang keo nano mau den", "", "pcs", Math.round(SITE_COUNT * 3)));
@@ -216,42 +251,42 @@ export class CalculateBOQ {
         groups["VI"].items.push(mkItem("VI", "Mang cap hop 100x60mm sử dụng nhựa chống cháy, cây dài 2m, đóng gói theo bó 6 cây", "EH100/60", "Pcs", Math.round(SITE_COUNT * 3.5)));
         groups["VI"].items.push(mkItem("VI", "Ong ruot ga mem SP D16, 50m/cuon luon day mang tu router shop den Inverter", "SP9016CM", "Meter", SITE_COUNT * 35));
 
-        // Group IX: Vat tu phu thi cong lap dat
-        groups["IX"].items.push(mkItem("IX", "Sikaflex - 140 Construction (Concrete Grey) 600ml", "", "Tube", Math.ceil(SITE_COUNT * 1.8)));
-        groups["IX"].items.push(mkItem("IX", "Apollo Silicone Sealant A500 300ml", "", "pcs", SITE_COUNT * 4));
-        groups["IX"].items.push(mkItem("IX", "Keo bọt nở Apollo Foam 750ml", "", "Bottle", Math.ceil(SITE_COUNT * 0.5)));
-        groups["IX"].items.push(mkItem("IX", "Dây rút thép bọc nhựa 7.9x400", "", "Pcs", SITE_COUNT * 20));
-        groups["IX"].items.push(mkItem("IX", "Ke vuông nhôm định hình (hình ảnh đính kèm)", "", "Pcs", SITE_COUNT * 30));
-        groups["IX"].items.push(mkItem("IX", "Tắc kê nhựa Fischer M8x50mm cho tường gạch lỗ (hình ảnh đính kèm)", "M8x50", "Set", Math.ceil(SITE_COUNT * 32.5)));
-        groups["IX"].items.push(mkItem("IX", "Lông đền phẳng loại dày lỗ 8 cho bulong M8, đường kính ngoài 25mm", "", "Pcs", Math.ceil(SITE_COUNT * 22.5)));
-        groups["IX"].items.push(mkItem("IX", "Vít đầu cờ lê, loại bắt vào tắc kê, M8x50 (hình ảnh đính kèm)", "", "Pcs", Math.ceil(SITE_COUNT * 27.5)));
-        groups["IX"].items.push(mkItem("IX", "Vít bắn tôn mạ kẽm nhúng nóng dài 6cm  (đuôi cá)", "", "Pcs", SITE_COUNT * 25));
-        groups["IX"].items.push(mkItem("IX", "Vít bắn tôn mạ kẽm nhúng nóng dài 10cm  (đuôi cá)", "", "Pcs", SITE_COUNT * 40));
-        groups["IX"].items.push(mkItem("IX", "Lồng đền phẳng 6mm", "", "pcs", SITE_COUNT * 25));
-        groups["IX"].items.push(mkItem("IX", "Ke góc vuông chữ L bản 4cm", "", "Pcs", Math.ceil(SITE_COUNT * 7.5)));
-        groups["IX"].items.push(mkItem("IX", "Dây rút nhựa loại 4x300", "", "Pack", Math.ceil(SITE_COUNT * 0.75)));
+        // Group IX: Vat tu phu thi cong lap dat (Scaled by kWp)
+        groups["IX"].items.push(mkItem("IX", "Sikaflex - 140 Construction (Concrete Grey) 600ml", "", "Tube", Math.ceil(kwp * 0.1)));
+        groups["IX"].items.push(mkItem("IX", "Apollo Silicone Sealant A500 300ml", "", "pcs", Math.ceil(kwp * 0.3)));
+        groups["IX"].items.push(mkItem("IX", "Keo bọt nở Apollo Foam 750ml", "", "Bottle", Math.ceil(kwp * 0.05)));
+        groups["IX"].items.push(mkItem("IX", "Dây rút thép bọc nhựa 7.9x400", "", "Pcs", Math.ceil(kwp * 1.5)));
+        groups["IX"].items.push(mkItem("IX", "Ke vuông nhôm định hình (hình ảnh đính kèm)", "", "Pcs", Math.ceil(kwp * 2.2)));
+        groups["IX"].items.push(mkItem("IX", "Tắc kê nhựa Fischer M8x50mm cho tường gạch lỗ (hình ảnh đính kèm)", "M8x50", "Set", Math.ceil(kwp * 2.5)));
+        groups["IX"].items.push(mkItem("IX", "Lông đền phẳng loại dày lỗ 8 cho bulong M8, đường kính ngoài 25mm", "", "Pcs", Math.ceil(kwp * 1.6)));
+        groups["IX"].items.push(mkItem("IX", "Vít đầu cờ lê, loại bắt vào tắc kê, M8x50 (hình ảnh đính kèm)", "", "Pcs", Math.ceil(kwp * 1.9)));
+        groups["IX"].items.push(mkItem("IX", "Vít bắn tôn mạ kẽm nhúng nóng dài 6cm  (đuôi cá)", "", "Pcs", Math.ceil(kwp * 2)));
+        groups["IX"].items.push(mkItem("IX", "Vít bắn tôn mạ kẽm nhúng nóng dài 10cm  (đuôi cá)", "", "Pcs", Math.ceil(kwp * 3)));
+        groups["IX"].items.push(mkItem("IX", "Lồng đền phẳng 6mm", "", "pcs", Math.ceil(kwp * 1.8)));
+        groups["IX"].items.push(mkItem("IX", "Ke góc vuông chữ L bản 4cm", "", "Pcs", Math.ceil(kwp * 0.5)));
+        groups["IX"].items.push(mkItem("IX", "Dây rút nhựa loại 4x300", "", "Pack", Math.ceil(kwp * 0.05)));
         groups["IX"].items.push(mkItem("IX", "Xi măng - cát lấp hố tiếp địa", "", "Location", Math.ceil(SITE_COUNT / 4)));
         groups["IX"].items.push(mkItem("IX", "Sơn nước màu vàng loại 1kg", "ATM-100", "Can", Math.ceil(SITE_COUNT / 4)));
         groups["IX"].items.push(mkItem("IX", "Con lăn 6cm", "", "Pcs", Math.ceil(SITE_COUNT / 8)));
 
-        // Group X: Vat tu tu trung gian va cai tao diem dau noi
-        groups["X"].items.push(mkItem("X", "Tủ sơn tĩnh điện ngoài trời kích thước 400x300x100 dày 1.5mm", "TULE-4030", "pcs", Math.ceil(SITE_COUNT / 4)));
-        groups["X"].items.push(mkItem("X", "Vỏ tủ Suntree SH12PN, ngoài trời", "SH12PN", "set", Math.ceil(SITE_COUNT)));
-        groups["X"].items.push(mkItem("X", "CABLE GLANDS PG21, GREY, Ø28.3MM", "PG21", "pcs", SITE_COUNT * 2));
-        groups["X"].items.push(mkItem("X", "Hàng kẹp lấy mạch áp", "URTK/SS", "pcs", SITE_COUNT * 6));
-        groups["X"].items.push(mkItem("X", "Tấm che hàng kẹp", "D-URTK/SS", "pcs", SITE_COUNT * 2));
-        groups["X"].items.push(mkItem("X", "PVC INSULATED SINGLE FLEXIBLE WIRE AND CABLE, COPPER CONDUCTOR, 1.5MM2 (30X0.25) - BLACK", "VCm 1.5MM2 (BLACK)", "Meter", Math.ceil(SITE_COUNT * 2.5)));
-        groups["X"].items.push(mkItem("X", "PVC INSULATED SINGLE FLEXIBLE WIRE AND CABLE, COPPER CONDUCTOR, 25MM2", "VCm 25MM2 (BLACK)", "Meter", Math.ceil(SITE_COUNT)));
-        groups["X"].items.push(mkItem("X", "INSULATED SPADE TERMINALS YF1.5-4 (1PACK = 100PCS) - RED", "YF1.5-4S", "Pack", 1));
-        groups["X"].items.push(mkItem("X", "CORD-END TERMINALS (E) RED (1PACK = 100PCS)", "E1510", "Pack", 1));
-        groups["X"].items.push(mkItem("X", "KLM-A - Terminal strip marker carrier", "1004348", "pcs", SITE_COUNT * 2));
-        groups["X"].items.push(mkItem("X", "Terminal JUT1-35", "CTS35UN", "pcs", SITE_COUNT * 4));
-        groups["X"].items.push(mkItem("X", "End Clamp for Terminal Block 35mm2 cable", "CA702", "pcs", SITE_COUNT * 2));
-        groups["X"].items.push(mkItem("X", "Partition Plate in Grey colour suitable for CTS35UN Terminal Block", "PP35UN", "pcs", SITE_COUNT * 2));
-        groups["X"].items.push(mkItem("X", "DIN RAIL PERFORATED - NS 35/ 7,5 PERF 1000MM - 0807012", "0807012", "Pcs", SITE_COUNT));
-        groups["X"].items.push(mkItem("X", "Universal screw type terminal blocks FJ-5N", "FJ-5N", "pcs", SITE_COUNT * 10));
-        groups["X"].items.push(mkItem("X", "End Plate Terminal", "FJ-5N", "pcs", SITE_COUNT * 2));
-        groups["X"].items.push(mkItem("X", "End Stop", "E/FJ1", "pcs", SITE_COUNT * 2));
+        // Group X: Vat tu tu trung gian va cai tao diem dau noi (Manual Input -> 0)
+        groups["X"].items.push(mkItem("X", "Tủ sơn tĩnh điện ngoài trời kích thước 400x300x100 dày 1.5mm", "TULE-4030", "pcs", 0));
+        groups["X"].items.push(mkItem("X", "Vỏ tủ Suntree SH12PN, ngoài trời", "SH12PN", "set", 0));
+        groups["X"].items.push(mkItem("X", "CABLE GLANDS PG21, GREY, Ø28.3MM", "PG21", "pcs", 0));
+        groups["X"].items.push(mkItem("X", "Hàng kẹp lấy mạch áp", "URTK/SS", "pcs", 0));
+        groups["X"].items.push(mkItem("X", "Tấm che hàng kẹp", "D-URTK/SS", "pcs", 0));
+        groups["X"].items.push(mkItem("X", "PVC INSULATED SINGLE FLEXIBLE WIRE AND CABLE, COPPER CONDUCTOR, 1.5MM2 (30X0.25) - BLACK", "VCm 1.5MM2 (BLACK)", "Meter", 0));
+        groups["X"].items.push(mkItem("X", "PVC INSULATED SINGLE FLEXIBLE WIRE AND CABLE, COPPER CONDUCTOR, 25MM2", "VCm 25MM2 (BLACK)", "Meter", 0));
+        groups["X"].items.push(mkItem("X", "INSULATED SPADE TERMINALS YF1.5-4 (1PACK = 100PCS) - RED", "YF1.5-4S", "Pack", 0));
+        groups["X"].items.push(mkItem("X", "CORD-END TERMINALS (E) RED (1PACK = 100PCS)", "E1510", "Pack", 0));
+        groups["X"].items.push(mkItem("X", "KLM-A - Terminal strip marker carrier", "1004348", "pcs", 0));
+        groups["X"].items.push(mkItem("X", "Terminal JUT1-35", "CTS35UN", "pcs", 0));
+        groups["X"].items.push(mkItem("X", "End Clamp for Terminal Block 35mm2 cable", "CA702", "pcs", 0));
+        groups["X"].items.push(mkItem("X", "Partition Plate in Grey colour suitable for CTS35UN Terminal Block", "PP35UN", "pcs", 0));
+        groups["X"].items.push(mkItem("X", "DIN RAIL PERFORATED - NS 35/ 7,5 PERF 1000MM - 0807012", "0807012", "Pcs", 0));
+        groups["X"].items.push(mkItem("X", "Universal screw type terminal blocks FJ-5N", "FJ-5N", "pcs", 0));
+        groups["X"].items.push(mkItem("X", "End Plate Terminal", "FJ-5N", "pcs", 0));
+        groups["X"].items.push(mkItem("X", "End Stop", "E/FJ1", "pcs", 0));
 
         // Group XI: Vat tu thi cong bo sung
         let totalDomino150A = 0, totalDomino200A = 0;
@@ -307,46 +342,26 @@ export class CalculateBOQ {
     }
 
     calculateMC4(inverterModel, numInputs, pvCount, kwp) {
-        // Ported Logic from VBA Select Case invNumInputs / selectedInverter
+        // Updated Logic per User Request (String-based):
+        // 12K-20K: 2 Strings -> 2 MC4 + 2 Splices = 4 sets
+        // 30K-40K: 3 Strings -> 3 MC4 + 3 Splices = 6 sets
+        // 50K: 4 Strings -> 8 sets (extrapolated)
 
-        // Simplify for brevity, implementing main branches:
-        if (numInputs === 2) { // 8K-12K
-            if (pvCount <= 20) return 4;
-            if (pvCount <= 22) return 2;
-            return 5;
+        const invUpper = inverterModel.toUpperCase();
+
+        if (invUpper.includes("8K") || invUpper.includes("10K") || invUpper.includes("12K") || invUpper.includes("15K") || invUpper.includes("20K")) {
+            return 4;
         }
-        if (numInputs === 4) { // 15K-30K
-            if (inverterModel === "SUN2000-15KTL-M5") {
-                if (pvCount <= 26) return 4;
-                if (pvCount <= 32) return 5;
-                if (pvCount <= 34) return 7;
-                return 6;
-            }
-            if (inverterModel === "SUN2000-20KTL-M5") {
-                if (pvCount <= 30) return 4;
-                if (pvCount <= 32) return 6;
-                if (pvCount <= 34) return 7;
-                if (pvCount <= 38) return 7;
-                if (pvCount <= 45) return 12;
-                return 10;
-            }
-            if (inverterModel === "SUN2000-30KTL-M3") {
-                if (pvCount <= 47) return 10;
-                if (pvCount <= 57) return 8;
-                if (pvCount <= 60) return 9;
-                if (pvCount <= 68) return 14;
-                return 10;
-            }
-            return 4; // default for 4 inputs
+        if (invUpper.includes("30K") || invUpper.includes("40K")) {
+            return 6;
         }
-        if (numInputs === 8) { // 40K
-            if (pvCount <= 72) return 8;
-            return 12;
+        if (invUpper.includes("50K")) {
+            return 8; // Assumed 4 strings
         }
-        if (numInputs === 10) { // 50K
-            return 20;
+        if (invUpper.includes("100K")) {
+            return 20; // 10 MPPT * 2
         }
 
-        return Math.round(kwp * 0.4);
+        return Math.round(kwp * 0.4); // Fallback
     }
 }

@@ -95,69 +95,72 @@ export class ExportService {
                 return items.filter(predicate).reduce((sum, item) => sum + (item.quantity || 0), 0);
             };
 
-            // C (3): Rail
-            r.getCell(3).value = getQty(i => i.name.toLowerCase().includes("thanh nhôm") || i.code.includes("2645"));
+            // C (3): Empty/Unit? (User image starts Rail at D)
+            r.getCell(3).value = "";
 
-            // D (4): Nối Rail
-            r.getCell(4).value = getQty(i => i.name.toLowerCase().includes("nối rail"));
+            // D (4): Rail
+            r.getCell(4).value = getQty(i => i.name.toLowerCase().includes("thanh nhôm") || i.code.includes("2645"));
 
-            // E (5): Chân L
-            r.getCell(5).value = getQty(i => i.name.toLowerCase().includes("chân gà") || i.code.includes("LKL"));
+            // E (5): Nối Rail
+            r.getCell(5).value = getQty(i => i.name.toLowerCase().includes("nối rail"));
 
-            // F (6): Kẹp cuối (End Clamp)
-            r.getCell(6).value = getQty(i => i.name.toLowerCase().includes("kẹp biên") || i.name.toLowerCase().includes("kẹp cuối"));
+            // F (6): Chân L
+            r.getCell(6).value = getQty(i => i.name.toLowerCase().includes("chân gà") || i.code.includes("LKL"));
 
-            // G (7): Kẹp giữa (Mid Clamp)
-            r.getCell(7).value = getQty(i => i.name.toLowerCase().includes("kẹp giữa"));
+            // G (7): Kẹp cuối (End Clamp)
+            r.getCell(7).value = getQty(i => i.name.toLowerCase().includes("kẹp biên") || i.name.toLowerCase().includes("kẹp cuối"));
 
-            // H (8): Kẹp dây (Cable Clip)
-            r.getCell(8).value = getQty(i => i.name.toLowerCase().includes("kẹp dây cáp"));
+            // H (8): Kẹp giữa (Mid Clamp)
+            r.getCell(8).value = getQty(i => i.name.toLowerCase().includes("kẹp giữa"));
 
-            // I (9): Tiếp địa PIN (Grounding Clip/Lug for Panel)
-            r.getCell(9).value = getQty(i => i.name.toLowerCase().includes("lá tiếp địa")); // VMC-GCPV-03
+            // I (9): Kẹp dây (Cable Clip)
+            r.getCell(9).value = getQty(i => i.name.toLowerCase().includes("kẹp dây cáp"));
 
-            // J (10): Tiếp địa Rail (Grounding Lug for Rail)
-            r.getCell(10).value = getQty(i => i.name.toLowerCase().includes("kẹp cáp tiếp địa")); // VMC-GLPV-SR
+            // J (10): Tiếp địa PIN (Grounding Clip/Lug for Panel)
+            r.getCell(10).value = getQty(i => i.name.toLowerCase().includes("lá tiếp địa")); // VMC-GCPV-03
 
-            // K (11): PV
-            r.getCell(11).value = getQty(i => i.group === "II");
+            // K (11): Tiếp địa Rail (Grounding Lug for Rail)
+            r.getCell(11).value = getQty(i => i.name.toLowerCase().includes("kẹp cáp tiếp địa")); // VMC-GLPV-SR
 
-            // L (12): MC4 (Usually Group IV)
-            r.getCell(12).value = getQty(i => i.name.toLowerCase().includes("mc4"));
+            // L (12): PV
+            r.getCell(12).value = getQty(i => i.group === "II" && i.unit.toLowerCase().includes("panel"));
 
-            // M (13): INVERTER - Show model code instead of quantity
+            // M (13): MC4 (Usually Group IV/II)
+            r.getCell(13).value = getQty(i => i.name.toLowerCase().includes("mc4"));
+
+            // N (14): INVERTER - Show model code instead of quantity
             const inverterItem = items.find(i => i.group === "III" && i.name.toLowerCase().includes("inverter"));
-            r.getCell(13).value = inverterItem ? inverterItem.code : "";
+            r.getCell(14).value = inverterItem ? inverterItem.code : "";
 
-            // N (14): SDONGLE
-            r.getCell(14).value = getQty(i => i.code === "SdongleA-05");
+            // O (15): SDONGLE
+            r.getCell(15).value = getQty(i => i.code === "SdongleA-05");
 
-            // O (15): METER
-            r.getCell(15).value = getQty(i => i.code === "DTSU666-H");
+            // P (16): METER
+            r.getCell(16).value = getQty(i => i.code === "DTSU666-H");
 
-            // P (16): CÁP AC
-            r.getCell(16).value = getQty(i => i.name.toLowerCase().includes("xlpe") || i.name.toLowerCase().includes("ac cable"));
+            // Q (17): CÁP AC
+            r.getCell(17).value = getQty(i => i.name.toLowerCase().includes("xlpe") || i.name.toLowerCase().includes("ac cable"));
 
-            // Q (17): TIẾP ĐỊA C10 (Grounding Cable)
-            r.getCell(17).value = getQty(i => i.name.includes("C-10mm2") || i.name.includes("VCm 10MM2"));
+            // R (18): TIẾP ĐỊA C10 (Grounding Cable)
+            r.getCell(18).value = getQty(i => i.name.includes("C-10mm2") || i.name.includes("VCm 10MM2"));
 
-            // R (18): CÁP DC
-            r.getCell(18).value = getQty(i => i.name.includes("PV Cable"));
+            // S (19): CÁP DC
+            r.getCell(19).value = getQty(i => i.name.includes("PV Cable"));
 
-            // S (19): CÁP MẠNG
-            r.getCell(19).value = getQty(i => i.name.toLowerCase().includes("cat5") || i.name.toLowerCase().includes("utp"));
+            // T (20): CÁP MẠNG
+            r.getCell(20).value = getQty(i => i.name.toLowerCase().includes("cat5") || i.name.toLowerCase().includes("utp"));
 
-            // T (20): Ruột gà lõi thép (Conduit)
-            r.getCell(20).value = getQty(i => i.name.toLowerCase().includes("ruột gà lõi thép") || i.name.includes("OMB"));
+            // U (21): Ruột gà lõi thép (Conduit)
+            r.getCell(21).value = getQty(i => i.name.toLowerCase().includes("ruột gà lõi thép") || i.name.includes("OMB"));
 
-            // U (21): JUNC_BOX (Tủ trung gian / Suntree box)
-            r.getCell(21).value = getQty(i => i.name.toLowerCase().includes("vỏ tủ suntree") || i.group === "X");
+            // V (22): JUNC_BOX (Only count the Box itself, not everything in Group X)
+            r.getCell(22).value = getQty(i => i.name.toLowerCase().includes("vỏ tủ suntree") || i.code.includes("SH12PN"));
 
-            // V (22): SUNTREE (Maybe the CB/Prosurge set?)
-            r.getCell(22).value = getQty(i => i.name.toLowerCase().includes("prosurge") || i.code.includes("PV50"));
+            // W (23): SUNTREE (The Surge Protections)
+            r.getCell(23).value = getQty(i => i.name.toLowerCase().includes("prosurge") || i.code.includes("PV50"));
 
-            // W (23): NOTE
-            r.getCell(23).value = ""; // Leave empty
+            // X (24): NOTE
+            r.getCell(24).value = ""; // Leave empty
 
             r.commit();
             currentRow++;
@@ -185,17 +188,17 @@ export class ExportService {
         sumRow.getCell(2).value = "";
         sumRow.getCell(2).style = sumRowStyle;
 
-        // Add SUM formulas for numeric columns (3 to 22)
+        // Add SUM formulas for numeric columns (4 to 23) - Rail starts at 4(D)
         const endDataRow = currentRow - 1;
-        for (let col = 3; col <= 22; col++) {
-            const colLetter = String.fromCharCode(64 + col); // A=65, so col 3 = C
+        for (let col = 4; col <= 23; col++) {
+            const colLetter = String.fromCharCode(64 + col); // A=65
             sumRow.getCell(col).value = { formula: `SUM(${colLetter}${startDataRow}:${colLetter}${endDataRow})` };
             sumRow.getCell(col).style = sumRowStyle;
         }
 
-        // Last column (NOTE)
-        sumRow.getCell(23).value = "";
-        sumRow.getCell(23).style = sumRowStyle;
+        // Last column (NOTE - 24)
+        sumRow.getCell(24).value = "";
+        sumRow.getCell(24).style = sumRowStyle;
 
         sumRow.commit();
     }
