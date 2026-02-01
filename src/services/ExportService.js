@@ -393,6 +393,30 @@ export class ExportService {
             }
         });
 
+        // 2b. Locate Special Columns (JUNC_BOX, SUNTREE) - Scan rows 10-20
+        let juncBoxCol = null, suntreeCol = null;
+        for (let r = 10; r <= 20; r++) {
+            const row = ws.getRow(r);
+            row.eachCell((cell, colNumber) => {
+                const val = cell.value ? cell.value.toString().toUpperCase().trim() : "";
+                if (val === "JUNC_BOX") juncBoxCol = colNumber;
+                if (val === "SUNTREE") suntreeCol = colNumber;
+            });
+            if (juncBoxCol || suntreeCol) break;
+        }
+
+        // 2c. Calculate JUNC_BOX Quantity based on Inverter Type
+        let juncBoxQty = 0;
+        const invItems = groupsData['III'] ? Object.values(groupsData['III']) : [];
+        const invModelUpper = invItems.map(i => (i.name + " " + i.code).toUpperCase()).join(" ");
+        if (["SUN2000-12K", "SUN2000-15K", "SUN2000-20K", "SUN2000-8K", "SUN2000-10K"].some(m => invModelUpper.includes(m))) {
+            juncBoxQty = 2;
+        } else if (["SUN2000-30K", "SUN2000-40K"].some(m => invModelUpper.includes(m))) {
+            juncBoxQty = 3;
+        } else if (["SUN2000-50K", "SUN2000-60K"].some(m => invModelUpper.includes(m))) {
+            juncBoxQty = 4;
+        }
+
         // 3. Define Processing Order (Top-Down)
         const processOrder = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII', 'XIII'];
 
@@ -585,6 +609,18 @@ export class ExportService {
                     c6.value = item.quantity;
                     c6.style = { ...c6.style, border: borderThin, alignment: alignRight };
 
+                    // Update Special Columns
+                    if (juncBoxCol) {
+                        const cell = r.getCell(juncBoxCol);
+                        cell.value = juncBoxQty;
+                        cell.style = { ...cell.style, border: borderThin, alignment: alignCenter };
+                    }
+                    if (suntreeCol) {
+                        const cell = r.getCell(suntreeCol);
+                        cell.value = 0; // Default 0
+                        cell.style = { ...cell.style, border: borderThin, alignment: alignCenter };
+                    }
+
                     // Col 7-12: Empty borders (ensure thin border is present)
                     for (let c = 7; c <= 12; c++) {
                         const cell = r.getCell(c);
@@ -685,6 +721,18 @@ export class ExportService {
                     }
                     r.getCell(13).value = "";
                     setStyle(13, borderRightDouble, alignCenter);
+
+                    // Update Special Columns for NEW Items
+                    if (juncBoxCol) {
+                        const cell = r.getCell(juncBoxCol);
+                        cell.value = juncBoxQty;
+                        setStyle(juncBoxCol, borderThin, alignCenter);
+                    }
+                    if (suntreeCol) {
+                        const cell = r.getCell(suntreeCol);
+                        cell.value = 0;
+                        setStyle(suntreeCol, borderThin, alignCenter);
+                    }
 
                     // DOUBLE FORCE ALIGNMENT (Just to be sure)
                     r.getCell(2).alignment = { vertical: 'middle', horizontal: 'left', wrapText: true };
