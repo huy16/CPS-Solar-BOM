@@ -79,6 +79,7 @@ export class CalculateBOQ {
 
         // 4. Inverter Selection
         const inverterModel = this.selectHuaweiInverter(kwp);
+        const invModelUpper = inverterModel.toUpperCase();
         const invInfo = equipmentData.inverters[inverterModel];
 
         // 5. Cable Lengths (based on Input/Defaults)
@@ -226,7 +227,6 @@ export class CalculateBOQ {
 
         // Update Conduit Fittings based on Logic
         // Logic for AMF (Dau bit) and DNCK (Dau noi)
-        const invModelUpper = inverterModel.toUpperCase();
         let amf12 = 0, amf34 = 0, dnck12 = 0, dnck34 = 0, steelBox = 0;
         if (["SUN2000-8K", "SUN2000-10K", "SUN2000-12K", "SUN2000-15K", "SUN2000-20K"].some(m => invModelUpper.includes(m))) {
             amf12 = 10; amf34 = 5; dnck12 = 12; dnck34 = 14; steelBox = 2;
