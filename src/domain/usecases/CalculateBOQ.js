@@ -256,12 +256,12 @@ export class CalculateBOQ {
         groups["IX"].items.push(mkItem("IX", "Apollo Silicone Sealant A500 300ml", "", "pcs", Math.ceil(kwp * 0.3)));
         groups["IX"].items.push(mkItem("IX", "Keo bọt nở Apollo Foam 750ml", "", "Bottle", Math.ceil(kwp * 0.05)));
         groups["IX"].items.push(mkItem("IX", "Dây rút thép bọc nhựa 7.9x400", "", "Pcs", Math.ceil(kwp * 1.5)));
-        groups["IX"].items.push(mkItem("IX", "Ke vuông nhôm định hình (hình ảnh đính kèm)", "", "Pcs", Math.ceil(kwp * 2.2)));
+        groups["IX"].items.push(mkItem("IX", "Ke vuông nhôm định hình", "", "Pcs", Math.ceil(kwp * 2.2)));
         groups["IX"].items.push(mkItem("IX", "Tắc kê nhựa Fischer M8x50mm cho tường gạch lỗ", "FISCHER-M8x50", "Set", Math.ceil(kwp * 2.5)));
         groups["IX"].items.push(mkItem("IX", "Lông đền phẳng loại dày lỗ 8 cho bulong M8, đường kính ngoài 25mm", "", "Pcs", Math.ceil(kwp * 1.6)));
         groups["IX"].items.push(mkItem("IX", "Vít đầu cờ lê, loại bắt vào tắc kê, M8x50", "", "Pcs", Math.ceil(kwp * 1.9)));
-        groups["IX"].items.push(mkItem("IX", "Vít bắn tôn mạ kẽm nhúng nóng dài 6cm  (đuôi cá)", "", "Pcs", Math.ceil(kwp * 2)));
-        groups["IX"].items.push(mkItem("IX", "Vít bắn tôn mạ kẽm nhúng nóng dài 10cm  (đuôi cá)", "", "Pcs", Math.ceil(kwp * 3)));
+        groups["IX"].items.push(mkItem("IX", "Vít bắn tôn mạ kẽm nhúng nóng dài 6cm \r\n(đuôi cá)", "", "Pcs", Math.ceil(kwp * 2)));
+        groups["IX"].items.push(mkItem("IX", "Vít bắn tôn mạ kẽm nhúng nóng dài 10cm \r\n(đuôi cá)", "", "Pcs", Math.ceil(kwp * 3)));
         groups["IX"].items.push(mkItem("IX", "Lồng đền phẳng 6mm", "", "pcs", Math.ceil(kwp * 1.8)));
         groups["IX"].items.push(mkItem("IX", "Ke góc vuông chữ L bản 4cm", "", "Pcs", Math.ceil(kwp * 0.5)));
         groups["IX"].items.push(mkItem("IX", "Dây rút nhựa loại 4x300", "", "Pack", Math.ceil(kwp * 0.05)));
