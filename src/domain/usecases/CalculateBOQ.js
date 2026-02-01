@@ -230,12 +230,10 @@ export class CalculateBOQ {
         let amf12 = 0, amf34 = 0, dnck12 = 0, dnck34 = 0, steelBox = 0;
         if (["SUN2000-8K", "SUN2000-10K", "SUN2000-12K", "SUN2000-15K", "SUN2000-20K"].some(m => invModelUpper.includes(m))) {
             amf12 = 10; amf34 = 5; dnck12 = 12; dnck34 = 14; steelBox = 2;
-        } else if (invModelUpper.includes("SUN2000-30K")) {
-            amf12 = 12; amf34 = 5; dnck12 = 14; dnck34 = 15; steelBox = 4;
-        } else if (invModelUpper.includes("SUN2000-40K")) {
-            amf12 = 14; amf34 = 5; dnck12 = 16; dnck34 = 16; steelBox = 4;
+        } else if (invModelUpper.includes("SUN2000-30K") || invModelUpper.includes("SUN2000-40K")) {
+            amf12 = 12; amf34 = 5; dnck12 = 14; dnck34 = 15; steelBox = 3;
         } else if (invModelUpper.includes("SUN2000-50K")) {
-            amf12 = 14; amf34 = 5; dnck12 = 18; dnck34 = 17; steelBox = 6;
+            amf12 = 14; amf34 = 5; dnck12 = 18; dnck34 = 17; steelBox = 4;
         }
 
         groups["VI"].items.push(mkItem("VI", "Ống ruột gà lõi thép bọc nhựa luồn dây điện CVL 1/2\" \r\n(Đường kính trong D15.8-D16.3)", "OMB12CVL", "Meter", conduit - Math.round(conduit * 0.35)));
