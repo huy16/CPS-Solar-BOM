@@ -331,6 +331,45 @@ export default function BulkInputComponent({ onDataParsed }) {
                                     </div>
                                 )}
                             </div>
+
+                            {/* New Project Status Sidebar Card */}
+                            {previewData.length > 0 && (
+                                <div className="mt-2 bg-white rounded-xl p-3 border border-slate-200 shadow-sm animate-fade-in-up">
+                                    <div className="flex items-center justify-between mb-3">
+                                        <span className="text-[10px] font-extrabold text-slate-400 uppercase tracking-wider">Trạng thái Site</span>
+                                        <div className="flex h-2 w-2 relative">
+                                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-energy-400 opacity-75"></span>
+                                            <span className="relative inline-flex rounded-full h-2 w-2 bg-energy-500"></span>
+                                        </div>
+                                    </div>
+
+                                    <div className="flex items-center gap-4">
+                                        <div className="flex-1 bg-gradient-to-br from-blue-600 to-cyan-500 rounded-lg p-3 text-white shadow-lg shadow-blue-500/20">
+                                            <div className="text-[10px] font-bold text-blue-100 uppercase tracking-tighter mb-0.5 opacity-80">Site đã tải lên</div>
+                                            <div className="flex items-baseline gap-1.5 focus:outline-none">
+                                                <span className="text-2xl font-black font-mono leading-none tracking-tight">{previewData.length}</span>
+                                                <span className="text-[10px] font-bold opacity-70">SITES</span>
+                                            </div>
+                                        </div>
+
+                                        <div className="flex-1 bg-slate-50 border border-slate-100 rounded-lg p-3 border-l-4 border-l-energy-500">
+                                            <div className="text-[10px] font-bold text-slate-400 uppercase tracking-tighter mb-0.5">Tổng công suất</div>
+                                            <div className="flex items-baseline gap-1 text-slate-800">
+                                                <span className="text-lg font-black font-mono leading-none">{previewData.reduce((acc, curr) => acc + curr.dcPower, 0).toFixed(1)}</span>
+                                                <span className="text-[9px] font-bold text-slate-400">kWp</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <button
+                                        onClick={() => setPreviewData([])}
+                                        className="w-full mt-3 py-2 text-[10px] font-black text-slate-400 hover:text-red-500 border border-slate-100 hover:border-red-100 rounded-lg flex items-center justify-center gap-2 hover:bg-red-50 transition-all uppercase tracking-widest"
+                                    >
+                                        <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+                                        Xóa tất cả Site
+                                    </button>
+                                </div>
+                            )}
                         </div>
 
                         <div className="mt-auto pt-4 flex justify-center items-end">
@@ -417,19 +456,12 @@ export default function BulkInputComponent({ onDataParsed }) {
 
                 {previewData.length > 0 && (
                     <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden animate-fade-in-up">
-                        <div className="px-6 py-4 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
-                            <h3 className="font-bold text-slate-700 flex items-center gap-3 font-display">
-                                <span className="w-8 h-8 rounded-lg bg-energy-100 text-energy-700 flex items-center justify-center text-sm font-extrabold font-mono">{previewData.length}</span>
-                                Dự án đã tải lên
+                        <div className="px-6 py-3 border-b border-slate-100 flex justify-between items-center bg-white/90 backdrop-blur-md">
+                            <h3 className="font-bold text-slate-700 flex items-center gap-2 font-display text-sm uppercase tracking-wide">
+                                <span className="w-2 h-2 rounded-full bg-energy-500 animate-pulse"></span>
+                                Danh sách Site đã tải lên
                             </h3>
-                            <div className="flex gap-2">
-                                <button
-                                    onClick={() => setPreviewData([])}
-                                    className="text-xs text-red-500 hover:text-red-700 font-bold px-3 py-1.5 hover:bg-red-50 rounded-lg transition-colors uppercase tracking-wide"
-                                >
-                                    Xóa tất cả
-                                </button>
-                            </div>
+                            <span className="text-[10px] font-black text-slate-400 italic">Scroll to view all rows</span>
                         </div>
 
                         <div className="max-h-80 overflow-y-auto custom-scrollbar">
