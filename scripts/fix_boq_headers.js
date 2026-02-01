@@ -24,7 +24,7 @@ async function fixBOQHeaders() {
     const headerRow2 = [
         'MST',           // A
         'TÊN DỰ ÁN',     // B
-        'CLENERGY STRUCTURES', // C-J (merged)
+        'VIMETCO STRUCTURES', // C-J (merged)
         '', '', '', '', '', '', '',
         'HUAWEI',        // K-O (merged)
         '', '', '', '',

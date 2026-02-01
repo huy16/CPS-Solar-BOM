@@ -70,7 +70,7 @@ export default function BulkInputComponent({ onDataParsed }) {
     // --- Hidden Defaults ---
     const defaultPosition = "Lap canh tu MSB";
     const defaultAC = 10;
-    const defaultDC = 100;
+    const defaultDC = 80;
     const defaultCAT5 = 50;
 
     // --- File Import Handler ---
@@ -218,7 +218,7 @@ export default function BulkInputComponent({ onDataParsed }) {
             items: [
                 { n: "Dây xoắn RG đen SWB-06", f: "Round(Site_Count * 8)" },
                 { n: "Mái tôn lạnh bảo vệ", f: "Fixed 1 cái / site" },
-                { n: "Chống sét PV50 1000V", f: "Fixed 2 bộ / site" },
+                { n: "Chống sét PV50 1000V", f: "Fixed 2 bộ / Project" },
                 { n: "Domino 150A/200A", f: "1 cái theo Inverter" }
             ]
         },
@@ -226,7 +226,7 @@ export default function BulkInputComponent({ onDataParsed }) {
             id: "XII", title: "Vật tư cân tải", color: "red",
             items: [
                 { n: "Combo At + Hộp nổi 63A", f: "1 bộ / site" },
-                { n: "Dây Cadivi 6.0", f: "10 m / site" }
+                { n: "Dây Cadivi 6.0", f: "2 m / site" }
             ]
         },
         {

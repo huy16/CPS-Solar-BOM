@@ -11,8 +11,8 @@ export class ProjectConfig {
         this.pvModel = pvModel || "HSM-ND66-GK715"; // Default from VBA
         this.inverterPosition = inverterPosition || "Lap canh tu MSB"; // Default from VBA
         this.acCable = acCable || 10;
-        this.dcCable = dcCable || 100;
-        this.cat5Cable = cat5Cable || 50;
+        this.dcCable = dcCable || 80;
+        this.cat5Cable = cat5Cable || 40;
     }
 
     isValid() {

@@ -38,7 +38,7 @@ function App() {
 
               <div className="relative pl-0 flex flex-col">
                 <div className="flex items-center gap-3">
-                  <h1 className="text-4xl font-extrabold tracking-tight uppercase bg-gradient-to-r from-blue-700 via-emerald-400 to-blue-700 bg-clip-text text-transparent animate-gradient-x font-display pb-1">
+                  <h1 className="text-4xl font-extrabold tracking-tight uppercase bg-gradient-to-r from-blue-700 via-emerald-400 to-blue-700 bg-clip-text text-transparent animate-gradient-x font-display pb-1 pr-2">
                     Solar BOQ & BOM Engine
                   </h1>
                   {/* Lightning Bolt Icon - Moved after 'Engine' */}

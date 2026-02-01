@@ -63,6 +63,9 @@ export class ExportService {
             styleCache[i] = styleRow.getCell(i).style;
         }
 
+        // Set specific column widths
+        ws.getColumn(4).width = 17.5; // Requested: Width of Col D = 17.5
+
         // Define border style
         const borderThin = {
             top: { style: 'thin' },
@@ -129,7 +132,7 @@ export class ExportService {
             r.getCell(13).value = inverterItem ? inverterItem.code : "";
 
             // N (14): SDONGLE
-            r.getCell(14).value = getQty(i => i.code === "SdongleA-05");
+            r.getCell(14).value = getQty(i => i.code.toLowerCase().includes("sdongle"));
 
             // O (15): METER
             r.getCell(15).value = getQty(i => i.code === "DTSU666-H");
@@ -140,8 +143,8 @@ export class ExportService {
             // Q (17): TIẾP ĐỊA C10 (Grounding Cable)
             r.getCell(17).value = getQty(i => i.name.includes("C-10mm2") || i.name.includes("VCm 10MM2"));
 
-            // R (18): CÁP DC
-            r.getCell(18).value = getQty(i => i.name.includes("PV Cable"));
+            // R (18): CÁP DC - Only sum RED cable (or BLACK) to show single run length, not total (Red+Black)
+            r.getCell(18).value = getQty(i => i.name.toLowerCase().includes("pv cable") && i.name.toLowerCase().includes("red"));
 
             // S (19): CÁP MẠNG
             r.getCell(19).value = getQty(i => i.name.toLowerCase().includes("cat5") || i.name.toLowerCase().includes("utp"));
@@ -208,8 +211,8 @@ export class ExportService {
             ws.media = [];
         }
 
-        // Set column D width to 17.5 as requested
-        ws.getColumn(4).width = 17.5;
+        // Set column D width to 25 as requested
+        ws.getColumn(4).width = 25;
         // Set column I width to 25 to prevent text wrapping
         ws.getColumn(9).width = 25;
 
@@ -353,6 +356,31 @@ export class ExportService {
                 }
             });
         });
+
+        // SPECIAL LOGIC: Convert LAN Cable items from Meters to Boxes for BOM Aggregation
+        if (groupsData['IV']) {
+            Object.keys(groupsData['IV']).forEach(key => {
+                const item = groupsData['IV'][key];
+                // Check code or name for LAN Cable
+                if (item.code === "UTP-E-CSG-F1VN-P 0.5X004P/WH" || (item.name && item.name.toLowerCase().includes("cáp mạng ls simple"))) {
+                    const totalMeters = Number(item.quantity) || 0;
+                    // Requirement: 305m = 1 Box. Aggregate total meters first, then wrap.
+                    const boxCount = Math.ceil(totalMeters / 305);
+                    item.quantity = boxCount;
+                    item.unit = "Box";
+                }
+            });
+        }
+
+        // SPECIAL LOGIC: Force Prosurge PV50 quantity to 2 (Fixed per Project/File)
+        if (groupsData['XI']) {
+            Object.keys(groupsData['XI']).forEach(key => {
+                const item = groupsData['XI'][key];
+                if (item.code === "PV50-1000-V-CD-S" || (item.name && item.name.toLowerCase().includes("cb chống sét prosurge"))) {
+                    item.quantity = 2; // Fixed requirement: Always 2 per file
+                }
+            });
+        }
 
         // 2. Identify Group Header Rows in Template
         const groupRows = {};
@@ -534,6 +562,7 @@ export class ExportService {
 
                     // UPDATE Existing Row
                     const r = ws.getRow(targetRow);
+                    // Fix: Removed forced height 15
 
                     // Force Styles for Consistency
 
@@ -601,7 +630,7 @@ export class ExportService {
                 // Fill data and apply styles for NEW items
                 itemsToInsert.forEach((item, i) => {
                     const r = ws.getRow(endRow + i);
-                    r.height = defaultGroupHeight; // Fix: Use Dynamic Height
+                    r.height = defaultGroupHeight; // Fix: Reverted to Dynamic Height
 
                     // Lookup Equipment Data for Rich Description
                     const eCode = item.code ? item.code.toString().trim() : "";

@@ -155,7 +155,7 @@ export class CalculateBOQ {
         groups["I"].items.push(mkItem("I", "Kẹp dây cáp cho tấm Pin", "VMC-SCC-SUS", "pcs", qCableClip));
         groups["I"].items.push(mkItem("I", "Lá tiếp địa cho tấm pin-03", "VMC-GCPV-03", "pcs", qGroundClip));
         groups["I"].items.push(mkItem("I", "Bộ Kẹp cáp tiếp địa cho Rail", "VMC-GLPV-SR", "set", qGroundLug));
-        groups["I"].items.push(mkItem("I", "Bộ Bulong liên kết M8x25", "VMC-BN-KCL-25", "pcs", qLFoot)); // Assumed mapping similar to L-Feet quantity
+        groups["I"].items.push(mkItem("I", "Bộ Bulong liên kết M8x25", "VMC-BN-KCL-25", "pcs", 50)); // Updated per request: 50 pcs per site
 
         // GROUP II: PV + MC4 (as per Template: Panel first, then MC4)
         groups["II"].items.push(mkItem("II", `Tấm pin năng lượng mặt trời ${pvModel}`, pvModel, "panel", pvCount));
@@ -170,16 +170,16 @@ export class CalculateBOQ {
         // GROUP IV: Cables (no MC4 here - it's in Group II now)
         groups["IV"].items.push(mkItem("IV", "LV Power Cable, 0.6/1kV, Cu/XLPE/PVC 3x16+1x10sqrt.", "Cu/XLPE/PVC 3x16+1x10sqrt", "Meter", acCable));
         groups["IV"].items.push(mkItem("IV", "Cáp tín hiệu RS485 vặn xoắn chống nhiễu 22AWG, 2 Pair ALTEK KABEL", "Cable RS485 22AWG, 2pair", "Meter", rs485Cable));
-        groups["IV"].items.push(mkItem("IV", "Pv Cable Twin Core 4mm2 Solar Cable Connecting Photovoltaic System, 1000VDC, 50A (RED)", "1×4.0", "Meter", dcCable / 2));
-        groups["IV"].items.push(mkItem("IV", "Pv Cable Twin Core 4mm2 Solar Cable Connecting Photovoltaic System, 1000VDC, 50A (BLACK)", "1×4.0", "Meter", dcCable / 2));
-        groups["IV"].items.push(mkItem("IV", "Cáp mạng LS SIMPLE U/UTP, CAT5E, 4 đôi, PVC, 24 AWG, Solid, màu trắng, 305m", "UTP-E-CSG-F1VN-P 0.5X004P/WH", "Box", Math.ceil(cat5Cable / 305)));
+        groups["IV"].items.push(mkItem("IV", "Pv Cable Twin Core 4mm2 Solar Cable Connecting Photovoltaic System, 1000VDC, 50A (RED)", "1×4.0", "Meter", dcCable)); // Updated: Full length, no /2
+        groups["IV"].items.push(mkItem("IV", "Pv Cable Twin Core 4mm2 Solar Cable Connecting Photovoltaic System, 1000VDC, 50A (BLACK)", "1×4.0", "Meter", dcCable)); // Updated: Full length, no /2
+        groups["IV"].items.push(mkItem("IV", "Cáp mạng LS SIMPLE U/UTP, CAT5E, 4 đôi, PVC, 24 AWG, Solid, màu trắng, 305m", "UTP-E-CSG-F1VN-P 0.5X004P/WH", "Meter", cat5Cable)); // Updated: Report in Meter for aggregation
 
         // GROUP V: Grounding
-        // tiếp địa C10: =ROUNDUP(S5*0.8,0) -> Math.ceil(dcCable * 0.8)
-        groups["V"].items.push(mkItem("V", "PVC INSULATED SINGLE PLEXIBLE WIRE AND CABLE, COPPER CONDUCTOR, 10MM2 - YELLOW-GREEN", "VCm 10MM2 (YELLOW-GREEN)", "Meter", Math.ceil(dcCable * 0.8)));
-        groups["V"].items.push(mkItem("V", "Cáp đồng trần C-10mm2 đồng cứng nhiều sợi", "Cu-10mm2", "Meter", Math.round(SITE_COUNT * 10)));
-        groups["V"].items.push(mkItem("V", "Cọc đồng tiếp địa D16 - L=1200mm", "", "pcs", Math.round(SITE_COUNT * 3)));
-        groups["V"].items.push(mkItem("V", "Kẹp quả trám cho dây 10mm2 & cọc tiếp địa D16", "", "pcs", Math.round(SITE_COUNT * 3)));
+        // tiếp địa C10: Fixed 10m per site
+        groups["V"].items.push(mkItem("V", "PVC INSULATED SINGLE PLEXIBLE WIRE AND CABLE, COPPER CONDUCTOR, 10MM2 - YELLOW-GREEN", "VCm 10MM2 (YELLOW-GREEN)", "Meter", 10));
+        groups["V"].items.push(mkItem("V", "Cáp đồng trần C-10mm2 đồng cứng nhiều sợi", "Cu-10mm2", "Meter", Math.ceil(dcCable * 0.8)));
+        groups["V"].items.push(mkItem("V", "Cọc đồng tiếp địa D16 - L=1200mm", "", "pcs", 1)); // Updated: 1 pc per site
+        groups["V"].items.push(mkItem("V", "Kẹp quả trám cho dây 10mm2 & cọc tiếp địa D16", "", "pcs", 2)); // Updated: 2 pcs per site
 
         // GROUP VI: Conduit (Detailed below)
         // Generic item removed in favor of OMB12CVL and OMB34CVL in detailed section.
@@ -189,10 +189,10 @@ export class CalculateBOQ {
         groups["VII"].items.push(mkItem("VII", "Nap chup dau cap (bo gom 3 cai 3 mau vang - xanh - do) cho day tiet dien 16mm2", "V14", "Set", 10)); // Example quant derived from VBA/10 logic? VBA: 9.25 * Sites. usage 1 site -> ~10
         groups["VII"].items.push(mkItem("VII", "Nap chup dau cap den cho day tiet dien 10mm2", "V8", "Set", 10));
         groups["VII"].items.push(mkItem("VII", "Ong gen co nhiet Haida (bo gom 4 loai 4 mau vang - xanh - do-den) cho day tiet dien 70mm2", "DRS 25", "Meter", 2));
-        groups["VII"].items.push(mkItem("VII", "Day thit danh dau day cap 4*100mm 100pcs/pack mau trang (co mieng nhua hinh chu nhat dau day de ghi chu danh)", "", "Pack", 1));
-        groups["VII"].items.push(mkItem("VII", "Ong long LM-TU360N (6.0mm, 45m/cal)", "LM-TU360N", "Roll", 1));
-        groups["VII"].items.push(mkItem("VII", "Bang in nhan mau vang 9mm Letatwin (MAX) (8m/cuon)", "LM-TP509Y", "pcs", 1));
-        groups["VII"].items.push(mkItem("VII", "Muc Den LM-IR300B", "LM-IR300B", "pcs", 1));
+        groups["VII"].items.push(mkItem("VII", "Day thit danh dau day cap 4*100mm 100pcs/pack mau trang (co mieng nhua hinh chu nhat dau day de ghi chu danh)", "", "Pack", 0.1)); // 10 sites = 1 pack
+        groups["VII"].items.push(mkItem("VII", "Ong long LM-TU360N (6.0mm, 45m/cal)", "LM-TU360N", "Roll", 0));
+        groups["VII"].items.push(mkItem("VII", "Bang in nhan mau vang 9mm Letatwin (MAX) (8m/cuon)", "LM-TP509Y", "pcs", 0));
+        groups["VII"].items.push(mkItem("VII", "Muc Den LM-IR300B", "LM-IR300B", "pcs", 0));
 
         // Group VIII Logic
         let qSC16_8 = 0, qSC10_8 = 0, qSC10_6 = 0, qSC16_6 = 0;
@@ -223,7 +223,7 @@ export class CalculateBOQ {
         groups["VIII"].items.push(mkItem("VIII", "Dau COSSE TL 10-10", "TL 10-10", "pcs", qTL10_10));
         groups["VIII"].items.push(mkItem("VIII", "Dau cosse dong nhom 50mm2", "DTL-2-50-12 MHD", "pcs", Math.round(SITE_COUNT * 1.25)));
         groups["VIII"].items.push(mkItem("VIII", "Dau cosse dong nhom 70mm2", "DTL-2-70-12 MHD", "pcs", Math.round(SITE_COUNT * 0.75)));
-        groups["VIII"].items.push(mkItem("VIII", "Bang keo nano mau den", "", "pcs", Math.round(SITE_COUNT * 3)));
+        groups["VIII"].items.push(mkItem("VIII", "Bang keo nano mau den", "", "pcs", 0.5)); // 2 sites = 1 roll
 
         // Update Conduit Fittings based on Logic
         // Logic for AMF (Dau bit) and DNCK (Dau noi)
@@ -249,7 +249,7 @@ export class CalculateBOQ {
         groups["VI"].items.push(mkItem("VI", "Dau noi ong ruot ga 3/4 va ong ruot ga", "MCK34", "Pcs", Math.round(conduit * 0.35 / 35)));
         groups["VI"].items.push(mkItem("VI", "Dau bit ong ruot ga 3/4", "AMF34", "Pcs", amf34));
         groups["VI"].items.push(mkItem("VI", "Mang cap hop 100x60mm sử dụng nhựa chống cháy, cây dài 2m, đóng gói theo bó 6 cây", "EH100/60", "Pcs", Math.round(SITE_COUNT * 3.5)));
-        groups["VI"].items.push(mkItem("VI", "Ong ruot ga mem SP D16, 50m/cuon luon day mang tu router shop den Inverter", "SP9016CM", "Meter", SITE_COUNT * 35));
+        groups["VI"].items.push(mkItem("VI", "Ong ruot ga mem SP D16, 50m/cuon luon day mang tu router shop den Inverter", "SP9016CM", "Meter", 50)); // Updated: 50m per site
 
         // Group IX: Vat tu phu thi cong lap dat (Scaled by kWp)
         groups["IX"].items.push(mkItem("IX", "Sikaflex - 140 Construction (Concrete Grey) 600ml", "", "Tube", Math.ceil(kwp * 0.1)));
@@ -257,7 +257,7 @@ export class CalculateBOQ {
         groups["IX"].items.push(mkItem("IX", "Keo bọt nở Apollo Foam 750ml", "", "Bottle", Math.ceil(kwp * 0.05)));
         groups["IX"].items.push(mkItem("IX", "Dây rút thép bọc nhựa 7.9x400", "", "Pcs", Math.ceil(kwp * 1.5)));
         groups["IX"].items.push(mkItem("IX", "Ke vuông nhôm định hình (hình ảnh đính kèm)", "", "Pcs", Math.ceil(kwp * 2.2)));
-        groups["IX"].items.push(mkItem("IX", "Tắc kê nhựa Fischer M8x50mm cho tường gạch lỗ (hình ảnh đính kèm)", "M8x50", "Set", Math.ceil(kwp * 2.5)));
+        groups["IX"].items.push(mkItem("IX", "Tắc kê nhựa Fischer M8x50mm cho tường gạch lỗ \r\n(hình ảnh đính kèm)", "FISCHER-M8x50", "Set", Math.ceil(kwp * 2.5)));
         groups["IX"].items.push(mkItem("IX", "Lông đền phẳng loại dày lỗ 8 cho bulong M8, đường kính ngoài 25mm", "", "Pcs", Math.ceil(kwp * 1.6)));
         groups["IX"].items.push(mkItem("IX", "Vít đầu cờ lê, loại bắt vào tắc kê, M8x50 (hình ảnh đính kèm)", "", "Pcs", Math.ceil(kwp * 1.9)));
         groups["IX"].items.push(mkItem("IX", "Vít bắn tôn mạ kẽm nhúng nóng dài 6cm  (đuôi cá)", "", "Pcs", Math.ceil(kwp * 2)));
@@ -266,12 +266,23 @@ export class CalculateBOQ {
         groups["IX"].items.push(mkItem("IX", "Ke góc vuông chữ L bản 4cm", "", "Pcs", Math.ceil(kwp * 0.5)));
         groups["IX"].items.push(mkItem("IX", "Dây rút nhựa loại 4x300", "", "Pack", Math.ceil(kwp * 0.05)));
         groups["IX"].items.push(mkItem("IX", "Xi măng - cát lấp hố tiếp địa", "", "Location", Math.ceil(SITE_COUNT / 4)));
-        groups["IX"].items.push(mkItem("IX", "Sơn nước màu vàng loại 1kg", "ATM-100", "Can", Math.ceil(SITE_COUNT / 4)));
-        groups["IX"].items.push(mkItem("IX", "Con lăn 6cm", "", "Pcs", Math.ceil(SITE_COUNT / 8)));
+        groups["IX"].items.push(mkItem("IX", "Sơn nước màu vàng loại 1kg", "ATM-100", "Can", SITE_COUNT / 3));
+        groups["IX"].items.push(mkItem("IX", "Con lăn 6cm", "", "Pcs", SITE_COUNT / 3));
 
         // Group X: Vat tu tu trung gian va cai tao diem dau noi (Manual Input -> 0)
+        // JUNC_BOX Logic
+        let sh12pnQty = 0;
+        if (["SUN2000-12K", "SUN2000-15K", "SUN2000-20K"].some(m => invModelUpper.includes(m))) {
+            sh12pnQty = 2;
+        } else if (["SUN2000-30K", "SUN2000-40K"].some(m => invModelUpper.includes(m))) {
+            sh12pnQty = 3;
+        } else if (["SUN2000-50K"].some(m => invModelUpper.includes(m))) {
+            sh12pnQty = 4;
+        }
+
         groups["X"].items.push(mkItem("X", "Tủ sơn tĩnh điện ngoài trời kích thước 400x300x100 dày 1.5mm", "TULE-4030", "pcs", 0));
-        groups["X"].items.push(mkItem("X", "Vỏ tủ Suntree SH12PN, ngoài trời", "SH12PN", "set", 0));
+        groups["X"].items.push(mkItem("X", "Vỏ tủ Suntree SH12PN, ngoài trời", "SH12PN", "set", 0)); // User Req: Default 0
+        groups["X"].items.push(mkItem("X", "Hộp nối dây (Junction Box)", "JUNC_BOX", "set", sh12pnQty)); // User Req: Logic applied here
         groups["X"].items.push(mkItem("X", "CABLE GLANDS PG21, GREY, Ø28.3MM", "PG21", "pcs", 0));
         groups["X"].items.push(mkItem("X", "Hàng kẹp lấy mạch áp", "URTK/SS", "pcs", 0));
         groups["X"].items.push(mkItem("X", "Tấm che hàng kẹp", "D-URTK/SS", "pcs", 0));
@@ -297,14 +308,14 @@ export class CalculateBOQ {
         }
         groups["XI"].items.push(mkItem("XI", "Dây móc khóa lò xo co giãn gắn chìa khòa kéo giãn tối thiểu 1.2m", "", "pcs", Math.round(SITE_COUNT)));
         groups["XI"].items.push(mkItem("XI", "Dây xoắn ruột gà bọc dây điện màu đen (đường kính trong 4mm)", "SWB-06", "Meter", Math.round(SITE_COUNT * 8)));
-        groups["XI"].items.push(mkItem("XI", "Mái tôn lạnh  rộng 80cm, dài 50cm cộng vòm 30cm. Dày 4,5 zem phủ màu xanh ngọc", "", "pcs", 1));
+        groups["XI"].items.push(mkItem("XI", "Mái tôn lạnh  rộng 80cm, dài 50cm cộng vòm 30cm. Dày 4,5 zem phủ màu xanh ngọc", "", "pcs", 0)); // Set to 0 but display
         groups["XI"].items.push(mkItem("XI", "Thanh domino 150A 4P", "SHT-150A-4P", "pcs", totalDomino150A));
         groups["XI"].items.push(mkItem("XI", "Thanh domino 200A 4P", "SHT-200A-4P", "pcs", totalDomino200A));
         groups["XI"].items.push(mkItem("XI", "CB Chống sét Prosurge PV50-1000-V-CD-S 1000VDC 50kA 3P", "PV50-1000-V-CD-S", "set", 2));
 
         // Group XII: Vat tu can tai
         groups["XII"].items.push(mkItem("XII", "Combo Aptomat + Hộp lắp nổi", "DBSF-63A", "pcs", 1));
-        groups["XII"].items.push(mkItem("XII", "Dây điện đơn, đỏ Cadivi 6.0", "CV 6.0", "Meter", 10));
+        groups["XII"].items.push(mkItem("XII", "Dây điện đơn, đỏ Cadivi 6.0", "CV 6.0", "Meter", 2 * SITE_COUNT));
 
         // Group XIII: Khung lap Tu va Inverter
         groups["XIII"].items.push(mkItem("XIII", "Tấm Alu che mặt sau của khung thép", "", "pcs", 1));
