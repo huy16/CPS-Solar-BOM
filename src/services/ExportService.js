@@ -64,6 +64,7 @@ export class ExportService {
         }
 
         // Set specific column widths
+        ws.getColumn(2).width = 30; // Increased to prevent project name wrapping
         ws.getColumn(4).width = 17.5; // Requested: Width of Col D = 17.5
 
         // Define border style
@@ -211,6 +212,8 @@ export class ExportService {
             ws.media = [];
         }
 
+        // Set specific column widths
+        ws.getColumn(2).width = 45; // Increased to prevent item name wrapping
         // Set column D width to 25 as requested
         ws.getColumn(4).width = 25;
         // Set column I width to 25 to prevent text wrapping
