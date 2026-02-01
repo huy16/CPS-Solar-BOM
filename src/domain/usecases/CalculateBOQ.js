@@ -238,13 +238,13 @@ export class CalculateBOQ {
             amf12 = 14; amf34 = 5; dnck12 = 18; dnck34 = 17; steelBox = 6;
         }
 
-        groups["VI"].items.push(mkItem("VI", "Ống ruột gà lõi thép bọc nhựa luồn dây điện CVL 1/2\" (Đường kính trong D15.8-D16.3)", "OMB12CVL", "Meter", conduit - Math.round(conduit * 0.35)));
+        groups["VI"].items.push(mkItem("VI", "Ống ruột gà lõi thép bọc nhựa luồn dây điện CVL 1/2\" \r\n(Đường kính trong D15.8-D16.3)", "OMB12CVL", "Meter", conduit - Math.round(conduit * 0.35)));
         groups["VI"].items.push(mkItem("VI", "Dau noi ong ruot ga 1/2 va mang cap dien", "DNCK12", "Pcs", dnck12));
         groups["VI"].items.push(mkItem("VI", "Dau noi ong ruot ga 1/2 va ong ruot ga", "MCK12", "Pcs", Math.round(conduit / 35)));
         groups["VI"].items.push(mkItem("VI", "Dau bit ong ruot ga 1/2", "AMF12", "Pcs", amf12));
         groups["VI"].items.push(mkItem("VI", "Hộp thép HC157D", "MC157D", "Pcs", steelBox));
         groups["VI"].items.push(mkItem("VI", "Nap hop thep NH157", "NH157", "Pcs", steelBox));
-        groups["VI"].items.push(mkItem("VI", "Ống ruột gà lõi thép bọc nhựa luồn dây điện CVL 3/4\" (Đường kính trong D20.7-D21.2)", "OMB34CVL", "Meter", Math.round(conduit * 0.35)));
+        groups["VI"].items.push(mkItem("VI", "Ống ruột gà lõi thép bọc nhựa luồn dây điện CVL 3/4\" \r\n(Đường kính trong D20.7-D21.2)", "OMB34CVL", "Meter", Math.round(conduit * 0.35)));
         groups["VI"].items.push(mkItem("VI", "Dau noi ong ruot ga 3/4 va mang cap", "DNCK34", "Pcs", dnck34));
         groups["VI"].items.push(mkItem("VI", "Dau noi ong ruot ga 3/4 va ong ruot ga", "MCK34", "Pcs", Math.round(conduit * 0.35 / 35)));
         groups["VI"].items.push(mkItem("VI", "Dau bit ong ruot ga 3/4", "AMF34", "Pcs", amf34));
@@ -298,7 +298,7 @@ export class CalculateBOQ {
             totalDomino200A += 1;
         }
         groups["XI"].items.push(mkItem("XI", "Dây móc khóa lò xo co giãn gắn chìa khòa kéo giãn tối thiểu 1.2m", "", "pcs", Math.round(SITE_COUNT)));
-        groups["XI"].items.push(mkItem("XI", "Dây xoắn ruột gà bọc dây điện màu đen (đường kính trong 4mm)", "SWB-06", "Meter", Math.round(SITE_COUNT * 8)));
+        groups["XI"].items.push(mkItem("XI", "Dây xoắn ruột gà bọc dây điện màu đen \r\n(đường kính trong 4mm)", "SWB-06", "Meter", Math.round(SITE_COUNT * 8)));
         groups["XI"].items.push(mkItem("XI", "Mái tôn lạnh  rộng 80cm, dài 50cm cộng vòm 30cm. Dày 4,5 zem phủ màu xanh ngọc", "", "pcs", 0)); // Set to 0 but display
         groups["XI"].items.push(mkItem("XI", "Thanh domino 150A 4P", "SHT-150A-4P", "pcs", totalDomino150A));
         groups["XI"].items.push(mkItem("XI", "Thanh domino 200A 4P", "SHT-200A-4P", "pcs", totalDomino200A));
