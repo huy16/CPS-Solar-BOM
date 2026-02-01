@@ -274,12 +274,7 @@ export default function CalculatorPage() {
                                         </div>
                                     </div>
                                 </div>
-                                <div className="text-right">
-                                    <div className="text-xs text-slate-400 font-medium mb-1">DỰ TOÁN (ƯỚC TÍNH)</div>
-                                    <span className="font-mono font-bold text-xl text-slate-900 bg-slate-50 px-3 py-1 rounded-lg border border-slate-100 block">
-                                        {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(report.totalCost)}
-                                    </span>
-                                </div>
+
                             </div>
 
                             {/* Collapsible Table */}
