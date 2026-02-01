@@ -215,6 +215,119 @@ export class ExportService {
     fillBOMSheet(ws, reports, workbook, logoBuffer) {
 
 
+        // Clear any existing images in the template (to remove the giant logo)
+        if (ws.getImages().length > 0) {
+            // Attempt to clear by resetting the image collection
+            // Note: ExcelJS implementation detail, direct assignment usually works for clearing
+            ws._media = [];
+            ws.media = [];
+        }
+
+        // Set specific column widths
+        ws.getColumn(2).width = 45; // Increased to prevent item name wrapping
+        // Set column D width to 25 as requested
+        ws.getColumn(4).width = 25;
+        // Set column I width to 25 to prevent text wrapping
+        ws.getColumn(9).width = 25;
+
+        // --- CUSTOM HEADER RECONSTRUCTION (Rows 1-5) ---
+        // Blue Background Color from Image (Lavender/Periwinkle)
+        const blueBgColor = { argb: 'FFCCCCFF' }; // Light Lavender match
+        const textFont = { name: 'Times New Roman', size: 11, bold: true };
+        const headerBorderThin = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
+
+        // 1. Clear & Merge
+        // Logic: Unmerge everything in range first? ExcelJS doesn't verify easily, usually merging overwrites.
+        // A1:B4 -> Logo
+        try { ws.mergeCells('A1:B4'); } catch (e) { } // Ignore if already merged
+        // C1:L1 -> Title 1 ("QUY TRÌNH")
+        try { ws.mergeCells('C1:L1'); } catch (e) { }
+        // C2:L4 -> Title 2 ("MUA HÀNG VÀ ĐÁNH GIÁ, LỰA CHỌN NHÀ CUNG ỨNG")
+        try { ws.mergeCells('C2:L4'); } catch (e) { }
+        // A5:B5 -> Info 1
+        try { ws.mergeCells('A5:B5'); } catch (e) { }
+        // C5:H5 -> Info 2
+        try { ws.mergeCells('C5:H5'); } catch (e) { }
+        // I5:L5 -> Info 3
+        try { ws.mergeCells('I5:L5'); } catch (e) { }
+
+        // 2. Insert Logo
+        if (logoBuffer) {
+            const imageId = workbook.addImage({
+                buffer: logoBuffer,
+                extension: 'png',
+            });
+            ws.addImage(imageId, {
+                tl: { col: 0, row: 0 },
+                br: { col: 2, row: 4 },
+                editAs: 'twoCell'
+            });
+        }
+
+        // Apply styling (Border & Background) to the entire Header Block (A1:L5)
+        // This ensures borders appear on merged cells and background is consistent
+        for (let r = 1; r <= 5; r++) {
+            for (let c = 1; c <= 12; c++) { // Columns A (1) to L (12)
+                const cell = ws.getCell(r, c);
+
+                // Determine background color
+                // Logo area (A1:B4) -> Dark Blue (User requested "nền màu xanh")
+                // Everything else -> Light Blue
+                const isLogoArea = (c <= 2 && r <= 4);
+                // Dark Blue to match the logo background in the reference image
+                const bgColor = isLogoArea ? { argb: 'FF004080' } : blueBgColor;
+
+                // Merge with existing style to preserve any pre-set logic
+                cell.style = {
+                    ...cell.style,
+                    border: headerBorderThin,
+                    fill: { type: 'pattern', pattern: 'solid', fgColor: bgColor }
+                };
+            }
+        }
+
+        // 3. Set Titles
+        // Title 1 (C1:L1)
+        const title1 = ws.getCell('C1');
+        title1.value = "QUY TRÌNH";
+        title1.style = {
+            font: { name: 'Times New Roman', size: 14, bold: true },
+            alignment: { vertical: 'middle', horizontal: 'center' },
+            border: headerBorderThin,
+            fill: { type: 'pattern', pattern: 'solid', fgColor: blueBgColor }
+        };
+
+        // Title 2 (C2:L4)
+        const title2 = ws.getCell('C2');
+        title2.value = "MUA HÀNG VÀ ĐÁNH GIÁ, LỰA CHỌN NHÀ CUNG ỨNG";
+        title2.style = {
+            font: { name: 'Times New Roman', size: 14, bold: true },
+            alignment: { vertical: 'middle', horizontal: 'center', wrapText: true },
+            // Note: Borders will be handled by the loop below/above, but explicit style here is safe
+            border: headerBorderThin,
+            fill: { type: 'pattern', pattern: 'solid', fgColor: blueBgColor }
+        };
+
+        // 4. Set Info Row (Row 5)
+        const infoStyle = {
+            font: { name: 'Times New Roman', size: 11 },
+            alignment: { vertical: 'middle', horizontal: 'center' },
+            border: headerBorderThin,
+            fill: { type: 'pattern', pattern: 'solid', fgColor: blueBgColor }
+        };
+
+        const cA5 = ws.getCell('A5');
+        cA5.value = "Lần BH: 01";
+        cA5.style = infoStyle;
+
+        const cC5 = ws.getCell('C5');
+        cC5.value = "Mã: BM 01/TMVT-01";
+        cC5.style = infoStyle;
+
+        const cI5 = ws.getCell('I5');
+        cI5.value = "Ngày hiệu lực: 01/07/2017";
+        cI5.style = infoStyle;
+
         // Set Height for Header Rows
         [1, 2, 3, 4].forEach(r => ws.getRow(r).height = 20); // Logo/Title rows
         ws.getRow(5).height = 25; // Info row
