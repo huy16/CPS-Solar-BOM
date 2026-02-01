@@ -153,11 +153,20 @@ export class ExportService {
             // T (20): Ruột gà lõi thép (Conduit)
             r.getCell(20).value = getQty(i => i.name.toLowerCase().includes("ruột gà lõi thép") || i.name.includes("OMB"));
 
-            // U (21): JUNC_BOX (Only count the Box itself, not everything in Group X)
-            r.getCell(21).value = getQty(i => i.name.toLowerCase().includes("vỏ tủ suntree") || i.code.includes("SH12PN"));
+            // U (21): JUNC_BOX - Logic per Inverter (2/3/4)
+            let reportJBox = 0;
+            const invCode = (inverterItem ? inverterItem.code || "" : "").toUpperCase();
+            if (["SUN2000-8K", "SUN2000-10K", "SUN2000-12K", "SUN2000-15K", "SUN2000-20K"].some(m => invCode.includes(m))) {
+                reportJBox = 2;
+            } else if (invCode.includes("SUN2000-30K") || invCode.includes("SUN2000-40K")) {
+                reportJBox = 3;
+            } else if (invCode.includes("SUN2000-50K")) {
+                reportJBox = 4;
+            }
+            r.getCell(21).value = reportJBox;
 
-            // V (22): SUNTREE (The Surge Protections)
-            r.getCell(22).value = getQty(i => i.name.toLowerCase().includes("prosurge") || i.code.includes("PV50"));
+            // V (22): SUNTREE (Forced 0 per user requirement)
+            r.getCell(22).value = 0;
 
             // W (23): NOTE
             r.getCell(23).value = ""; // Leave empty
@@ -264,12 +273,12 @@ export class ExportService {
             });
         }
 
-        // SPECIAL LOGIC: Force Prosurge PV50 quantity to 2 (Fixed per Project/File)
+        // SPECIAL LOGIC: Force Prosurge PV50 quantity to 0 (Forced per User Request: SUNTREE = 0)
         if (groupsData['XI']) {
             Object.keys(groupsData['XI']).forEach(key => {
                 const item = groupsData['XI'][key];
                 if (item.code === "PV50-1000-V-CD-S" || (item.name && item.name.toLowerCase().includes("cb chống sét prosurge"))) {
-                    item.quantity = 2; // Fixed requirement: Always 2 per file
+                    item.quantity = 0; // User Req: SUNTREE = 0
                 }
             });
         }
@@ -305,7 +314,7 @@ export class ExportService {
             juncBoxQty = 2;
         } else if (["SUN2000-30K", "SUN2000-40K"].some(m => invModelUpper.includes(m))) {
             juncBoxQty = 3;
-        } else if (["SUN2000-50K", "SUN2000-60K"].some(m => invModelUpper.includes(m))) {
+        } else if (["SUN2000-50K"].some(m => invModelUpper.includes(m))) {
             juncBoxQty = 4;
         }
 
