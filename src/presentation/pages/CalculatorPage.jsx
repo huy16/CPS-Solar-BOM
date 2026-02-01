@@ -1,5 +1,5 @@
 
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { ProjectConfig } from '../../domain/entities/ProjectConfig';
 import { DI } from '../../infrastructure/di/Container';
 import DatalinkImporter from '../components/DatalinkImporter';
@@ -8,7 +8,46 @@ import WorkflowStepper from '../components/WorkflowStepper';
 import equipmentData from '../../data/equipment_data.json';
 import { ExportService } from '../../services/ExportService';
 
-export default function CalculatorPage() {
+// Simple Error Boundary for Debugging
+class ErrorBoundary extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = { hasError: false, error: null };
+    }
+
+    static getDerivedStateFromError(error) {
+        return { hasError: true, error };
+    }
+
+    componentDidCatch(error, errorInfo) {
+        console.error("ErrorBoundary caught an error", error, errorInfo);
+    }
+
+    render() {
+        if (this.state.hasError) {
+            return (
+                <div className="p-4 bg-red-100 border border-red-400 text-red-700 rounded-lg m-4">
+                    <h2 className="font-bold text-lg mb-2">Something went wrong.</h2>
+                    <details className="whitespace-pre-wrap font-mono text-sm">
+                        {this.state.error && this.state.error.toString()}
+                    </details>
+                </div>
+            );
+        }
+        return this.props.children;
+    }
+}
+
+// Wrap the export
+export default function CalculatorPageWrapper() {
+    return (
+        <ErrorBoundary>
+            <CalculatorPage />
+        </ErrorBoundary>
+    );
+}
+
+function CalculatorPage() {
     // Workflow State
     const [activeStep, setActiveStep] = useState(0); // 0: Input, 1: Result (Skipping explicit Review for now as it's built-in to components)
     // Actually, let's Stick to the plan:
@@ -168,7 +207,7 @@ export default function CalculatorPage() {
     };
 
     const renderResultStep = () => {
-        const totalCostAll = reports.reduce((acc, r) => acc + (r.totalCost || 0), 0);
+        const totalCostAll = (reports || []).filter(r => r).reduce((acc, r) => acc + (r?.totalCost || 0), 0);
 
         return (
             <div className="max-w-6xl mx-auto animate-fade-in-up">
@@ -218,22 +257,6 @@ export default function CalculatorPage() {
                                 {selectedShops.size === 0 ? 'Chọn dự án để xuất riêng lẻ' : `Đã chọn ${selectedShops.size}/${reports.length} dự án`}
                             </span>
                         </div>
-                        <button
-                            onClick={() => setExpandedShops(expandedShops.size === reports.length ? new Set() : new Set(reports.map((_, i) => i)))}
-                            className="text-sm text-energy-700 hover:text-energy-900 font-bold uppercase tracking-wider flex items-center gap-1 transition-colors bg-energy-50 px-3 py-1 rounded-lg border border-energy-100 hover:border-energy-300"
-                        >
-                            {expandedShops.size === reports.length ? (
-                                <>
-                                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 15l7-7 7 7" /></svg>
-                                    Thu gọn
-                                </>
-                            ) : (
-                                <>
-                                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" /></svg>
-                                    Mở rộng chi tiết
-                                </>
-                            )}
-                        </button>
                     </div>
                 </div>
 
@@ -257,23 +280,23 @@ export default function CalculatorPage() {
                                 </div>
                             </div>
 
-                            <h4 className="font-bold text-slate-800 text-sm mb-1 truncate" title={report.projectName}>
-                                {report.projectName}
+                            <h4 className="font-bold text-slate-800 text-sm mb-1 truncate" title={report?.projectName}>
+                                {report?.projectName || report?.projectId}
                             </h4>
 
                             <div className="flex items-center gap-2 mb-3">
                                 <span className="text-[10px] font-bold text-white bg-gradient-to-r from-blue-500 to-cyan-500 px-2 py-0.5 rounded-full shadow-sm shadow-blue-200">
-                                    {report.config.dcPower} kWp
+                                    {report?.config?.dcPower} kWp
                                 </span>
-                                {report.config.pvModel && (
+                                {report?.config?.pvModel && (
                                     <span className="text-[9px] text-slate-400 font-medium truncate flex-1 text-right" title={report.config.pvModel}>
-                                        {report.config.pvModel.split('-').pop()}
+                                        {String(report.config.pvModel).split('-').pop()}
                                     </span>
                                 )}
                             </div>
 
                             <div className="pt-2 border-t border-slate-100 flex justify-between items-center">
-                                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">{report.items.length} Items</span>
+                                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">{report?.items?.length || 0} Items</span>
                                 <span className="w-6 h-6 rounded-full bg-slate-50 text-slate-400 group-hover:bg-energy-50 group-hover:text-energy-600 flex items-center justify-center transition-colors">
                                     <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
                                 </span>
@@ -289,13 +312,13 @@ export default function CalculatorPage() {
                             <div className="px-8 py-5 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
                                 <div>
                                     <div className="flex items-center gap-3 mb-1">
-                                        <h3 className="text-xl font-bold text-slate-800 font-display">{viewDetailReport.projectName}</h3>
-                                        <span className="bg-energy-100 text-energy-700 text-xs font-bold px-2 py-0.5 rounded border border-energy-200">{viewDetailReport.projectId}</span>
+                                        <h3 className="text-xl font-bold text-slate-800 font-display">{viewDetailReport?.projectName}</h3>
+                                        <span className="bg-energy-100 text-energy-700 text-xs font-bold px-2 py-0.5 rounded border border-energy-200">{viewDetailReport?.projectId}</span>
                                     </div>
                                     <div className="flex items-center gap-4 text-sm text-slate-500">
-                                        <span className="flex items-center gap-1"><strong className="text-slate-700">{viewDetailReport.config.dcPower}</strong> kWp</span>
-                                        <span className="flex items-center gap-1"><strong className="text-slate-700">{viewDetailReport.config.panelCount}</strong> Panels</span>
-                                        <span className="flex items-center gap-1 bg-slate-100 px-2 rounded text-xs">{viewDetailReport.config.pvModel}</span>
+                                        <span className="flex items-center gap-1"><strong className="text-slate-700">{viewDetailReport?.config?.dcPower}</strong> kWp</span>
+                                        <span className="flex items-center gap-1"><strong className="text-slate-700">{viewDetailReport?.config?.panelCount}</strong> Panels</span>
+                                        <span className="flex items-center gap-1 bg-slate-100 px-2 rounded text-xs">{viewDetailReport?.config?.pvModel}</span>
                                     </div>
                                 </div>
                                 <button ref={el => el?.focus()} onClick={() => setViewDetailReport(null)} className="w-10 h-10 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 hover:text-red-500 flex items-center justify-center transition-all">
@@ -314,7 +337,7 @@ export default function CalculatorPage() {
                                         </tr>
                                     </thead>
                                     <tbody className="divide-y divide-slate-100 bg-white">
-                                        {viewDetailReport.items.map((item, i) => (
+                                        {viewDetailReport?.items?.map((item, i) => (
                                             <tr key={i} className="hover:bg-blue-50/30 transition-colors">
                                                 <td className="py-3 px-6 text-[10px] font-bold text-slate-400 uppercase tracking-widest">{item.group}</td>
                                                 <td className="py-3 px-6 font-medium text-slate-700">{item.name}</td>
