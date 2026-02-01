@@ -271,18 +271,9 @@ export class CalculateBOQ {
 
         // Group X: Vat tu tu trung gian va cai tao diem dau noi (Manual Input -> 0)
         // JUNC_BOX Logic
-        let sh12pnQty = 0;
-        if (["SUN2000-12K", "SUN2000-15K", "SUN2000-20K"].some(m => invModelUpper.includes(m))) {
-            sh12pnQty = 2;
-        } else if (["SUN2000-30K", "SUN2000-40K"].some(m => invModelUpper.includes(m))) {
-            sh12pnQty = 3;
-        } else if (["SUN2000-50K"].some(m => invModelUpper.includes(m))) {
-            sh12pnQty = 4;
-        }
 
         groups["X"].items.push(mkItem("X", "Tủ sơn tĩnh điện ngoài trời kích thước 400x300x100 dày 1.5mm", "TULE-4030", "pcs", 0));
         groups["X"].items.push(mkItem("X", "Vỏ tủ Suntree SH12PN, ngoài trời", "SH12PN", "set", 0)); // User Req: Default 0
-        groups["X"].items.push(mkItem("X", "Hộp nối dây (Junction Box)", "JUNC_BOX", "set", sh12pnQty)); // User Req: Logic applied here
         groups["X"].items.push(mkItem("X", "CABLE GLANDS PG21, GREY, Ø28.3MM", "PG21", "pcs", 0));
         groups["X"].items.push(mkItem("X", "Hàng kẹp lấy mạch áp", "URTK/SS", "pcs", 0));
         groups["X"].items.push(mkItem("X", "Tấm che hàng kẹp", "D-URTK/SS", "pcs", 0));
