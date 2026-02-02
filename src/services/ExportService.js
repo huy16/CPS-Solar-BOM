@@ -603,6 +603,15 @@ export class ExportService {
                     }
                 }
 
+                // FIX: Explicit fallback for "Vít đầu cờ lê" (Item 8/16 duplication issue)
+                // The template has "(hình ảnh đính kèm)" which causes partial match to fail/be inconsistent
+                if (!targetRow && name.includes("vitdaucole") && name.includes("m8x50")) {
+                    const dirtyKey = Object.keys(existingRowMap).find(k => k.includes("vitdaucole") && k.includes("hinhanh"));
+                    if (dirtyKey && !touchedRows.has(existingRowMap[dirtyKey])) {
+                        targetRow = existingRowMap[dirtyKey];
+                    }
+                }
+
                 if (targetRow) {
                     // MARK as used immediately to prevent duplicate matching
                     touchedRows.add(targetRow);
@@ -623,17 +632,41 @@ export class ExportService {
                     c2.style = { ...c2.style, border: borderThin, alignment: { vertical: 'middle', horizontal: 'left', wrapText: true }, font: fontStyle };
 
                     // DYNAMIC ROW HEIGHT HEURISTIC
-                    // Column 2 width is ~62. High-density wrapping.
-                    // Factor ~ 16 height units per line.
-                    const charCount = nameText.length;
-                    const newlineCount = (nameText.match(/\n/g) || []).length;
+                    let finalLines = 1;
+                    if (groupId === 'IX') {
+                        // Enhanced AutoFit for Group IX
+                        const lines = (nameText || "").toString().split('\n');
+                        let totalVisualLines = 0;
+                        const charsPerLine = 60;
+                        lines.forEach(line => {
+                            const lineLen = line.length;
+                            if (lineLen === 0) totalVisualLines += 1;
+                            else totalVisualLines += Math.ceil(lineLen / charsPerLine);
+                        });
+                        finalLines = totalVisualLines;
+                        if (finalLines > 1) {
+                            r.height = Math.max(20, finalLines * 16.5);
+                        } else {
+                            r.height = Math.max(r.height || 20, 20);
+                        }
+                    } else {
+                        // Standard Heuristic for others
+                        const charCount = nameText.length;
+                        const newlineCount = (nameText.match(/\n/g) || []).length;
+                        if (charCount > 62 || newlineCount > 0) {
+                            const estimatedLinesByWidth = Math.ceil(charCount / 58);
+                            const formattingLines = newlineCount + 1;
+                            finalLines = Math.max(estimatedLinesByWidth, formattingLines);
+                            r.height = Math.max(r.height || 0, finalLines * 16);
+                        }
+                    }
 
-                    if (charCount > 62 || newlineCount > 0) {
-                        const estimatedLinesByWidth = Math.ceil(charCount / 58);
-                        const formattingLines = newlineCount + 1;
-                        // Use the greater estimate, as explicit newlines force height
-                        const finalLines = Math.max(estimatedLinesByWidth, formattingLines);
-                        r.height = Math.max(r.height || 0, finalLines * 16);
+                    // SPECIFIC HEIGHT OVERRIDES
+                    const lowerName = nameText.toLowerCase();
+                    if (lowerName.includes("smart dongle-wlan-fe")) {
+                        r.height = 41.40;
+                    } else if (lowerName.includes("smart power sensor") && lowerName.includes("3 phase")) {
+                        r.height = 27.60;
                     }
 
                     // Col 3-5 (Code, Supplier, Unit): Center (Break Shared Style) - FORCE ALIGNMENT
@@ -718,17 +751,44 @@ export class ExportService {
                     const finalName = dbItem && dbItem.description ? dbItem.description : item.name;
 
                     // DYNAMIC ROW HEIGHT HEURISTIC
-                    // Col B width is ~62. High-density wrapping.
-                    const charCount = (finalName || "").toString().length;
-                    const newlineCount = ((finalName || "").toString().match(/\n/g) || []).length;
-
-                    if (charCount > 62 || newlineCount > 0) {
-                        const estimatedLinesByWidth = Math.ceil(charCount / 58);
-                        const formattingLines = newlineCount + 1;
-                        const finalLines = Math.max(estimatedLinesByWidth, formattingLines);
-                        r.height = Math.max(16, finalLines * 16);
+                    let finalLines = 1;
+                    if (groupId === 'IX') {
+                        // Enhanced AutoFit for Group IX
+                        const lines = (finalName || "").toString().split('\n');
+                        let totalVisualLines = 0;
+                        const charsPerLine = 60;
+                        lines.forEach(line => {
+                            const lineLen = line.length;
+                            if (lineLen === 0) totalVisualLines += 1;
+                            else totalVisualLines += Math.ceil(lineLen / charsPerLine);
+                        });
+                        finalLines = totalVisualLines;
+                        if (finalLines > 1) {
+                            r.height = Math.max(20, finalLines * 16.5);
+                        } else {
+                            r.height = defaultGroupHeight;
+                        }
                     } else {
-                        r.height = defaultGroupHeight;
+                        // Standard Heuristic
+                        const charCount = (finalName || "").toString().length;
+                        const newlineCount = ((finalName || "").toString().match(/\n/g) || []).length;
+
+                        if (charCount > 62 || newlineCount > 0) {
+                            const estimatedLinesByWidth = Math.ceil(charCount / 58);
+                            const formattingLines = newlineCount + 1;
+                            finalLines = Math.max(estimatedLinesByWidth, formattingLines);
+                            r.height = Math.max(16, finalLines * 16);
+                        } else {
+                            r.height = defaultGroupHeight;
+                        }
+                    }
+
+                    // SPECIFIC HEIGHT OVERRIDES
+                    const lowerFinalName = finalName.toLowerCase();
+                    if (lowerFinalName.includes("smart dongle-wlan-fe")) {
+                        r.height = 41.40;
+                    } else if (lowerFinalName.includes("smart power sensor") && lowerFinalName.includes("3 phase")) {
+                        r.height = 27.60;
                     }
                     const finalUnit = dbItem && dbItem.unit ? dbItem.unit : item.unit;
                     let finalSupplier = "Vietnam";
@@ -814,6 +874,23 @@ export class ExportService {
                     // Re-apply border logic from line 446: setStyle(1, borderLeftDouble, alignCenter)
                     const borderLeftDouble = { top: { style: 'thin' }, left: { style: 'double' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
                     c1.style.border = borderLeftDouble;
+
+                    // ROW HEIGHT OVERRIDE FOR GROUP IX (User Request Step 513)
+                    if (groupId === 'IX') {
+                        const currentSTT = stt - 1; // stt was incremented above
+                        if (currentSTT >= 1 && currentSTT <= 5) {
+                            row.height = 14.40;
+                        } else if (currentSTT >= 6 && currentSTT <= 7) {
+                            row.height = 27.60;
+                        } else if (currentSTT >= 8) {
+                            row.height = 14.40;
+                        }
+                    }
+
+                    // ROW HEIGHT OVERRIDE FOR GROUP XI
+                    if (groupId === 'XI') {
+                        row.height = 14.40;
+                    }
                 }
             }
 
