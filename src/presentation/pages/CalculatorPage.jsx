@@ -212,48 +212,48 @@ function CalculatorPage() {
         return (
             <div className="max-w-6xl mx-auto animate-fade-in-up">
                 {/* Header */}
-                <div className="bg-white/90 backdrop-blur rounded-2xl border border-slate-200 shadow-sm mb-6 overflow-hidden">
-                    <div className="bg-gradient-to-r from-energy-800 to-cyan-900 px-8 py-6 flex justify-between items-center relative overflow-hidden">
+                <div className="bg-white/90 backdrop-blur rounded-2xl border border-slate-200 shadow-sm mb-4 overflow-hidden">
+                    <div className="bg-gradient-to-r from-energy-800 to-cyan-900 px-4 md:px-6 py-3 md:py-4 flex flex-col md:flex-row justify-between items-center gap-3 relative overflow-hidden">
                         <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10"></div>
-                        <h2 className="text-2xl font-bold text-white flex items-center gap-4 font-display relative z-10">
-                            <span className="w-12 h-12 rounded-xl bg-gradient-to-br from-green-400 to-energy-600 flex items-center justify-center shadow-lg transform rotate-3 hover:rotate-0 transition-all duration-300">
-                                <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <h2 className="text-lg md:text-xl font-bold text-white flex items-center gap-3 md:gap-4 font-display relative z-10">
+                            <span className="w-8 h-8 md:w-10 md:h-10 rounded-lg bg-gradient-to-br from-green-400 to-energy-600 flex items-center justify-center shadow-lg transform rotate-3 hover:rotate-0 transition-all duration-300">
+                                <svg className="w-4 h-4 md:w-5 md:h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7m0 10a2 2 0 002 2h2a2 2 0 002-2V7a2 2 0 00-2-2h-2a2 2 0 00-2 2" />
                                 </svg>
                             </span>
                             <div>
-                                <div className="text-sm font-light text-cyan-200 uppercase tracking-widest">Engineering Report</div>
-                                <div className="tracking-tight">Kết Quả Tính Toán</div>
+                                <div className="text-[9px] font-light text-cyan-200 uppercase tracking-widest leading-none">Engineering Report</div>
+                                <div className="tracking-tight mt-0.5">Kết Quả Tính Toán</div>
                             </div>
                         </h2>
-                        <div className="flex gap-3 relative z-10">
+                        <div className="flex flex-col sm:flex-row gap-2 w-full md:w-auto relative z-10">
                             <button
                                 onClick={resetWorkflow}
-                                className="px-5 py-2.5 bg-white/10 hover:bg-white/20 border border-white/20 text-white rounded-xl font-medium transition-all backdrop-blur-sm flex items-center gap-2"
+                                className="px-4 py-2 bg-white/10 hover:bg-white/20 border border-white/20 text-white rounded-lg font-medium transition-all backdrop-blur-sm flex items-center justify-center md:justify-start gap-2 text-xs md:text-sm"
                             >
                                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                                 New Project
                             </button>
                             <button
                                 onClick={handleSelectiveExport}
-                                className="px-5 py-2.5 bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white rounded-xl font-bold shadow-lg shadow-green-900/20 flex items-center gap-2 transition-all hover:-translate-y-0.5"
+                                className="px-4 py-2 bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white rounded-lg font-bold shadow-lg shadow-green-900/20 flex items-center justify-center md:justify-start gap-2 transition-all hover:-translate-y-0.5 text-xs md:text-sm"
                             >
-                                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
                                 Export Data {selectedShops.size > 0 ? `(${selectedShops.size})` : 'All'}
                             </button>
                         </div>
                     </div>
 
                     {/* Selection Controls */}
-                    <div className="bg-slate-50/80 px-8 py-4 flex justify-between items-center border-t border-slate-200/60 backdrop-blur">
-                        <div className="flex items-center gap-3">
+                    <div className="bg-slate-50/80 px-4 md:px-6 py-2 flex justify-between items-center border-t border-slate-200/60 backdrop-blur">
+                        <div className="flex items-center gap-2">
                             <input
                                 type="checkbox"
                                 checked={selectedShops.size === reports.length && reports.length > 0}
                                 onChange={selectAllShops}
-                                className="w-5 h-5 rounded border-slate-300 text-energy-600 focus:ring-energy-500 cursor-pointer"
+                                className="w-4 h-4 rounded border-slate-300 text-energy-600 focus:ring-energy-500 cursor-pointer"
                             />
-                            <span className="text-sm font-medium text-slate-600">
+                            <span className="text-[10px] md:text-xs font-medium text-slate-600">
                                 {selectedShops.size === 0 ? 'Chọn dự án để xuất riêng lẻ' : `Đã chọn ${selectedShops.size}/${reports.length} dự án`}
                             </span>
                         </div>
@@ -261,7 +261,7 @@ function CalculatorPage() {
                 </div>
 
                 {/* Grid View */}
-                <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-3">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-3">
                     {reports.map((report, idx) => (
                         <div
                             key={idx}
@@ -307,50 +307,50 @@ function CalculatorPage() {
 
                 {/* Detail Modal */}
                 {viewDetailReport && (
-                    <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-fade-in">
-                        <div className="bg-white rounded-3xl shadow-2xl w-full max-w-5xl max-h-[90vh] flex flex-col overflow-hidden animate-zoom-in">
-                            <div className="px-8 py-5 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
-                                <div>
-                                    <div className="flex items-center gap-3 mb-1">
-                                        <h3 className="text-xl font-bold text-slate-800 font-display">{viewDetailReport?.projectName}</h3>
-                                        <span className="bg-energy-100 text-energy-700 text-xs font-bold px-2 py-0.5 rounded border border-energy-200">{viewDetailReport?.projectId}</span>
+                    <div className="fixed inset-0 z-[9999] flex items-center justify-center p-2 bg-slate-900/60 backdrop-blur-sm animate-fade-in">
+                        <div className="bg-white rounded-2xl md:rounded-3xl shadow-2xl w-full max-w-5xl max-h-[95vh] flex flex-col overflow-hidden animate-zoom-in">
+                            <div className="px-5 py-3 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
+                                <div className="flex flex-col md:flex-row md:items-center gap-1 md:gap-4">
+                                    <div className="flex items-center gap-2">
+                                        <h3 className="text-base md:text-lg font-bold text-slate-800 font-display">{viewDetailReport?.projectName}</h3>
+                                        <span className="bg-energy-100 text-energy-700 text-[9px] font-bold px-1.5 py-0.5 rounded border border-energy-200">{viewDetailReport?.projectId}</span>
                                     </div>
-                                    <div className="flex items-center gap-4 text-sm text-slate-500">
+                                    <div className="flex items-center gap-3 text-[11px] md:text-xs text-slate-500 font-medium">
                                         <span className="flex items-center gap-1"><strong className="text-slate-700">{viewDetailReport?.config?.dcPower}</strong> kWp</span>
                                         <span className="flex items-center gap-1"><strong className="text-slate-700">{viewDetailReport?.config?.panelCount}</strong> Panels</span>
-                                        <span className="flex items-center gap-1 bg-slate-100 px-2 rounded text-xs">{viewDetailReport?.config?.pvModel}</span>
+                                        <span className="flex items-center gap-1 bg-slate-100 px-1.5 rounded text-[10px]">{viewDetailReport?.config?.pvModel}</span>
                                     </div>
                                 </div>
-                                <button ref={el => el?.focus()} onClick={() => setViewDetailReport(null)} className="w-10 h-10 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 hover:text-red-500 flex items-center justify-center transition-all">
-                                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                                <button ref={el => el?.focus()} onClick={() => setViewDetailReport(null)} className="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 hover:text-red-500 flex items-center justify-center transition-all">
+                                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
                                 </button>
                             </div>
 
-                            <div className="flex-1 overflow-y-auto custom-scrollbar p-6 bg-slate-50/30">
-                                <table className="w-full text-sm rounded-lg overflow-hidden ring-1 ring-slate-200">
+                            <div className="flex-1 overflow-y-auto custom-scrollbar p-3 md:p-4 bg-slate-50/30">
+                                <table className="w-full text-xs md:text-sm rounded-lg overflow-hidden ring-1 ring-slate-200">
                                     <thead className="bg-slate-100 sticky top-0 shadow-sm">
-                                        <tr className="text-slate-600 text-xs font-bold uppercase tracking-wider text-left">
-                                            <th className="py-3 px-6 w-32">Group</th>
-                                            <th className="py-3 px-6">Hạng Mục / Thiết Bị</th>
-                                            <th className="py-3 px-6 text-right w-32">Số Lượng</th>
-                                            <th className="py-3 px-6 text-center w-24">ĐVT</th>
+                                        <tr className="text-slate-600 text-[9px] font-bold uppercase tracking-wider text-left">
+                                            <th className="py-2 px-4 w-24 md:w-32">Group</th>
+                                            <th className="py-2 px-4">Hạng Mục / Thiết Bị</th>
+                                            <th className="py-2 px-4 text-right w-24 md:w-32">Số Lượng</th>
+                                            <th className="py-2 px-4 text-center w-20 md:w-24">ĐVT</th>
                                         </tr>
                                     </thead>
                                     <tbody className="divide-y divide-slate-100 bg-white">
                                         {viewDetailReport?.items?.map((item, i) => (
                                             <tr key={i} className="hover:bg-blue-50/30 transition-colors">
-                                                <td className="py-3 px-6 text-[10px] font-bold text-slate-400 uppercase tracking-widest">{item.group}</td>
-                                                <td className="py-3 px-6 font-medium text-slate-700">{item.name}</td>
-                                                <td className="py-3 px-6 text-right font-mono font-bold text-blue-600">{new Intl.NumberFormat('vi-VN').format(item.quantity)}</td>
-                                                <td className="py-3 px-6 text-center text-xs text-slate-500">{item.unit}</td>
+                                                <td className="py-2 px-4 text-[9px] font-bold text-slate-400 uppercase tracking-widest">{item.group}</td>
+                                                <td className="py-2 px-4 font-medium text-slate-700 text-[11px] md:text-sm">{item.name}</td>
+                                                <td className="py-2 px-4 text-right font-mono font-bold text-blue-600 text-[11px] md:text-sm">{new Intl.NumberFormat('vi-VN').format(item.quantity)}</td>
+                                                <td className="py-2 px-4 text-center text-[10px] md:text-xs text-slate-500">{item.unit}</td>
                                             </tr>
                                         ))}
                                     </tbody>
                                 </table>
                             </div>
 
-                            <div className="px-8 py-4 border-t border-slate-100 bg-white flex justify-end gap-3">
-                                <button onClick={() => setViewDetailReport(null)} className="px-6 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl transition-all">Đóng</button>
+                            <div className="px-5 py-2.5 border-t border-slate-100 bg-white flex justify-end gap-3">
+                                <button onClick={() => setViewDetailReport(null)} className="px-6 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl transition-all text-sm">Đóng</button>
                             </div>
                         </div>
                     </div>

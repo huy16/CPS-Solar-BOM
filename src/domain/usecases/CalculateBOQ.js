@@ -247,7 +247,7 @@ export class CalculateBOQ {
         groups["VI"].items.push(mkItem("VI", "Dau noi ong ruot ga 3/4 va ong ruot ga", "MCK34", "Pcs", Math.round(conduit * 0.35 / 35)));
         groups["VI"].items.push(mkItem("VI", "Dau bit ong ruot ga 3/4", "AMF34", "Pcs", amf34));
         groups["VI"].items.push(mkItem("VI", "Mang cap hop 100x60mm sử dụng nhựa chống cháy, cây dài 2m, đóng gói theo bó 6 cây", "EH100/60", "Pcs", Math.round(SITE_COUNT * 3.5)));
-        groups["VI"].items.push(mkItem("VI", "Ong ruot ga mem SP D16, 50m/cuon luon day mang tu router shop den Inverter", "SP9016CM", "Meter", 50)); // Updated: 50m per site
+        groups["VI"].items.push(mkItem("VI", "Ống ruột gà mềm SP D16, 50m/cuộn luồn dây mạng từ router shop đến inverter.", "SP9016CM", "Meter", 50)); // Updated: 50m per site
 
         // Group IX: Vat tu phu thi cong lap dat (Scaled by kWp)
         groups["IX"].items.push(mkItem("IX", "Sikaflex - 140 Construction (Concrete Grey) 600ml", "", "Tube", Math.ceil(kwp * 0.1)));
@@ -255,9 +255,9 @@ export class CalculateBOQ {
         groups["IX"].items.push(mkItem("IX", "Keo bọt nở Apollo Foam 750ml", "", "Bottle", Math.ceil(kwp * 0.05)));
         groups["IX"].items.push(mkItem("IX", "Dây rút thép bọc nhựa 7.9x400", "", "Pcs", Math.ceil(kwp * 1.5)));
         groups["IX"].items.push(mkItem("IX", "Ke vuông nhôm định hình (hình ảnh đính kèm)", "", "Pcs", Math.ceil(kwp * 2.2)));
-        groups["IX"].items.push(mkItem("IX", "Tắc kê nhựa Fischer M8x50mm cho tường gạch lỗ \r\n(hình ảnh đính kèm)", "FISCHER-M8x50", "Set", Math.ceil(kwp * 2.5)));
-        groups["IX"].items.push(mkItem("IX", "Vít đầu cờ lê, loại bắt vào tắc kê, M8x50 (hình ảnh đính kèm)", "", "Pcs", Math.ceil(kwp * 1.9)));
+        groups["IX"].items.push(mkItem("IX", "Tắc kê nhựa Fischer M8x50mm cho tường gạch lỗ", "FISCHER-M8x50", "Set", Math.ceil(kwp * 2.5)));
         groups["IX"].items.push(mkItem("IX", "Lông đền phẳng loại dày lỗ 8 cho bulong M8, đường kính ngoài 25mm", "", "Pcs", Math.ceil(kwp * 1.6)));
+        groups["IX"].items.push(mkItem("IX", "Vít đầu cờ lê, loại bắt vào tắc kê, M8x50", "", "Pcs", Math.ceil(kwp * 1.9)));
         groups["IX"].items.push(mkItem("IX", "Vít bắn tôn mạ kẽm nhúng nóng dài 6cm \r\n(đuôi cá)", "", "Pcs", Math.ceil(kwp * 2)));
         groups["IX"].items.push(mkItem("IX", "Vít bắn tôn mạ kẽm nhúng nóng dài 10cm \r\n(đuôi cá)", "", "Pcs", Math.ceil(kwp * 3)));
         groups["IX"].items.push(mkItem("IX", "Lồng đền phẳng 6mm", "", "pcs", Math.ceil(kwp * 1.8)));

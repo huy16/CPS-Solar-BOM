@@ -256,78 +256,78 @@ export default function BulkInputComponent({ onDataParsed }) {
 
     return (
         <>
-            <div className="space-y-3 animate-fade-in-up origin-top transform scale-[0.85]">
+            <div className="space-y-3 animate-fade-in-up origin-top transform">
                 {/* Header Section with Solar Farm Background */}
-                <div className="relative rounded-3xl shadow-xl overflow-hidden group min-h-[180px] flex flex-col justify-center items-center text-center p-6 ring-1 ring-slate-900/5">
+                <div className="relative rounded-2xl md:rounded-3xl shadow-xl overflow-hidden group min-h-[100px] md:min-h-[120px] flex flex-col justify-center items-center text-center p-3 md:p-4 ring-1 ring-slate-900/5">
 
                     {/* CSS-based Solar Farm Background */}
                     <div className="absolute inset-0 bg-slate-900">
                         <img
                             src={dashboardBg}
                             alt="Solar Farm Background"
-                            className="w-full h-full object-fill opacity-95 transition-transform duration-1000 group-hover:scale-105"
+                            className="w-full h-full object-cover md:object-fill opacity-95 transition-transform duration-1000 group-hover:scale-105"
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/50 to-slate-900/20 mix-blend-multiply"></div>
                         <div className="absolute inset-0 bg-blue-600/10 mix-blend-overlay"></div>
                     </div>
 
-                    <div className="absolute -top-20 -right-20 w-96 h-96 bg-yellow-500/20 rounded-full blur-3xl animate-pulse-slow"></div>
+                    <div className="absolute -top-20 -right-20 w-64 md:w-80 h-64 md:h-80 bg-yellow-500/20 rounded-full blur-3xl animate-pulse-slow"></div>
 
-                    <div className="relative z-10 space-y-2">
-                        <h2 className="text-3xl font-black text-white tracking-tight font-display drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]">
+                    <div className="relative z-10 space-y-1 md:space-y-2 px-2">
+                        <h2 className="text-lg sm:text-xl md:text-2xl font-black text-white tracking-tight font-display drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]">
                             Dữ Liệu Dự Án
                         </h2>
-                        <p className="text-slate-200 text-lg font-medium mx-auto max-w-2xl bg-slate-900/40 backdrop-blur-md py-1.5 px-6 rounded-full border border-white/10 shadow-lg inline-block">
+                        <p className="text-slate-200 text-xs md:text-sm font-medium mx-auto max-w-2xl bg-slate-900/50 backdrop-blur-md py-1 md:py-1.5 px-3 md:px-6 rounded-full border border-white/10 shadow-lg inline-block">
                             Nhập thông tin các site Solar để tính toán <span className="text-energy-400 font-bold">BOQ & BOM</span> tự động
                         </p>
                     </div>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-                    <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-3 flex flex-col hover:shadow-md transition-shadow duration-300">
-                        <h3 className="text-lg font-bold text-slate-800 mb-4 flex items-center gap-2.5 font-display">
-                            <span className="w-8 h-8 rounded-lg bg-gradient-to-br from-amber-100 to-orange-100 flex items-center justify-center text-orange-600 shadow-sm ring-1 ring-orange-500/20">
-                                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-2 md:gap-3">
+                    <div className="bg-white rounded-xl md:rounded-2xl shadow-sm border border-slate-200 p-2 md:p-3 flex flex-col hover:shadow-md transition-shadow duration-300">
+                        <h3 className="text-base md:text-lg font-bold text-slate-800 mb-2 md:mb-3 flex items-center gap-2 font-display">
+                            <span className="w-6 h-6 md:w-8 md:h-8 rounded-lg bg-gradient-to-br from-amber-100 to-orange-100 flex items-center justify-center text-orange-600 shadow-sm ring-1 ring-orange-500/20">
+                                <svg className="w-4 h-4 md:w-5 md:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
                             </span>
                             <span className="bg-gradient-to-r from-slate-800 to-slate-600 bg-clip-text text-transparent">Cấu Hình Chung</span>
                         </h3>
 
-                        <div className="space-y-4 flex-1">
-                            <div className="bg-white rounded-xl p-3 border border-slate-200 shadow-sm hover:shadow-md transition-all duration-300">
-                                <label className="flex items-center gap-2 text-[10px] font-extrabold text-slate-400 uppercase tracking-wider mb-2">
+                        <div className="space-y-3 flex-1">
+                            <div className="bg-white rounded-xl p-2 md:p-3 border border-slate-200 shadow-sm hover:shadow-md transition-all duration-300">
+                                <label className="flex items-center gap-2 text-[9px] font-extrabold text-slate-400 uppercase tracking-wider mb-1.5">
                                     Loại Tấm Pin (PV Module)
                                 </label>
                                 <div className="relative group">
                                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400 group-hover:text-energy-500 transition-colors">
-                                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+                                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
                                     </div>
                                     <select
                                         value={selectedPV}
                                         onChange={(e) => setSelectedPV(e.target.value)}
-                                        className="w-full appearance-none bg-slate-50 text-slate-700 text-sm font-bold border border-slate-200 rounded-lg focus:ring-2 focus:ring-energy-500 focus:border-energy-500 py-2.5 pl-10 pr-10 transition-all shadow-sm outline-none cursor-pointer hover:bg-white hover:border-energy-300"
+                                        className="w-full appearance-none bg-slate-50 text-slate-700 text-xs font-bold border border-slate-200 rounded-lg focus:ring-2 focus:ring-energy-500 focus:border-energy-500 py-2 pl-9 pr-9 transition-all shadow-sm outline-none cursor-pointer hover:bg-white hover:border-energy-300"
                                     >
                                         {pvOptions.map(opt => (
                                             <option key={opt} value={opt}>{opt}</option>
                                         ))}
                                     </select>
                                     <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-slate-400 group-hover:text-energy-500">
-                                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" /></svg>
+                                        <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" /></svg>
                                     </div>
                                 </div>
 
                                 {(equipmentData.photovoltaics?.[selectedPV]?.powerKwp) && (
-                                    <div className="mt-3 relative overflow-hidden bg-gradient-to-br from-amber-50 to-orange-100 rounded-lg p-3 group/cap hover:shadow-md transition-all border border-orange-200/50">
-                                        <div className="absolute top-0 right-0 w-16 h-16 bg-gradient-to-br from-orange-400/20 to-transparent rounded-bl-full -mr-4 -mt-4"></div>
+                                    <div className="mt-2 relative overflow-hidden bg-gradient-to-br from-amber-50 to-orange-100 rounded-lg p-2 group/cap hover:shadow-md transition-all border border-orange-200/50">
+                                        <div className="absolute top-0 right-0 w-12 h-12 bg-gradient-to-br from-orange-400/20 to-transparent rounded-bl-full -mr-3 -mt-3"></div>
                                         <div className="relative flex justify-between items-end">
                                             <div>
-                                                <div className="text-[10px] font-bold text-orange-600/80 uppercase tracking-widest mb-0.5">Công suất thiết kế</div>
-                                                <div className="font-mono text-xl font-black text-slate-800 tracking-tight flex items-baseline gap-1">
+                                                <div className="text-[9px] font-bold text-orange-600/80 uppercase tracking-widest mb-0.5">Công suất thiết kế</div>
+                                                <div className="font-mono text-lg font-black text-slate-800 tracking-tight flex items-baseline gap-1">
                                                     {equipmentData.photovoltaics[selectedPV].powerKwp * 1000}
-                                                    <span className="text-xs font-bold text-orange-600">Wp</span>
+                                                    <span className="text-[10px] font-bold text-orange-600">Wp</span>
                                                 </div>
                                             </div>
-                                            <div className="w-8 h-8 rounded-full bg-white/80 flex items-center justify-center border border-orange-200 text-orange-500 shadow-sm group-hover/cap:scale-110 transition-transform">
-                                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+                                            <div className="w-6 h-6 rounded-full bg-white/80 flex items-center justify-center border border-orange-200 text-orange-500 shadow-sm group-hover/cap:scale-110 transition-transform">
+                                                <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
                                             </div>
                                         </div>
                                     </div>
@@ -336,28 +336,28 @@ export default function BulkInputComponent({ onDataParsed }) {
 
                             {/* New Project Status Sidebar Card */}
                             {previewData.length > 0 && (
-                                <div className="mt-2 bg-white rounded-xl p-3 border border-slate-200 shadow-sm animate-fade-in-up">
-                                    <div className="flex items-center justify-between mb-3">
-                                        <span className="text-[10px] font-extrabold text-slate-400 uppercase tracking-wider">Trạng thái Site</span>
-                                        <div className="flex h-2 w-2 relative">
+                                <div className="mt-1 bg-white rounded-xl p-2 border border-slate-200 shadow-sm animate-fade-in-up">
+                                    <div className="flex items-center justify-between mb-2">
+                                        <span className="text-[9px] font-extrabold text-slate-400 uppercase tracking-wider">Trạng thái Site</span>
+                                        <div className="flex h-1.5 w-1.5 relative">
                                             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-energy-400 opacity-75"></span>
-                                            <span className="relative inline-flex rounded-full h-2 w-2 bg-energy-500"></span>
+                                            <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-energy-500"></span>
                                         </div>
                                     </div>
 
-                                    <div className="flex items-center gap-4">
-                                        <div className="flex-1 bg-gradient-to-br from-blue-600 to-cyan-500 rounded-lg p-3 text-white shadow-lg shadow-blue-500/20">
-                                            <div className="text-[10px] font-bold text-blue-100 uppercase tracking-tighter mb-0.5 opacity-80">Site đã tải lên</div>
-                                            <div className="flex items-baseline gap-1.5 focus:outline-none">
-                                                <span className="text-2xl font-black font-mono leading-none tracking-tight">{previewData.length}</span>
-                                                <span className="text-[10px] font-bold opacity-70">SITES</span>
+                                    <div className="flex items-center gap-2">
+                                        <div className="flex-1 bg-gradient-to-br from-blue-600 to-cyan-500 rounded-lg p-2 text-white shadow-lg shadow-blue-500/20">
+                                            <div className="text-[9px] font-bold text-blue-100 uppercase tracking-tighter mb-0.5 opacity-80">Site đã tải lên</div>
+                                            <div className="flex items-baseline gap-1 focus:outline-none">
+                                                <span className="text-xl font-black font-mono leading-none tracking-tight">{previewData.length}</span>
+                                                <span className="text-[9px] font-bold opacity-70">SITES</span>
                                             </div>
                                         </div>
 
-                                        <div className="flex-1 bg-slate-50 border border-slate-100 rounded-lg p-3 border-l-4 border-l-energy-500">
-                                            <div className="text-[10px] font-bold text-slate-400 uppercase tracking-tighter mb-0.5">Tổng công suất</div>
+                                        <div className="flex-1 bg-slate-50 border border-slate-100 rounded-lg p-2 border-l-4 border-l-energy-500">
+                                            <div className="text-[9px] font-bold text-slate-400 uppercase tracking-tighter mb-0.5">Tổng công suất</div>
                                             <div className="flex items-baseline gap-1 text-slate-800">
-                                                <span className="text-lg font-black font-mono leading-none">{previewData.reduce((acc, curr) => acc + curr.dcPower, 0).toFixed(1)}</span>
+                                                <span className="text-base font-black font-mono leading-none">{previewData.reduce((acc, curr) => acc + curr.dcPower, 0).toFixed(1)}</span>
                                                 <span className="text-[9px] font-bold text-slate-400">kWp</span>
                                             </div>
                                         </div>
@@ -365,20 +365,20 @@ export default function BulkInputComponent({ onDataParsed }) {
 
                                     <button
                                         onClick={() => setPreviewData([])}
-                                        className="w-full mt-3 py-2 text-[10px] font-black text-slate-400 hover:text-red-500 border border-slate-100 hover:border-red-100 rounded-lg flex items-center justify-center gap-2 hover:bg-red-50 transition-all uppercase tracking-widest"
+                                        className="w-full mt-2 py-1.5 text-[9px] font-black text-slate-400 hover:text-red-500 border border-slate-100 hover:border-red-100 rounded-lg flex items-center justify-center gap-1.5 hover:bg-red-50 transition-all uppercase tracking-widest"
                                     >
-                                        <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+                                        <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
                                         Xóa tất cả Site
                                     </button>
                                 </div>
                             )}
                         </div>
 
-                        <div className="mt-auto pt-4 flex justify-center items-end">
+                        <div className="mt-auto pt-2 flex justify-center items-end">
                             <img
                                 src={solar3dIcon}
                                 alt="Solar 3D Decor"
-                                className="w-48 h-auto drop-shadow-2xl hover:scale-105 transition-transform duration-500 filter brightness-110"
+                                className="w-32 h-auto drop-shadow-2xl hover:scale-105 transition-transform duration-500 filter brightness-110"
                             />
                         </div>
                     </div>
@@ -388,36 +388,36 @@ export default function BulkInputComponent({ onDataParsed }) {
                         <div className="flex items-center bg-slate-50/80 border-b border-slate-200">
                             <button
                                 onClick={() => setActiveTab("import")}
-                                className={`flex-1 flex items-center justify-center gap-2 py-4 text-sm font-bold uppercase tracking-tight transition-all relative ${activeTab === "import" ? "text-blue-600 bg-white" : "text-slate-400 hover:text-slate-600"}`}
+                                className={`flex-1 flex items-center justify-center gap-2 py-3 md:py-4 text-xs md:text-sm font-bold uppercase tracking-tight transition-all relative ${activeTab === "import" ? "text-blue-600 bg-white" : "text-slate-400 hover:text-slate-600"}`}
                             >
-                                <svg className={`w-5 h-5 ${activeTab === "import" ? "text-blue-500" : "text-slate-300"}`} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
+                                <svg className={`w-4 h-4 md:w-5 md:h-5 ${activeTab === "import" ? "text-blue-500" : "text-slate-300"}`} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
                                 Nhập Dữ Liệu
                                 {activeTab === "import" && <div className="absolute bottom-0 left-0 right-0 h-1 bg-blue-500 rounded-t-full"></div>}
                             </button>
                             <button
                                 onClick={() => setActiveTab("list")}
-                                className={`flex-1 flex items-center justify-center gap-2 py-4 text-sm font-bold uppercase tracking-tight transition-all relative ${activeTab === "list" ? "text-energy-600 bg-white" : "text-slate-400 hover:text-slate-600"}`}
+                                className={`flex-1 flex items-center justify-center gap-2 py-3 md:py-4 text-xs md:text-sm font-bold uppercase tracking-tight transition-all relative ${activeTab === "list" ? "text-energy-600 bg-white" : "text-slate-400 hover:text-slate-600"}`}
                             >
-                                <svg className={`w-5 h-5 ${activeTab === "list" ? "text-energy-500" : "text-slate-300"}`} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" /></svg>
+                                <svg className={`w-4 h-4 md:w-5 md:h-5 ${activeTab === "list" ? "text-energy-500" : "text-slate-300"}`} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" /></svg>
                                 Danh sách Site
                                 {previewData.length > 0 && (
-                                    <span className="inline-flex items-center justify-center w-5 h-5 bg-energy-500 text-white text-[10px] rounded-full scale-75 animate-bounce shadow-md">{previewData.length}</span>
+                                    <span className="inline-flex items-center justify-center w-4 h-4 bg-energy-500 text-white text-[9px] rounded-full scale-75 animate-bounce shadow-md">{previewData.length}</span>
                                 )}
                                 {activeTab === "list" && <div className="absolute bottom-0 left-0 right-0 h-1 bg-energy-500 rounded-t-full"></div>}
                             </button>
                         </div>
 
                         {/* Tab Content Area */}
-                        <div className="flex-1 p-3 min-h-[400px]">
+                        <div className="flex-1 p-2 md:p-3 min-h-[300px] md:min-h-[400px]">
                             {activeTab === "import" ? (
-                                <div className="h-full flex flex-col justify-center items-center gap-5 bg-slate-50/50 rounded-xl border border-dashed border-slate-300 p-6 hover:bg-energy-50/30 hover:border-energy-300 transition-all duration-300">
-                                    <div className="flex flex-col w-full max-w-sm gap-3">
+                                <div className="h-full flex flex-col justify-center items-center gap-4 md:gap-5 bg-slate-50/50 rounded-xl border border-dashed border-slate-300 p-4 md:p-6 hover:bg-energy-50/30 hover:border-energy-300 transition-all duration-300">
+                                    <div className="flex flex-col w-full max-w-sm gap-2 md:gap-3">
                                         <a
                                             href="/Input_Template.xlsx"
                                             download
-                                            className="group w-full inline-flex items-center justify-center gap-2 bg-gradient-to-r from-emerald-500 to-teal-600 text-white text-sm font-bold px-6 py-3 rounded-xl hover:from-emerald-400 hover:to-teal-500 hover:shadow-lg hover:shadow-emerald-500/40 hover:-translate-y-0.5 transition-all shadow-md ring-1 ring-white/20"
+                                            className="group w-full inline-flex items-center justify-center gap-2 bg-gradient-to-r from-emerald-500 to-teal-600 text-white text-xs md:text-sm font-bold px-4 md:px-6 py-2.5 md:py-3 rounded-xl hover:from-emerald-400 hover:to-teal-500 hover:shadow-lg hover:shadow-emerald-500/40 hover:-translate-y-0.5 transition-all shadow-md ring-1 ring-white/20"
                                         >
-                                            <svg className="w-5 h-5 text-emerald-100 group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <svg className="w-4 h-4 md:w-5 md:h-5 text-emerald-100 group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
                                             </svg>
                                             1. Tải File Mẫu (Input_Template.xlsx)
@@ -433,9 +433,9 @@ export default function BulkInputComponent({ onDataParsed }) {
                                             />
                                             <button
                                                 onClick={() => fileInputRef.current?.click()}
-                                                className="w-full inline-flex items-center justify-center gap-2 bg-gradient-to-r from-cyan-600 to-blue-600 text-white text-sm font-bold px-6 py-3 rounded-xl hover:from-cyan-500 hover:to-blue-500 hover:shadow-lg hover:shadow-cyan-500/50 hover:-translate-y-0.5 transition-all shadow-md ring-1 ring-white/20"
+                                                className="w-full inline-flex items-center justify-center gap-2 bg-gradient-to-r from-cyan-600 to-blue-600 text-white text-xs md:text-sm font-bold px-4 md:px-6 py-2.5 md:py-3 rounded-xl hover:from-cyan-500 hover:to-blue-500 hover:shadow-lg hover:shadow-cyan-500/50 hover:-translate-y-0.5 transition-all shadow-md ring-1 ring-white/20"
                                             >
-                                                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <svg className="w-4 h-4 md:w-5 md:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
                                                 </svg>
                                                 2. Upload File Excel (Import Data)
@@ -443,17 +443,17 @@ export default function BulkInputComponent({ onDataParsed }) {
                                         </div>
 
                                         {/* Interactive Steps Guide - Compact */}
-                                        <div className="mt-2 w-full grid grid-cols-1 sm:grid-cols-3 gap-2 text-[10px] font-semibold text-slate-500 uppercase tracking-wide">
-                                            <div className="bg-white/60 p-2 rounded border border-slate-100 flex items-center justify-center gap-1.5 transition-all hover:bg-white hover:shadow-sm">
-                                                <span className="w-4 h-4 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center font-bold text-[9px]">1</span>
+                                        <div className="mt-1 w-full grid grid-cols-3 gap-2 text-[9px] font-semibold text-slate-500 uppercase tracking-wide">
+                                            <div className="bg-white/60 p-1.5 rounded border border-slate-100 flex items-center justify-center gap-1 transition-all hover:bg-white hover:shadow-sm">
+                                                <span className="w-3.5 h-3.5 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center font-bold text-[8px]">1</span>
                                                 <span>Tải Mẫu</span>
                                             </div>
-                                            <div className="bg-white/60 p-2 rounded border border-slate-100 flex items-center justify-center gap-1.5 transition-all hover:bg-white hover:shadow-sm">
-                                                <span className="w-4 h-4 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center font-bold text-[9px]">2</span>
+                                            <div className="bg-white/60 p-1.5 rounded border border-slate-100 flex items-center justify-center gap-1 transition-all hover:bg-white hover:shadow-sm">
+                                                <span className="w-3.5 h-3.5 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center font-bold text-[8px]">2</span>
                                                 <span>Nhập Liệu</span>
                                             </div>
-                                            <div className="bg-white/60 p-2 rounded border border-slate-100 flex items-center justify-center gap-1.5 transition-all hover:bg-white hover:shadow-sm">
-                                                <span className="w-4 h-4 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center font-bold text-[9px]">3</span>
+                                            <div className="bg-white/60 p-1.5 rounded border border-slate-100 flex items-center justify-center gap-1 transition-all hover:bg-white hover:shadow-sm">
+                                                <span className="w-3.5 h-3.5 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center font-bold text-[8px]">3</span>
                                                 <span>Import</span>
                                             </div>
                                         </div>
@@ -461,46 +461,46 @@ export default function BulkInputComponent({ onDataParsed }) {
 
                                     <button
                                         onClick={() => setShowFormula(true)}
-                                        className="w-full max-w-sm mt-5 py-2.5 px-4 bg-slate-50 hover:bg-white text-slate-600 hover:text-energy-600 font-medium rounded-xl border border-dashed border-slate-300 hover:border-energy-300 flex items-center justify-center gap-2 transition-all duration-300 group"
+                                        className="w-full max-w-sm mt-3 md:mt-5 py-2 px-3 md:px-4 bg-slate-50 hover:bg-white text-slate-600 hover:text-energy-600 font-medium rounded-xl border border-dashed border-slate-300 hover:border-energy-300 flex items-center justify-center gap-2 transition-all duration-300 group"
                                         title="Xem cơ sở tính toán BOM"
                                     >
-                                        <span className="w-8 h-8 rounded-lg bg-white border border-slate-200 text-slate-400 group-hover:text-energy-500 group-hover:border-energy-200 flex items-center justify-center transition-colors">
-                                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <span className="w-6 h-6 md:w-8 md:h-8 rounded-lg bg-white border border-slate-200 text-slate-400 group-hover:text-energy-500 group-hover:border-energy-200 flex items-center justify-center transition-colors">
+                                            <svg className="w-3.5 h-3.5 md:w-4 md:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
                                             </svg>
                                         </span>
-                                        <span className="text-sm font-display tracking-wide uppercase font-bold opacity-70">Cơ sở tính toán</span>
+                                        <span className="text-xs md:text-sm font-display tracking-wide uppercase font-bold opacity-70">Cơ sở tính toán</span>
                                     </button>
                                 </div>
                             ) : (
                                 <div className="h-full flex flex-col animate-fade-in-up">
                                     {previewData.length > 0 ? (
-                                        <div className="flex-1 flex flex-col border border-slate-100 rounded-xl overflow-hidden bg-slate-50/30 shadow-inner min-h-[380px]">
-                                            <div className="px-6 py-3 flex justify-between items-center bg-white border-b border-slate-100">
-                                                <h3 className="font-bold text-slate-700 flex items-center gap-2 font-display text-xs uppercase tracking-wide">
-                                                    <span className="w-2 h-2 rounded-full bg-energy-500 animate-pulse"></span>
+                                        <div className="flex-1 flex flex-col border border-slate-100 rounded-xl overflow-hidden bg-slate-50/30 shadow-inner min-h-[280px] md:min-h-[380px]">
+                                            <div className="px-4 md:px-6 py-2 md:py-3 flex justify-between items-center bg-white border-b border-slate-100">
+                                                <h3 className="font-bold text-slate-700 flex items-center gap-2 font-display text-[10px] md:text-xs uppercase tracking-wide">
+                                                    <span className="w-1.5 h-1.5 rounded-full bg-energy-500 animate-pulse"></span>
                                                     Danh sách Site đã tải lên
                                                 </h3>
-                                                <span className="text-[10px] font-black text-slate-400 italic">Scroll to view all rows</span>
+                                                <span className="text-[9px] font-black text-slate-400 italic">Scroll to view all rows</span>
                                             </div>
 
-                                            <div className="flex-1 overflow-y-auto custom-scrollbar bg-white max-h-64">
-                                                <table className="w-full text-sm">
+                                            <div className="flex-1 overflow-y-auto custom-scrollbar bg-white max-h-48 md:max-h-64">
+                                                <table className="w-full text-[11px] md:text-sm">
                                                     <thead className="bg-slate-50 sticky top-0 z-10 shadow-sm border-b border-slate-100">
-                                                        <tr className="text-slate-500 text-[10px] font-black uppercase tracking-widest">
-                                                            <th className="py-2.5 px-6 text-left">Mã Site</th>
-                                                            <th className="py-2.5 px-6 text-left">Tên Dự Án</th>
-                                                            <th className="py-2.5 px-6 text-right">kWp</th>
-                                                            <th className="py-2.5 px-6 text-center">Ready</th>
+                                                        <tr className="text-slate-500 text-[9px] font-black uppercase tracking-widest">
+                                                            <th className="py-2 px-4 md:px-6 text-left">Mã Site</th>
+                                                            <th className="py-2 px-4 md:px-6 text-left">Tên Dự Án</th>
+                                                            <th className="py-2 px-4 md:px-6 text-right">kWp</th>
+                                                            <th className="py-2 px-4 md:px-6 text-center">Ready</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody className="divide-y divide-slate-50">
                                                         {previewData.map((row, i) => (
                                                             <tr key={i} className="hover:bg-energy-50/20 transition-colors group">
-                                                                <td className="py-3 px-6 font-mono font-medium text-slate-600 group-hover:text-energy-700">{row.id}</td>
-                                                                <td className="py-3 px-6 text-slate-700 font-medium text-xs">{row.name}</td>
-                                                                <td className="py-3 px-6 text-right font-mono font-bold text-slate-800">{row.dcPower}</td>
-                                                                <td className="py-3 px-6 text-center">
+                                                                <td className="py-2 px-4 md:px-6 font-mono font-medium text-slate-600 group-hover:text-energy-700">{row.id}</td>
+                                                                <td className="py-2 px-4 md:px-6 text-slate-700 font-medium text-[10px] md:text-xs">{row.name}</td>
+                                                                <td className="py-2 px-4 md:px-6 text-right font-mono font-bold text-slate-800">{row.dcPower}</td>
+                                                                <td className="py-2 px-4 md:px-6 text-center">
                                                                     <div className="w-1.5 h-1.5 rounded-full bg-energy-500 mx-auto shadow-[0_0_8px_rgba(245,158,11,0.5)]"></div>
                                                                 </td>
                                                             </tr>
@@ -509,18 +509,18 @@ export default function BulkInputComponent({ onDataParsed }) {
                                                 </table>
                                             </div>
 
-                                            <div className="p-4 bg-white border-t border-slate-100 flex gap-3 mt-auto">
+                                            <div className="p-3 md:p-4 bg-white border-t border-slate-100 flex gap-2 md:gap-3 mt-auto">
                                                 <button
                                                     onClick={() => setActiveTab("import")}
-                                                    className="px-6 py-3 bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold rounded-xl transition-all flex items-center gap-2 text-sm uppercase tracking-wide"
+                                                    className="px-4 md:px-6 py-2 md:py-3 bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold rounded-xl transition-all flex items-center gap-2 text-xs md:text-sm uppercase tracking-wide"
                                                 >
                                                     Thêm Site
                                                 </button>
                                                 <button
                                                     onClick={handleConfirm}
-                                                    className="flex-1 bg-gradient-to-r from-blue-600 to-energy-600 hover:from-blue-500 hover:to-energy-500 text-white font-black py-3 rounded-xl transition-all shadow-lg shadow-energy-200 hover:shadow-xl hover:shadow-energy-300 hover:-translate-y-0.5 flex items-center justify-center gap-3 text-sm uppercase tracking-widest"
+                                                    className="flex-1 bg-gradient-to-r from-blue-600 to-energy-600 hover:from-blue-500 hover:to-energy-500 text-white font-black py-2 md:py-3 rounded-xl transition-all shadow-lg shadow-energy-200 hover:shadow-xl hover:shadow-energy-300 hover:-translate-y-0.5 flex items-center justify-center gap-2 md:gap-3 text-xs md:text-sm uppercase tracking-widest"
                                                 >
-                                                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <svg className="w-4 h-4 md:w-5 md:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
                                                     </svg>
                                                     Kích Hoạt Tính Toán
@@ -528,10 +528,10 @@ export default function BulkInputComponent({ onDataParsed }) {
                                             </div>
                                         </div>
                                     ) : (
-                                        <div className="h-full flex flex-col justify-center items-center gap-4 text-slate-400 opacity-60 min-h-[380px]">
-                                            <svg className="w-16 h-16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
-                                            <p className="font-bold uppercase tracking-widest text-xs">Chưa có dữ liệu nào được tải lên</p>
-                                            <button onClick={() => setActiveTab("import")} className="text-blue-500 hover:underline font-bold text-sm">Quay lại Nhập Liệu</button>
+                                        <div className="h-full flex flex-col justify-center items-center gap-3 text-slate-400 opacity-60 min-h-[280px] md:min-h-[380px]">
+                                            <svg className="w-12 h-12 md:w-16 md:h-16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+                                            <p className="font-bold uppercase tracking-widest text-[10px] md:text-xs">Chưa có dữ liệu nào được tải lên</p>
+                                            <button onClick={() => setActiveTab("import")} className="text-blue-500 hover:underline font-bold text-xs md:text-sm">Quay lại Nhập Liệu</button>
                                         </div>
                                     )}
                                 </div>
@@ -545,53 +545,53 @@ export default function BulkInputComponent({ onDataParsed }) {
 
             {/* Modal - Outside of the scale transform to prevent clipping */}
             {showFormula && (
-                <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-900/80 backdrop-blur-xl" onClick={() => setShowFormula(false)}>
-                    <div className="bg-white rounded-[2.5rem] shadow-2xl max-w-5xl w-full max-h-[92vh] flex flex-col border border-white/20 animate-fade-in-up overflow-hidden" onClick={e => e.stopPropagation()}>
+                <div className="fixed inset-0 z-[100] flex items-center justify-center p-2 bg-slate-900/80 backdrop-blur-xl" onClick={() => setShowFormula(false)}>
+                    <div className="bg-white rounded-[1.5rem] md:rounded-[2.5rem] shadow-2xl max-w-5xl w-full max-h-[95vh] flex flex-col border border-white/20 animate-fade-in-up overflow-hidden" onClick={e => e.stopPropagation()}>
                         {/* Modal Header */}
-                        <div className="px-10 py-8 bg-slate-900 text-white flex justify-between items-center shrink-0 border-b border-white/10 relative overflow-hidden">
+                        <div className="px-5 md:px-8 py-3 md:py-4 bg-slate-900 text-white flex justify-between items-center shrink-0 border-b border-white/10 relative overflow-hidden">
                             <div className="absolute top-0 right-0 w-64 h-64 bg-energy-500/10 blur-[100px] rounded-full -mr-32 -mt-32"></div>
-                            <div className="relative z-10 flex items-center gap-6">
-                                <div className="w-16 h-16 rounded-2xl bg-gradient-to-tr from-energy-500 to-amber-500 p-0.5 shadow-2xl shadow-energy-500/40">
-                                    <div className="w-full h-full rounded-[14px] bg-slate-900 flex items-center justify-center">
-                                        <svg className="w-9 h-9 text-energy-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <div className="relative z-10 flex items-center gap-3 md:gap-5">
+                                <div className="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-gradient-to-tr from-energy-500 to-amber-500 p-0.5 shadow-2xl shadow-energy-500/40">
+                                    <div className="w-full h-full rounded-[10px] bg-slate-900 flex items-center justify-center">
+                                        <svg className="w-6 h-6 md:w-7 md:h-7 text-energy-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
                                         </svg>
                                     </div>
                                 </div>
                                 <div>
-                                    <h3 className="text-3xl font-black font-display tracking-tight leading-none italic uppercase">Cơ sở tính toán chi tiết</h3>
-                                    <p className="text-slate-400 text-xs font-bold uppercase tracking-[0.3em] mt-3 flex items-center gap-2">
-                                        <span className="w-2 h-2 rounded-full bg-energy-500 shadow-[0_0_10px_rgba(245,158,11,0.8)] animate-pulse"></span>
+                                    <h3 className="text-lg md:text-xl font-black font-display tracking-tight leading-none italic uppercase">Cơ sở tính toán chi tiết</h3>
+                                    <p className="text-slate-400 text-[9px] font-bold uppercase tracking-[0.2em] mt-1 flex items-center gap-2">
+                                        <span className="w-1.5 h-1.5 rounded-full bg-energy-500 shadow-[0_0_10px_rgba(245,158,11,0.8)] animate-pulse"></span>
                                         Full Engine Specs • Groups I - XIII
                                     </p>
                                 </div>
                             </div>
-                            <button onClick={() => setShowFormula(false)} className="relative z-10 w-12 h-12 flex items-center justify-center rounded-full bg-white/5 hover:bg-white/20 text-white/40 hover:text-white transition-all group">
-                                <svg className="w-8 h-8 transition-transform group-hover:rotate-90" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                            <button onClick={() => setShowFormula(false)} className="relative z-10 w-8 h-8 md:w-10 md:h-10 flex items-center justify-center rounded-full bg-white/5 hover:bg-white/20 text-white/40 hover:text-white transition-all group">
+                                <svg className="w-6 h-6 transition-transform group-hover:rotate-90" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
                             </button>
                         </div>
 
                         {/* Modal Content - Interactive Accordion */}
-                        <div className="flex-1 overflow-y-auto p-8 space-y-4 custom-scrollbar bg-slate-50/80">
+                        <div className="flex-1 overflow-y-auto p-4 md:p-6 space-y-3 md:space-y-4 custom-scrollbar bg-slate-50/80 text-xs md:text-sm">
                             {calculationGroups.map((group) => (
                                 <AccordionGroup key={group.id} group={group} colorMap={colorMap} />
                             ))}
                         </div>
 
                         {/* Modal Footer */}
-                        <div className="px-10 py-10 bg-slate-900 border-t border-white/5 flex flex-col md:flex-row justify-between items-center shrink-0 gap-6">
-                            <div className="flex items-center gap-6">
-                                <div className="text-right border-r border-white/10 pr-6">
-                                    <span className="block text-[10px] text-slate-500 font-black uppercase tracking-widest leading-none mb-2">Build Signature</span>
-                                    <span className="text-white text-xs font-bold font-mono opacity-80">CPS-V3-ALPHA</span>
+                        <div className="px-5 md:px-8 py-3 md:py-4 bg-slate-900 border-t border-white/5 flex flex-col md:flex-row justify-between items-center shrink-0 gap-3 md:gap-6">
+                            <div className="flex items-center gap-4 md:gap-6">
+                                <div className="text-right border-r border-white/10 pr-4 md:pr-6">
+                                    <span className="block text-[8px] text-slate-500 font-black uppercase tracking-widest leading-none mb-1">Build Signature</span>
+                                    <span className="text-white text-[10px] font-bold font-mono opacity-80">CPS-V3-ALPHA</span>
                                 </div>
-                                <div className="text-[10px] text-slate-400 font-medium max-w-xs leading-relaxed italic">
-                                    * Toàn bộ kết quả tính toán vật tư lẻ (pcs/set/tube) sẽ được tự động làm tròn lên (Ceiling) để đảm bảo đủ vật tư dự phòng trong thi công thực tế tại công trường.
+                                <div className="text-[9px] text-slate-400 font-medium max-w-xs leading-relaxed italic">
+                                    * Toàn bộ kết quả tính toán vật tư lẻ sẽ được tự động làm tròn lên (Ceiling) để đảm bảo đủ vật tư dự phòng.
                                 </div>
                             </div>
                             <button
                                 onClick={() => setShowFormula(false)}
-                                className="w-full md:w-auto px-16 py-5 bg-gradient-to-r from-energy-600 to-amber-500 hover:from-energy-500 hover:to-amber-400 text-slate-900 font-black rounded-[1.25rem] transition-all shadow-2xl shadow-energy-500/30 active:scale-95 text-base uppercase tracking-widest"
+                                className="w-full md:w-auto px-10 md:px-12 py-2.5 md:py-3 bg-gradient-to-r from-energy-600 to-amber-500 hover:from-energy-500 hover:to-amber-400 text-slate-900 font-black rounded-xl transition-all shadow-2xl shadow-energy-500/30 active:scale-95 text-sm uppercase tracking-widest"
                             >
                                 ĐÃ HIỂU TẤT CẢ
                             </button>

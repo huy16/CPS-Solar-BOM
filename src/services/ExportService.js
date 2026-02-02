@@ -223,12 +223,20 @@ export class ExportService {
             ws.media = [];
         }
 
-        // Set specific column widths
-        ws.getColumn(2).width = 45; // Increased to prevent item name wrapping
-        // Set column D width to 25 as requested
-        ws.getColumn(4).width = 25;
-        // Set column I width to 25 to prevent text wrapping
+        // Set specific column widths to match BOQ_Export_2026-02-02.xlsx reference
+        ws.getColumn(1).width = 4;
+        ws.getColumn(2).width = 61.78; // Item Name
+        ws.getColumn(3).width = 25;    // Code
+        ws.getColumn(4).width = 25;    // Supplier
+        ws.getColumn(5).width = 12;    // Unit
+        ws.getColumn(6).width = 10;    // Qty
+        ws.getColumn(7).width = 12;
+        ws.getColumn(8).width = 14;
         ws.getColumn(9).width = 25;
+        ws.getColumn(10).width = 15;
+        ws.getColumn(11).width = 12;
+        ws.getColumn(12).width = 14;
+        ws.getColumn(13).width = 12;
 
         // --- CUSTOM HEADER RECONSTRUCTION (Rows 1-5) ---
         // Blue Background Color from Image (Lavender/Periwinkle)
@@ -328,9 +336,10 @@ export class ExportService {
         cI5.value = "Ngày hiệu lực: 01/07/2017";
         cI5.style = infoStyle;
 
-        // Set Height for Header Rows
+        // Set Height for Header Rows per reference file
         [1, 2, 3, 4].forEach(r => ws.getRow(r).height = 20); // Logo/Title rows
-        ws.getRow(5).height = 25; // Info row
+        ws.getRow(5).height = 25.05; // Info row
+        ws.getRow(13).height = 43.5; // Header row
 
         // --- END CUSTOM HEADER ---
 
@@ -610,7 +619,22 @@ export class ExportService {
 
                     // Col 2 (Name): Left (Break Shared Style)
                     const c2 = r.getCell(2);
+                    const nameText = item.name ? item.name.toString() : "";
                     c2.style = { ...c2.style, border: borderThin, alignment: { vertical: 'middle', horizontal: 'left', wrapText: true }, font: fontStyle };
+
+                    // DYNAMIC ROW HEIGHT HEURISTIC
+                    // Column 2 width is ~62. High-density wrapping.
+                    // Factor ~ 16 height units per line.
+                    const charCount = nameText.length;
+                    const newlineCount = (nameText.match(/\n/g) || []).length;
+
+                    if (charCount > 62 || newlineCount > 0) {
+                        const estimatedLinesByWidth = Math.ceil(charCount / 58);
+                        const formattingLines = newlineCount + 1;
+                        // Use the greater estimate, as explicit newlines force height
+                        const finalLines = Math.max(estimatedLinesByWidth, formattingLines);
+                        r.height = Math.max(r.height || 0, finalLines * 16);
+                    }
 
                     // Col 3-5 (Code, Supplier, Unit): Center (Break Shared Style) - FORCE ALIGNMENT
                     [3, 4, 5].forEach(colIdx => {
@@ -680,7 +704,6 @@ export class ExportService {
                 // Fill data and apply styles for NEW items
                 itemsToInsert.forEach((item, i) => {
                     const r = ws.getRow(endRow + i);
-                    r.height = defaultGroupHeight; // Fix: Reverted to Dynamic Height
 
                     // Lookup Equipment Data for Rich Description
                     const eCode = item.code ? item.code.toString().trim() : "";
@@ -693,6 +716,20 @@ export class ExportService {
                     const dbItem = findInDB(eCode) || findInDB(eName);
 
                     const finalName = dbItem && dbItem.description ? dbItem.description : item.name;
+
+                    // DYNAMIC ROW HEIGHT HEURISTIC
+                    // Col B width is ~62. High-density wrapping.
+                    const charCount = (finalName || "").toString().length;
+                    const newlineCount = ((finalName || "").toString().match(/\n/g) || []).length;
+
+                    if (charCount > 62 || newlineCount > 0) {
+                        const estimatedLinesByWidth = Math.ceil(charCount / 58);
+                        const formattingLines = newlineCount + 1;
+                        const finalLines = Math.max(estimatedLinesByWidth, formattingLines);
+                        r.height = Math.max(16, finalLines * 16);
+                    } else {
+                        r.height = defaultGroupHeight;
+                    }
                     const finalUnit = dbItem && dbItem.unit ? dbItem.unit : item.unit;
                     let finalSupplier = "Vietnam";
                     if (dbItem && dbItem.supplier) {

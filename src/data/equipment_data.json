@@ -1,63 +1,63 @@
 {
     "inverters": {
         "SUN2000-8K-MAP0": {
-            "description": "Smart PV Controller, Single-phase, 8kW,\nMax. number of inputs_2, Max. input voltage_600V,\nMax. input current per MPPT_12.5A",
+            "description": "Smart PV Controller, Single-phase, 8kW,\nMax. number of inputs: 2, Max. input voltage: 600V,\nMax. input current per MPPT: 12.5A",
             "unit": "bộ",
             "supplier": "Huawei/ China",
             "capacityKw": 8.0,
             "numInputs": 2
         },
         "SUN2000-10KTL-M1": {
-            "description": "Smart PV Controller, Three-phase, 10kW,\nMax. number of inputs_2, Max. input voltage_1100V,\nMax. input current per MPPT_15A",
+            "description": "Smart PV Controller, Three-phase, 10kW,\nMax. number of inputs: 2, Max. input voltage: 1100V,\nMax. input current per MPPT: 15A",
             "unit": "bộ",
             "supplier": "Huawei/ China",
             "capacityKw": 10.0,
             "numInputs": 2
         },
         "SUN2000-12K-MAP0": {
-            "description": "Smart PV Controller, Single-phase, 12kW,\nMax. number of inputs_2, Max. input voltage_600V,\nMax. input current per MPPT_12.5A",
+            "description": "Smart PV Controller, Single-phase, 12kW,\nMax. number of inputs: 2, Max. input voltage: 600V,\nMax. input current per MPPT: 12.5A",
             "unit": "bộ",
             "supplier": "Huawei/ China",
             "capacityKw": 12.0,
             "numInputs": 2
         },
         "SUN2000-15KTL-M5": {
-            "description": "Smart PV Controller, Three-phase, 15kW,\nMax. number of inputs_4, Max. input voltage_1100V,\nMax. input current per MPPT_22A",
+            "description": "Smart PV Controller, Three-phase, 15kW,\nMax. number of inputs: 4, Max. input voltage: 1100V,\nMax. input current per MPPT: 22A",
             "unit": "bộ",
             "supplier": "Huawei/ China",
             "capacityKw": 15.0,
             "numInputs": 4
         },
         "SUN2000-20KTL-M5": {
-            "description": "Smart PV Controller, Three-phase, 20kW,\nMax. number of inputs_4, Max. input voltage_1100V,\nMax. input current per MPPT_30A (two-string)/20A (single string)",
+            "description": "Smart PV Controller, Three-phase, 20kW,\nMax. number of inputs: 4, Max. input voltage: 1100V,\nMax. input current per MPPT: 30A (two-string)/20A (single string)",
             "unit": "bộ",
             "supplier": "Huawei/ China",
             "capacityKw": 20.0,
             "numInputs": 4
         },
         "SUN2000-30KTL-M3": {
-            "description": "Smart PV Controller, Three-phase, 30kW,\nMax. number of inputs_4, Max. input voltage_1100V,\nMax. input current per MPPT_22A",
+            "description": "Smart PV Controller, Three-phase, 30kW,\nMax. number of inputs: 4, Max. input voltage: 1100V,\nMax. input current per MPPT: 22A",
             "unit": "bộ",
             "supplier": "Huawei/ China",
             "capacityKw": 30.0,
             "numInputs": 4
         },
         "SUN2000-40KTL-M3": {
-            "description": "Smart PV Controller, Three-phase, 40kW,\nMax. number of inputs_6, Max. input voltage_1100V,\nMax. input current per MPPT_22A",
+            "description": "Smart PV Controller, Three-phase, 40kW,\nMax. number of inputs: 6, Max. input voltage: 1100V,\nMax. input current per MPPT: 22A",
             "unit": "bộ",
             "supplier": "Huawei/ China",
             "capacityKw": 40.0,
             "numInputs": 6
         },
         "SUN2000-50KTL-M3": {
-            "description": "Smart PV Controller, Three-phase, 50kW,\nMax. number of inputs_8, Max. input voltage_1100V,\nMax. input current per MPPT_22A",
+            "description": "Smart PV Controller, Three-phase, 50kW,\nMax. number of inputs: 8, Max. input voltage: 1100V,\nMax. input current per MPPT: 22A",
             "unit": "bộ",
             "supplier": "Huawei/ China",
             "capacityKw": 50.0,
             "numInputs": 8
         },
         "SUN2000-100KTL-M1": {
-            "description": "Smart PV Controller, Three-phase, 100kW,\nMax. number of inputs_10, Max. input voltage_1100V,\nMax. input current per MPPT_26A",
+            "description": "Smart PV Controller, Three-phase, 100kW,\nMax. number of inputs: 10, Max. input voltage: 1100V,\nMax. input current per MPPT: 26A",
             "unit": "bộ",
             "supplier": "Huawei/ China",
             "capacityKw": 100.0,
